@@ -1,0 +1,13 @@
+version: 8.2.2
+namespace: elastic-argocd
+
+service:
+    type: LoadBalancer
+
+master:
+  replicas: 1
+  storage: 1Gi
+
+data:
+  replicas: 1
+  storage: 5Gi
