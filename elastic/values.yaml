@@ -6,8 +6,12 @@ service:
 
 master:
   replicas: 1
-  storage: 5Gi
+  storage:
+    size: 5Gi
+    className: local-path
 
 data:
   replicas: 1
-  storage: 10Gi
+  storage:
+    size: 10Gi
+    className: local-path

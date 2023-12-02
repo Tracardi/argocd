@@ -28,7 +28,8 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: {{ .Values.master.storage }}
+              storage: {{ .Values.master.storage.size }}
+          storageClassName: {{ .Values.master.storage.className }}
     podTemplate:
       spec:
         initContainers:
@@ -50,7 +51,8 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: {{ .Values.data.storage }}
+              storage: {{ .Values.data.storage.size }}
+          storageClassName: {{ .Values.data.storage.className }}
     podTemplate:
       spec:
         initContainers:
