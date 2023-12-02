@@ -1,5 +1,4 @@
 version: 8.2.2
-namespace: elastic-argocd
 
 service:
     type: LoadBalancer
