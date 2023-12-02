@@ -6,8 +6,8 @@ service:
 
 master:
   replicas: 1
-  storage: 1Gi
+  storage: 5Gi
 
 data:
   replicas: 1
-  storage: 5Gi
+  storage: 10Gi

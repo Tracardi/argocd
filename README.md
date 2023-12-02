@@ -43,7 +43,7 @@ operator-sdk olm install
 ## Override default subscription check
 
 ```
-kubectl apply -f setup/subscription-check.yaml
+kubectl apply -f setup/argocd-setup.yaml
 ```
 
 This will make ArgoCD wait for the operators to install before proceeding.
