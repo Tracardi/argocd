@@ -7,6 +7,14 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
+## Install
+
+Installing as Kubernetes workload in Argo CD namespace
+
+```
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+```
+
 ## Install OLM (Operator Lifecycle Manager) - https://github.com/operator-framework/operator-lifecycle-manager
 
 ### Install operator-sdk
@@ -30,6 +38,15 @@ operator-sdk olm install
 !!! Warning
 
     I had issues installing it on k3s when local-path was not the default storageClass.
+
+
+## Override default subscription check
+
+```
+kubectl apply -f setup/subscription-check.yaml
+```
+
+This will make ArgoCD wait for the operators to install before proceeding.
 
 # DELETE OLM
 
