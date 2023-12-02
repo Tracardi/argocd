@@ -1,0 +1,119 @@
+{{ if and .Values.secrets.dockerHub .Values.api.production.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-fa-production
+  labels:
+    {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-production") | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.production.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-production") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: be-fa-production
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-production") | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      containers:
+        - name: be-fa-production
+          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.image.repository "tag" .Values.api.image.tag "policy" .Values.api.image.pullPolicy) | nindent 10 }}
+          resources:
+            limits:
+              memory: 250Mi
+              cpu: 500m
+            requests:
+              memory: 100Mi
+              cpu: 100m
+          ports:
+            - name: be-fa-p-port
+              containerPort: 80
+{{ if not .Values.config.multiTenant }}
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 60
+{{ end }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: EXPOSE_GUI_API
+              value: "no"
+            - name: PRODUCTION
+              value: "yes"
+            - name: LOGGING_LEVEL
+              value: {{ .Values.api.production.config.loggingLevel | quote }}
+            - name: SAVE_LOGS
+              value: {{ .Values.api.production.config.saveLogs | quote }}
+{{ if and .Values.secrets.maxmind.licenseKey .Values.secrets.maxmind.accountId }}
+            - name: MAXMIND_LICENSE_KEY
+              value: {{ .Values.secrets.maxmind.licenseKey | quote}}
+            - name: MAXMIND_ACCOUNT_ID
+              value: {{ .Values.secrets.maxmind.accountId | quote }}
+{{end}}
+            - name: ENABLE_EVENT_DESTINATIONS
+              value: {{ .Values.api.production.config.enableEventDestinations | quote }}
+            - name: ENABLE_PROFILE_DESTINATIONS
+              value: {{ .Values.api.production.config.enableProfileDestinations | quote }}
+            - name: ENABLE_WORKFLOW
+              value: {{ .Values.api.production.config.enableWorkflow | quote }}
+            - name: ENABLE_IDENTIFICATION_POINT
+              value: {{ .Values.api.production.config.enableIdentification | quote }}
+            - name: ENABLE_POST_EVENT_SEGMENTATION
+              value: {{ .Values.api.production.config.enablePostEventSegmentation | quote }}
+            - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
+              value: {{ .Values.api.production.config.enableProfileFlush | quote }}
+            - name: ELASTIC_SAVE_POOL
+              value: {{ .Values.api.production.config.elasticSavePool | quote }}
+            - name: ASYNC_PROCESSING
+              value: {{ .Values.api.production.config.asyncProcessing | quote }}
+            - name: LOCK_ON_DATA_COMPUTATION
+              value: 'no'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-fa-production-svc
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-production") | nindent 6 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.api.production.service.port }}
+      targetPort: be-fa-p-port
+
+{{ if .Values.digitalOcean.loadBalancer }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: do-be-fa-production-lb
+  {{ if .Values.digitalOcean.certId }}
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
+  {{ end }}
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-production") | nindent 6 }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.api.production.service.port }}
+      targetPort: be-fa-p-port
+    {{ if .Values.digitalOcean.certId }}
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: be-fa-p-port
+    {{ end }}
+
+{{ end }}
+{{ end }}

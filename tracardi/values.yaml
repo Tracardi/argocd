@@ -1,0 +1,335 @@
+# Infrastructure
+
+elastic:
+  name: es1
+  host: elastic-std-svc.elastic-standalone.svc.cluster.local
+  schema: http
+  authenticate: false
+  port: 9200
+  verifyCerts: "no"
+
+redis:
+  name: rd1
+  host: redis-std-svc.redis-standalone.svc.cluster.local
+  schema: "redis://"
+  authenticate: false
+  port: 6379
+  db: "0"
+
+pulsar:
+  name: ps1
+  host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
+  schema: "pulsar://"
+  authenticate: false
+  port: 6650
+
+# Digital ocean
+
+digitalOcean:
+  loadBalancer: false
+  certId: ""  # SET-CERT-ID
+
+
+# Definition of defined secrets.
+
+secrets:
+  installationToken: "<SET-INSTALLATION-SECRET>"
+  dockerHub: "tracardi-dockerhub"
+  license:
+    licenseKey: "<LICENSE-KEY-VALUE>"
+  tms:
+    tokenKey: "<SECRET-KEY-VALUE>"
+    apiKey: "<API-KEY-VALUE>"
+  redis:
+    password: "<REDIS-PASSWORD>"
+  elastic:
+    password: "<ELASTIC-PASSWORD>"
+  pulsar:
+    token: "<PULSAR-TOKEN>"
+  maxmind:
+    licenseKey: "<MAXMIND-LICENSE-KEY-VALUE>"
+    accountId: "<MAXMIND-ACCOUNT-ID>"
+
+
+# General Tracardi configuration. Version, images, multi-tenancy, etc.
+
+config:
+  multiTenant:
+    multi: "yes"
+
+api:
+  image:
+    repository: tracardi/com-tracardi-api
+    pullPolicy: IfNotPresent
+    tag: 0.8.2-rc2  # Tag should be the same for gui and backend
+  test:
+    enabled: true
+    replicas: 1
+    config:
+      saveLogs: "yes"
+      loggingLevel: "INFO"
+      apiDocs: "yes"
+      asyncProcessing: "yes"
+      enableWorkflow: "yes"
+      enableEventDestinations: "yes"
+      enableProfileDestinations: "yes"
+      enableIdentification: "yes"
+      enablePostEventSegmentation: "yes"
+      enableProfileFlush: "yes"
+    service:
+      port: 8686
+
+  production:
+    enabled: true
+    replicas: 1
+    config:
+      saveLogs: "no"
+      loggingLevel: "INFO"
+      apiDocs: "no"
+      asyncProcessing: "yes"
+      enableWorkflow: "yes"
+      enableEventDestinations: "yes"
+      enableProfileDestinations: "yes"
+      enableIdentification: "yes"
+      enablePostEventSegmentation: "yes"
+      enableProfileFlush: "yes"
+      elasticSavePool: 0
+    service:
+      port: 8484
+
+gui:
+  image:
+    repository: tracardi/tracardi-gui
+    pullPolicy: IfNotPresent
+    tag: 0.8.2-rc2  # Tag should be the same for gui and backend
+  console:
+    enabled: true
+    replicas: 1
+    service:
+        port: 8787
+
+tms:
+  image:
+    repository: tracardi/tms
+    pullPolicy: IfNotPresent
+    tag: 0.8.2-rc2  # Tag should be the same for gui and backend
+  docker:
+    enabled: true
+    replicas: 1
+    config:
+      loggingLevel: "INFO"
+    service:
+      port: 8383
+      name: be-fa-tms-svc  # The name of tms service
+
+job:
+  metrics:
+    image:
+      repository: tracardi/com-metrics-job
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    docker:
+      enabled: true
+      config:
+        successfulJobsHistoryLimit: 2
+        failedJobsHistoryLimit: 2
+        schedules:
+          - name: jb-metrics # every 30min get last events of last month and skip first 20 minutes.
+            schedule: "*/30 * * * *"
+
+  segmentation:
+    conditional:
+      image:
+        repository: tracardi/com-cond-segmentation-job
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      docker:
+        enabled: true
+        config:
+          loggingLevel: "INFO"
+          successfulJobsHistoryLimit: 2
+          failedJobsHistoryLimit: 2
+          schedules:
+            - name: jb-segmentation-conditional
+              schedule: "*/10 * * * *"
+    workflow:
+      image:
+        repository: tracardi/com-wf-segmentation-job
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      docker:
+        enabled: false
+        config:
+          loggingLevel: "INFO"
+          successfulJobsHistoryLimit: 2
+          failedJobsHistoryLimit: 2
+          schedules:
+            - name: jb-segmentation-workflow
+              schedule: "*/15 * * * *"
+
+worker:
+
+  flusher:
+    image:
+      repository: tracardi/com-tracardi-flusher-worker
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    profile:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+    session:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+
+  storage:
+    image:
+      repository: tracardi/com-tracardi-storage-worker
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    profile:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+    event:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+    session:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+
+  workflow:
+    image:
+      repository: tracardi/com-tracardi-workflow-worker
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    event:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+
+  outbound:
+    image:
+      repository: tracardi/com-tracardi-outbound-worker
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    profile:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+    event:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+
+  internal:
+    metrics:
+      image:
+        repository: tracardi/com-tracardi-metrics-worker
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      profile:
+        enabled: true
+        replicas: 1
+        config:
+          loggingLevel: "INFO"
+    scheduler:
+      image:
+        repository: tracardi/com-tracardi-scheduler-worker
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      event:
+        enabled: true
+        replicas: 1
+        config:
+          loggingLevel: "INFO"
+    visitEndScheduler:
+      image:
+        repository: tracardi/com-tracardi-visit-end-checker-worker
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      docker:
+        enabled: true
+        replicas: 1
+        config:
+          loggingLevel: "INFO"
+          defaultReschedulingTime: 1200  # 20 min
+          closeVisitAfter: 2100  # 35 min
+    visitEndedDispatcher:
+      image:
+        repository: tracardi/com-tracardi-visit-ended-worker
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      docker:
+        enabled: true
+        replicas: 1
+        config:
+          loggingLevel: "INFO"
+    upgrade:
+      image:
+        repository: tracardi/update-worker
+        tag: 0.8.2-rc2
+        pullPolicy: IfNotPresent
+      docker:
+        enabled: true
+        replicas: 1
+        config:
+          saveLogs: "no"
+          loggingLevel: "INFO"
+#    trigger:
+#      image:
+#        repository: tracardi/com-tracardi-trigger-worker
+#        tag: 0.8.2-rc2
+#        pullPolicy: IfNotPresent
+#      segmentation:
+#        enabled: false
+#        replicas: 1
+#        config:
+#          loggingLevel: "INFO"
+
+# Bridges. Services responsible for collection data from different channels. They bridge the defined transportation protocol to tracardi event source.
+
+bridge:
+  queue:
+    image:
+      repository: tracardi/com-bridge-queue
+      tag: 0.8.2-rc2
+      pullPolicy: IfNotPresent
+    docker:
+      enabled: false
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
+
+# -----------------------------------------
+
+segmentationWorker:
+  enabled: true
+  image:
+    repository: tracardi/com-tracardi-segmentation-worker
+    tag: 0.8.2-rc2
+    pullPolicy: IfNotPresent
+  config:
+    saveLogs: "no"
+    loggingLevel: "INFO"
+
+copingWorker:
+  enabled: true
+  image:
+    repository: tracardi/com-tracardi-coping-worker
+    tag: 0.8.2-rc2
+    pullPolicy: IfNotPresent
+  config:
+    saveLogs: "no"
+    loggingLevel: "INFO"

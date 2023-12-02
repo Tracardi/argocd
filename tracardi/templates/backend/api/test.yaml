@@ -1,0 +1,121 @@
+{{ if and .Values.secrets.dockerHub .Values.api.test.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-fa-test
+  labels:
+    {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-test") | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.test.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: be-fa-test
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-test") | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub  | quote }}
+      containers:
+        - name: be-fa-test
+          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.image.repository "tag" .Values.api.image.tag "policy" .Values.api.image.pullPolicy) | nindent 10 }}
+          resources:
+            limits:
+              memory: 250Mi
+              cpu: 500m
+            requests:
+              memory: 100Mi
+              cpu: 100m
+          ports:
+            - name: test-port
+              containerPort: 80
+{{ if not .Values.config.multiTenant }}
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 60
+{{ end }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: EXPOSE_GUI_API
+              value: "yes"
+            - name: PRODUCTION
+              value: "no"
+            - name: LOGGING_LEVEL
+              value: {{ .Values.api.test.config.loggingLevel | quote }}
+            - name: API_DOCS
+              value: {{ .Values.api.test.config.apiDocs | quote}}
+            - name: SAVE_LOGS
+              value: {{ .Values.api.test.config.saveLogs | quote }}
+{{ if and .Values.secrets.maxmind.licenseKey .Values.secrets.maxmind.accountId }}
+            - name: MAXMIND_LICENSE_KEY
+              value: {{ .Values.secrets.maxmind.licenseKey | quote}}
+            - name: MAXMIND_ACCOUNT_ID
+              value: {{ .Values.secrets.maxmind.accountId | quote }}
+{{end}}
+            - name: ENABLE_EVENT_DESTINATIONS
+              value: {{ .Values.api.test.config.enableEventDestinations | quote }}
+            - name: ENABLE_PROFILE_DESTINATIONS
+              value: {{ .Values.api.test.config.enableProfileDestinations | quote }}
+            - name: ENABLE_WORKFLOW
+              value: {{ .Values.api.test.config.enableWorkflow | quote }}
+            - name: ENABLE_IDENTIFICATION_POINT
+              value: {{ .Values.api.test.config.enableIdentification | quote }}
+            - name: ENABLE_POST_EVENT_SEGMENTATION
+              value: {{ .Values.api.test.config.enablePostEventSegmentation | quote }}
+            - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
+              value: {{ .Values.api.test.config.enableProfileFlush | quote }}
+            - name: ASYNC_PROCESSING
+              value: {{ .Values.api.test.config.asyncProcessing | quote }}
+            - name: LOCK_ON_DATA_COMPUTATION
+              value: 'no'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-fa-test-svc
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.api.test.service.port }}
+      targetPort: test-port
+
+{{ if .Values.digitalOcean.loadBalancer }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: do-be-fa-test-lb
+  {{ if .Values.digitalOcean.certId }}
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
+  {{ end }}
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+  ports:
+    - name: http-{{ .Values.api.test.service.port }}
+      protocol: TCP
+      port: {{ .Values.api.test.service.port }}
+      targetPort: test-port
+    {{ if .Values.digitalOcean.certId }}
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: test-port
+    {{ end }}
+
+{{ end }}
+{{ end }}
+
+
