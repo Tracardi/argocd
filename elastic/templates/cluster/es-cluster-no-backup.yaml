@@ -13,7 +13,7 @@ spec:
         ports:
           - name: https
             protocol: TCP
-            port: 9200
+            port: {{ .Values.service.port }}
   nodeSets:
   - name: master-node
     count: {{ .Values.master.replicas }}
