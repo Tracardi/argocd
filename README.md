@@ -53,3 +53,4 @@ This will make ArgoCD wait for the operators to install before proceeding.
 ```
 operator-sdk olm uninstall
 ```
+

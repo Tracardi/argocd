@@ -55,7 +55,7 @@ secrets:
 
 config:
   multiTenant:
-    multi: "yes"
+    multi: "no"
 
 api:
   image:
