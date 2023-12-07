@@ -37,3 +37,15 @@ secrets:
 
 digitalOcean:
   loadBalancer: true
+
+worker:
+
+  flusher:
+    image:
+      tag: 0.8.2-rc2
+      pullPolicy: Always
+
+  storage:
+    image:
+      tag: 0.8.2-rc2
+      pullPolicy: Always
