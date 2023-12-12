@@ -21,8 +21,8 @@ spec:
           imagePullPolicy: {{ .Values.worker.internal.upgrade.image.pullPolicy }}
           resources:
             limits:
-              memory: 500Mi
-              cpu: 500m
+              memory: {{ .Values.worker.internal.upgrade.docker.resources.limits.memory }}
+              cpu: {{ .Values.worker.internal.upgrade.docker.resources.limits.cpu }}
             requests:
               memory: 100Mi
               cpu: 300m

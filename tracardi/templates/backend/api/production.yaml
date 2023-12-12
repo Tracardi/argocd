@@ -1,15 +1,26 @@
 {{ if and .Values.secrets.dockerHub .Values.api.production.enabled }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: be-fa-production
   labels:
     {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-production") | nindent 4 }}
 spec:
+  serviceName: "tracardi-api-production"
   replicas: {{ .Values.api.production.replicas }}
   selector:
     matchLabels:
       {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-production") | nindent 6 }}
+{{ if .Values.api.production.storage.failOver.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: fail-over-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.api.production.storage.failOver.size }}
+{{end}}
   template:
     metadata:
       labels:
@@ -36,7 +47,7 @@ spec:
             httpGet:
               path: /healthcheck
               port: 80
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
             periodSeconds: 60
 {{ end }}
           env:
@@ -73,6 +84,11 @@ spec:
               value: {{ .Values.api.production.config.asyncProcessing | quote }}
             - name: LOCK_ON_DATA_COMPUTATION
               value: 'no'
+{{ if .Values.api.production.storage.failOver.enabled }}
+          volumeMounts:
+            - mountPath: "/opt/tracardi"
+              name: fail-over-storage
+{{ end }}
 ---
 apiVersion: v1
 kind: Service

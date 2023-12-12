@@ -38,14 +38,72 @@ secrets:
 digitalOcean:
   loadBalancer: true
 
+api:
+  test:
+    enabled: true
+
 worker:
 
   flusher:
-    image:
-      tag: 0.8.2-rc2
-      pullPolicy: Always
+    profile:
+      enabled: false
+
+    session:
+      enabled: false
+
 
   storage:
-    image:
-      tag: 0.8.2-rc2
-      pullPolicy: Always
+    profile:
+      enabled: false
+
+    event:
+      enabled: false
+
+    session:
+      enabled: false
+
+
+  workflow:
+    event:
+      enabled: false
+
+  outbound:
+    profile:
+      enabled: false
+
+    event:
+      enabled: false
+
+  internal:
+    metrics:
+      profile:
+        enabled: false
+
+    scheduler:
+      event:
+        enabled: false
+
+    visitEndScheduler:
+      docker:
+        enabled: false
+
+    visitEndedDispatcher:
+      docker:
+        enabled: false
+
+    upgrade:
+      docker:
+        enabled: false
+
+tms:
+  docker:
+    enabled: false
+
+
+segmentationWorker:
+  enabled: false
+
+
+copingWorker:
+  enabled: false
+

@@ -76,6 +76,10 @@ api:
       enableIdentification: "yes"
       enablePostEventSegmentation: "yes"
       enableProfileFlush: "yes"
+    storage:
+      failOver:
+        enabled: true
+        size: 1Gi
     service:
       port: 8686
 
@@ -94,6 +98,10 @@ api:
       enablePostEventSegmentation: "yes"
       enableProfileFlush: "yes"
       elasticSavePool: 0
+    storage:
+      failOver:
+        enabled: true
+        size: 1Gi
     service:
       port: 8484
 
@@ -287,6 +295,10 @@ worker:
         config:
           saveLogs: "no"
           loggingLevel: "INFO"
+        resources:
+          limits:
+            memory: 500Mi
+            cpu: 500m
 #    trigger:
 #      image:
 #        repository: tracardi/com-tracardi-trigger-worker
