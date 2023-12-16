@@ -18,7 +18,8 @@ redis:
 
 pulsar:
   name: ps1
-  host: pulsar-proxy.pulsar.svc.cluster.local
+#  host: pulsar-proxy.pulsar.svc.cluster.local
+  host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
   schema: "pulsar://"
   authenticate: false
   port: 6650
@@ -29,9 +30,9 @@ secrets:
   license:
     licenseKey: "YDDktlIOkXLLLUcDRtuav810bzbKat89Tk+knhsgPrtcrvfpdfp8mL7Py3o9fLu+Sfujb8txPsDhi56v06fDpPYB2RExlZDtYbGH9+km9Yf42LfL/K9I805SR4KUhwMaAaE4zhCHYimJnKJMH1bgKGNQWJ52lDl1P5qHzDiAaspQmxswPAt71jF83tDzz3XF46IPXVvNKXaEMIoHypKhiFbIoSdu3VPUsaHzWV546bijWb21tb9NhqESrKuXBK6Tczm0Vmq9o10vK5avsrMiWDv7AN1Zb6roTHvr4NgnxkJVY9rYpT1rF447Ghp6ColtuhFNce2QCyXgJi7nHr1zd59+yWkOdHQ72pEpRorApg6o2CkPM8vEYK4xCEbc0HY9v5wwBr+zCZFcHWJtawLyoUEZLoEWLxJ5sF029qbLs0Dpy876TtUpK3By5hSXBpmCA41MgaX5UNt/ts83kPX2wNbhnaYOfZi3xGiaXamQMAetpbDonZ0v/fdCx4cFWXIoDx22EVeB0jCnYiaoycVh8yDxfUGnuSmayB0t1XO04JhT3lAsClJSAdwS1Swb/m7y+fW06qW0Y3rYEBcs0VYSWggWDCuTFTtgTTQ49NbU4vjx8RebhVLqPgMAAA==7H749seI7AeDaqdsec2G6U6Cb/9082bS6z7Yf48ceI0Q7yfE6X02dX4Uf5715j9C4254707"
   redis:
-    password: "YHdlBn89sn"
+    password: "OEFggDSNDZ"
   elastic:
-    password: "Nut298To7Ld3Wyp4N6xg2w92"
+    password: "87p0Fq2M57S3qpI2B6aPKxD1"
   pulsar:
     token: "<PULSAR-TOKEN>"
 
@@ -40,46 +41,80 @@ digitalOcean:
 
 api:
   image:
-    tag: 0.8.2-rc2  # Tag should be the same for gui and backend
+    tag: 0.8.2-rc3  # Tag should be the same for gui and backend
   test:
     enabled: true
-    replicas: 40
+    replicas: 1
+    service:
+      port: 48686
+gui:
+  console:
+    service:
+      port: 48787
 
 
 worker:
 
   flusher:
     image:
-      tag: 0.8.2-rc2
+      tag: 0.8.2-rc3
       pullPolicy: Always
 
     profile:
       enabled: true
-      replicas: 10
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 10
+      replicas: 1
       config:
         loggingLevel: "INFO"
 
   storage:
     image:
-      tag: 0.8.2-rc2
+      tag: 0.8.2-rc3
       pullPolicy: Always
     profile:
       enabled: true
-      replicas: 10
+      replicas: 1
       config:
         loggingLevel: "INFO"
     event:
       enabled: true
-      replicas: 20
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 10
+      replicas: 1
       config:
         loggingLevel: "INFO"
+
+
+  workflow:
+    image:
+      pullPolicy: Always
+
+  outbound:
+    image:
+      pullPolicy: Always
+
+
+  internal:
+    metrics:
+      image:
+        pullPolicy: Always
+
+    scheduler:
+      image:
+        pullPolicy: Always
+
+    visitEndScheduler:
+      image:
+        pullPolicy: Always
+
+    visitEndedDispatcher:
+      image:
+        pullPolicy: Always
+
