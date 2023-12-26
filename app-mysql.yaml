@@ -16,6 +16,8 @@ spec:
     helm:
       values: |
         auth:
+          rootPassword: "root"
+          replicationPassword: "replication"
           defaultAuthenticationPlugin: "caching_sha2_password"
         architecture: replication
         primary:
