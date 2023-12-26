@@ -13,7 +13,7 @@ spec:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: mysql
     targetRevision: 9.15.0
-    path: "mysql"
+    path: mysql/
     helm:
       valueFiles:
         - local-values.yaml  # This should be the path relative to the specified 'path'
