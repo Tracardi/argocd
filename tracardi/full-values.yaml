@@ -41,6 +41,7 @@ digitalOcean:
 
 api:
   image:
+    pullPolicy: Always
     tag: 0.8.2-rc3  # Tag should be the same for gui and backend
   test:
     enabled: true
