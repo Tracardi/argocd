@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: starrocks
+spec:
+  project: tracardi
+  source:
+    repoURL: 'https://starrocks.github.io/starrocks-kubernetes-operator'
+    targetRevision: 1.8.8
+    chart: kube-starrocks
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: starrocks.starrocksBeSpec.resources.requests.memory
+          value: 2Gi
+        - name: starrocks.starrocksBeSpec.resources.requests.cpu
+          value: '1'
+        - name: starrocks.starrocksFESpec.resources.requests.memory
+          value: 2Gi
+        - name: starrocks.starrocksFESpec.resources.requests.cpu
+          value: '1'
+        - name: starrocks.starrocksCnSpec.resources.requests.memory
+          value: 2Gi
+        - name: starrocks.starrocksCnSpec.resources.requests.cpu
+          value: '1'
+    destination:
+      namespace: starrocks
+      server: 'https://kubernetes.default.svc'
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

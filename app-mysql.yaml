@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mysql
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: mysql
+spec:
+  project: tracardi
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    chart: mysql
+    targetRevision: 9.15.0
+    path: "mysql"
+    helm:
+      valueFiles:
+        - local-values.yaml  # This should be the path relative to the specified 'path'
+
+#    helm:
+#      values: |
+#        architecture: replication
+#        primary:
+#          persistence:
+#            size: 2Gi
+#        replica:
+#          replicaCount: 1
+#          persistence:
+#            size: 2Gi
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: mysql
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
