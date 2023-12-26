@@ -15,6 +15,8 @@ spec:
     targetRevision: 9.15.0
     helm:
       values: |
+        auth:
+          defaultAuthenticationPlugin: "caching_sha2_password"
         architecture: replication
         primary:
           persistence:
