@@ -2,13 +2,22 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: percona
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    - resources-finalizer.argocd.argoproj.io
+    # Alternatively, you can use background cascading deletion
+    # - resources-finalizer.argocd.argoproj.io/background
+  # Add labels to your application object.
+  labels:
+    name: percona
 spec:
   destination:
-    name: ''
     namespace: percona
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
     repoURL: 'https://percona.github.io/percona-helm-charts/'
     targetRevision: 1.13.3
     chart: pxc-db
@@ -18,7 +27,6 @@ spec:
       parameters:
         - name: pxc.persistence.size
           value: 2Gi
-  sources: []
   project: tracardi
   syncPolicy:
     syncOptions:
