@@ -1,8 +1,0 @@
-architecture: replication
-primary:
-  persistence:
-    size: 2Gi
-replica:
-  replicaCount: 1
-  persistence:
-    size: 2Gi
