@@ -24,6 +24,11 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+      parameters:
+        - name: kube-prometheus-stack.enabled
+          value: 'false'
+        - name: kube-prometheus-stack.grafana.enabled
+          value: 'false'
   project: tracardi
   syncPolicy:
     syncOptions:
