@@ -27,7 +27,7 @@ spec:
           value: 2Gi
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: test-redis
+    namespace: redis
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
