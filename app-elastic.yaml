@@ -24,7 +24,7 @@ spec:
         - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: test-elastic
+    namespace: elastic
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
