@@ -33,9 +33,9 @@ spec:
           value: 2Gi
         - name: starrocks.starrocksCnSpec.resources.requests.cpu
           value: '1'
-    destination:
-      namespace: starrocks
-      server: 'https://kubernetes.default.svc'
+  destination:
+    namespace: starrocks
+    server: 'https://kubernetes.default.svc'
 
   syncPolicy:
     syncOptions:

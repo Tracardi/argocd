@@ -1,3 +1,10 @@
 pxc:
+  size: 1
   persistence:
     size: 2Gi
+
+haproxy:
+  size: 1
+  resources:
+    requests:
+      memory: 100Mi
