@@ -27,7 +27,6 @@ spec:
           resources:
             requests:
               storage: {{ .Values.master.storage.size }}
-          storageClassName: {{ .Values.master.storage.className }}
     podTemplate:
       spec:
         initContainers:
@@ -50,7 +49,6 @@ spec:
           resources:
             requests:
               storage: {{ .Values.data.storage.size }}
-          storageClassName: {{ .Values.data.storage.className }}
     podTemplate:
       spec:
         initContainers:
