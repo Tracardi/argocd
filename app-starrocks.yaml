@@ -2,6 +2,17 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: starrocks
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    - resources-finalizer.argocd.argoproj.io
+    # Alternatively, you can use background cascading deletion
+    # - resources-finalizer.argocd.argoproj.io/background
+  # Add labels to your application object.
+  labels:
+    name: starrocks
 spec:
   project: tracardi
   source:
@@ -9,8 +20,6 @@ spec:
     targetRevision: 1.8.8
     chart: kube-starrocks
     helm:
-      valueFiles:
-        - values.yaml
       parameters:
         - name: starrocks.starrocksBeSpec.resources.requests.memory
           value: 2Gi
