@@ -7,7 +7,7 @@ kubectl create namespace elastic
 kubectl create namespace percona
 kubectl create namespace redis
 
-# Install all required operators, etc.
+# Install repos
 
 ## Argo
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -33,24 +33,28 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add starrocks-community https://starrocks.github.io/starrocks-kubernetes-operator
 
 
-## Elastic
-
-# Operators in helm
-
-kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/crds.yaml
-kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
-
-
 ## Percona
 
 helm repo add percona https://percona.github.io/percona-helm-charts/
 
 
-# Installation
+# Install operators
+
+## Elastic
+
+kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
+
+## Percona
+
+helm install percona-op percona/pxc-operator --namespace percona
+helm install percona-db percona/pxc-db --namespace percona
 
 ## Prometheus
 
 helm install prometheus prometheus-community/kube-prometheus-stack
+
+# Install prerequisites
 
 ## Cert manager
 
@@ -65,3 +69,5 @@ cd pulsar-helm-chart
 git clone https://github.com/apache/pulsar-helm-chart
 cd pulsar-helm-chart
 ./scripts/pulsar/prepare_helm_release.sh -n pulsar -k pulsar
+
+
