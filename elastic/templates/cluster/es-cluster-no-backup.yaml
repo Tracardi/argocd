@@ -3,18 +3,18 @@ kind: Elasticsearch
 metadata:
   name: cluster
 spec:
-  version: 8.2.2
+  version: {{ .Values.version }}
   http:
     service:
       spec:
-        type: LoadBalancer  # default ClusterIp
+        type: {{ .Values.service.type }}  # default ClusterIp
         ports:
           - name: https
             protocol: TCP
-            port: 9200
+            port: {{ .Values.service.port }}
   nodeSets:
   - name: master-node
-    count: 1
+    count: {{ .Values.master.replicas }}
     config:
       node.roles: [ "master" ]
       node.store.allow_mmap: false
@@ -26,7 +26,8 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 5Gi
+              storage: {{ .Values.master.storage.size }}
+          storageClassName: {{ .Values.master.storage.className }}
     podTemplate:
       spec:
         initContainers:
@@ -37,7 +38,7 @@ spec:
             command: [ 'sh', '-c', 'sysctl -w vm.max_map_count=262144' ]
 
   - name: data-node
-    count: 1
+    count: {{ .Values.data.replicas }}
     config:
       node.roles: [ "data" ]
     volumeClaimTemplates:
@@ -48,7 +49,8 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 50Gi
+              storage: {{ .Values.data.storage.size }}
+          storageClassName: {{ .Values.data.storage.className }}
     podTemplate:
       spec:
         initContainers:
