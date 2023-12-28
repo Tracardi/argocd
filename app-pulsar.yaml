@@ -17,13 +17,17 @@ spec:
   destination:
     namespace: pulsar
     server: 'https://kubernetes.default.svc'
-  source:
-    repoURL: 'https://pulsar.apache.org/charts'
-    targetRevision: 3.1.0
-    chart: pulsar
-    helm:
-      valueFiles:
-        - local-values.yaml
+  # https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/#helm-value-files-from-external-git-repository
+  sources:
+    - repoURL: 'https://pulsar.apache.org/charts'
+      targetRevision: 3.1.0
+      chart: pulsar
+      helm:
+        valueFiles:
+          - $values/pulsar/local-values.yaml
+    - repoURL: 'https://github.com/Tracardi/argocd'
+      targetRevision: HEAD
+      ref: values
 
   project: tracardi
   syncPolicy:

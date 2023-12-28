@@ -106,3 +106,6 @@ proxy:
   replicaCount: 1
   ports:
     http: 8081
+
+autorecovery:
+  replicaCount: 1
