@@ -6,6 +6,7 @@ kubectl create namespace pulsar
 kubectl create namespace elastic
 kubectl create namespace percona
 kubectl create namespace redis
+kubectl create namespace cert-manager
 
 # Install repos
 
