@@ -21,7 +21,7 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-        - instance-values.yaml
+        - local-core-values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: tracardi-com-082
