@@ -13,5 +13,5 @@ master:
 data:
   replicas: 1
   storage:
-    size: 50Gi
+    size: 10Gi
     className: local-path

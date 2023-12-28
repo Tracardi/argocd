@@ -21,7 +21,7 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-        - values.yaml
+        - local-values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: elastic

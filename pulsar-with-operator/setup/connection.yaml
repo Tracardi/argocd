@@ -1,0 +1,6 @@
+apiVersion: pulsar.streamnative.io/v1alpha1
+kind: PulsarConnection
+metadata:
+  name: pulsar-connection
+spec:
+  adminServiceURL: http://my-broker.pulsar.svc.cluster.local:8080

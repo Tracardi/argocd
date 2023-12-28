@@ -1,0 +1,11 @@
+apiVersion: pulsar.streamnative.io/v1alpha1
+kind: PulsarTenant
+metadata:
+  name: tracardi-tenant-1
+spec:
+  name: tracardi-1
+  connectionRef:
+    name: pulsar-connection
+  adminRoles:
+  - admin
+  - ops
