@@ -15,6 +15,10 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ### Setup argo
 kubectl apply -f setup/argocd-setup.yaml
 
+## Redis
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
 ## Pulsar
 
 helm repo add apache https://pulsar.apache.org/charts

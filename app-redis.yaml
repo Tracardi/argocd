@@ -15,16 +15,17 @@ metadata:
     name: redis
 spec:
   project: tracardi
-  source:
-    repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 18.4.0
-    chart: redis
-    helm:
-      parameters:
-        - name: master.persistence.size
-          value: 2Gi
-        - name: replica.persistence.size
-          value: 2Gi
+  # https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/#helm-value-files-from-external-git-repository
+  sources:
+    - repoURL: 'https://charts.bitnami.com/bitnami'
+      targetRevision: 18.4.0
+      chart: redis
+      helm:
+        valueFiles:
+          - $values/redis/local-values.yaml
+    - repoURL: 'https://github.com/Tracardi/argocd'
+      targetRevision: HEAD
+      ref: values
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: redis
