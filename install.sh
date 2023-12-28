@@ -21,7 +21,12 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 
 ## Pulsar
 
+helm repo add streamnative https://charts.streamnative.io
 helm repo add apache https://pulsar.apache.org/charts
+
+### Prometheus
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
 ## Starrocks
 
@@ -42,6 +47,10 @@ helm repo add percona https://percona.github.io/percona-helm-charts/
 
 
 # Installation
+
+## Prometheus
+
+helm install prometheus prometheus-community/kube-prometheus-stack
 
 ## Cert manager
 
