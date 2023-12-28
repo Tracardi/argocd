@@ -3,7 +3,11 @@ pxc:
   persistence:
     size: 2Gi
 
+backup:
+  enabled: false
+
 haproxy:
+  enabled: false
   size: 1
   resources:
     requests:
