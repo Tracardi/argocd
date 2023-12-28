@@ -12,3 +12,6 @@ haproxy:
   resources:
     requests:
       memory: 100Mi
+
+proxysql:
+  size: 1
