@@ -1,0 +1,3 @@
+pxc:
+  persistence:
+    size: 2Gi

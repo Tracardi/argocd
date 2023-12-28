@@ -17,16 +17,16 @@ spec:
   destination:
     namespace: percona
     server: 'https://kubernetes.default.svc'
-  source:
-    repoURL: 'https://percona.github.io/percona-helm-charts/'
-    targetRevision: 1.13.3
-    chart: pxc-db
-    helm:
-      valueFiles:
-        - values.yaml
-      parameters:
-        - name: pxc.persistence.size
-          value: 2Gi
+  sources:
+    - repoURL: 'https://percona.github.io/percona-helm-charts'
+      targetRevision: 1.13.3
+      chart: pxc-db
+      helm:
+        valueFiles:
+          - $values/percona/local-values.yaml
+    - repoURL: 'https://github.com/Tracardi/argocd'
+      targetRevision: HEAD
+      ref: values
   project: tracardi
   syncPolicy:
     syncOptions:
