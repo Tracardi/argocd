@@ -4,7 +4,7 @@ kubectl create namespace argocd
 #kubectl create namespace starrocks
 #kubectl create namespace pulsar
 #kubectl create namespace elastic
-#kubectl create namespace percona
+kubectl create namespace percona
 #kubectl create namespace redis
 kubectl create namespace cert-manager
 kubectl create namespace operators
@@ -17,7 +17,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ### Setup argo
 kubectl apply -f setup/argocd-setup.yaml
 kubectl apply -f setup/argocd-rbac.yaml
-kubectl apply -f setup/argocd-repos.yaml
+#kubectl apply -f setup/argocd-repos.yaml
 kubectl apply -f setup/argocd-projects.yaml
 
 # Install Repos
@@ -54,7 +54,7 @@ kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
 
 ## Percona
 
-helm install percona-op percona/pxc-operator --namespace operators
+helm install percona-op percona/pxc-operator --namespace percona
 
 
 # Install prerequisites
