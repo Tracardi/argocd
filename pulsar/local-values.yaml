@@ -77,7 +77,7 @@ zookeeper:
         # fsType: xfs
         # provisioner: kubernetes.io/gce-pd
 bookkeeper:
-  replicaCount: 4
+  replicaCount: 1
   # Disable pod monitor since we're disabling CRD installation
   podMonitor:
     enabled: false
@@ -100,10 +100,10 @@ bookkeeper:
 #      storageClassName: gp2
 
 broker:
-  replicaCount: 3
+  replicaCount: 1
 
 proxy:
-  replicaCount: 3
+  replicaCount: 1
   ports:
     http: 8081
 
