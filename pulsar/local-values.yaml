@@ -54,7 +54,7 @@ kube-prometheus-stack:
     enabled: false
 
 zookeeper:
-  replicaCount: 4
+  replicaCount: 3
   # Disable pod monitor since we're disabling CRD installation
   podMonitor:
     enabled: false
