@@ -12,6 +12,6 @@ master:
     size: 5Gi
 
 data:
-  replicas: 1
+  replicas: 3
   storage:
     size: 50Gi
