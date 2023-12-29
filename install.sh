@@ -9,7 +9,7 @@ kubectl create namespace argocd
 kubectl create namespace cert-manager
 kubectl create namespace operators
 
-# Install repos
+# Install ArgoCD
 
 ## Argo
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -19,6 +19,8 @@ kubectl apply -f setup/argocd-setup.yaml
 kubectl apply -f setup/argocd-rbac.yaml
 kubectl apply -f setup/argocd-repos.yaml
 kubectl apply -f setup/argocd-projects.yaml
+
+# Install Repos
 
 ## Redis
 
@@ -54,11 +56,12 @@ kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
 
 helm install percona-op percona/pxc-operator --namespace operators
 
+
+# Install prerequisites
+
 ## Prometheus
 
 helm install prometheus prometheus-community/kube-prometheus-stack
-
-# Install prerequisites
 
 ## Cert manager
 
@@ -70,6 +73,7 @@ cd pulsar-helm-chart
 
 ## Prepare pulsar helm release
 
+kubectl create namespace pulsar
 git clone https://github.com/apache/pulsar-helm-chart
 cd pulsar-helm-chart
 ./scripts/pulsar/prepare_helm_release.sh -n pulsar -k pulsar
