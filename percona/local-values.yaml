@@ -7,7 +7,7 @@ backup:
   enabled: true
 
 pxc:
-  size: 1
+  size: 3
   volumeSpec:
     pvc:
       resources:
