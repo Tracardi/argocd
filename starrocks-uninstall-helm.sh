@@ -1,2 +1,4 @@
-helm delete starrocks -n starrrocks
-kubectl delete ns starrrocks
+NS="starrrocks"
+
+helm delete starrocks -n $NS
+kubectl delete ns $NS

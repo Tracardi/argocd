@@ -1,6 +1,8 @@
-kubectl delete pxc percona-db-pxc-db -n percona-2
+NS="percona"
 
-helm delete percona-db --namespace percona-2
-helm delete percona-op --namespace percona-2
+kubectl delete pxc percona-db-pxc-db -n $NS
 
-#kubectl delete namespace percona-2
+helm delete percona-db --namespace $NS
+helm delete percona-op --namespace $NS
+
+kubectl delete namespace $NS
