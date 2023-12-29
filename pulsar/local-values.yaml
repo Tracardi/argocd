@@ -21,7 +21,7 @@ auth:
 affinity:
   anti_affinity: false
 
-initialize: true
+initialize: false
 
 components:
   # zookeeper
