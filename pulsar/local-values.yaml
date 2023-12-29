@@ -103,9 +103,9 @@ broker:
   replicaCount: 3
 
 proxy:
-  replicaCount: 3
+  replicaCount: 4
   ports:
     http: 8081
 
 autorecovery:
-  replicaCount: 1
+  replicaCount: 2
