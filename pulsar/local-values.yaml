@@ -103,7 +103,7 @@ broker:
   replicaCount: 4
 
 proxy:
-  replicaCount: 4
+  replicaCount: 3
   ports:
     http: 8081
 
