@@ -5,11 +5,11 @@ service:
   port: 9200
 
 master:
-  replicas: 3
+  replicas: 1
   storage:
     size: 5Gi
 
 data:
-  replicas: 5
+  replicas: 3
   storage:
     size: 10Gi
