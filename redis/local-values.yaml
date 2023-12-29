@@ -4,4 +4,4 @@ master:
 replica:
   persistence:
     size: 2Gi
-  replicaCount: 3
+  replicaCount: 5

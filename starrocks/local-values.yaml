@@ -1,12 +1,12 @@
 starrocks:
   starrocksBeSpec:
-    replicas: 2
+    replicas: 3
     resources:
       requests:
         memory: 1Gi
         cpu: 1
   starrocksFESpec:
-    replicas: 2
+    replicas: 3
     resources:
       requests:
         memory: 1Gi
