@@ -24,11 +24,11 @@ spec:
         - name: starrocks.starrocksBeSpec.resources.requests.memory
           value: 2Gi
         - name: starrocks.starrocksBeSpec.resources.requests.cpu
-          value: '1'
+          value: '3'
         - name: starrocks.starrocksFESpec.resources.requests.memory
           value: 2Gi
         - name: starrocks.starrocksFESpec.resources.requests.cpu
-          value: '1'
+          value: '3'
         - name: starrocks.starrocksCnSpec.resources.requests.memory
           value: 2Gi
         - name: starrocks.starrocksCnSpec.resources.requests.cpu

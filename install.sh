@@ -15,6 +15,9 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ### Setup argo
 kubectl apply -f setup/argocd-setup.yaml
+kubectl apply -f setup/argocd-rbac.yaml
+kubectl apply -f setup/argocd-repos.yaml
+kubectl apply -f setup/argocd-projects.yaml
 
 ## Redis
 
