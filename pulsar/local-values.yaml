@@ -100,7 +100,7 @@ bookkeeper:
 #      storageClassName: gp2
 
 broker:
-  replicaCount: 4
+  replicaCount: 3
 
 proxy:
   replicaCount: 3
