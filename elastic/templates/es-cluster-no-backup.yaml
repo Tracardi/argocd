@@ -1,19 +1,19 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: cluster
+  name: {{ .Values.name }}
 spec:
   version: {{ .Values.version }}
   http:
     service:
       spec:
-        type: {{ .Values.service.type }}  # default ClusterIp
+        type: {{ .Values.service.type }}  # default ClusterIP
         ports:
           - name: https
             protocol: TCP
             port: {{ .Values.service.port }}
   nodeSets:
-  - name: master-node
+  - name: master
     count: {{ .Values.master.replicas }}
     config:
       node.roles: [ "master" ]
@@ -36,7 +36,7 @@ spec:
               runAsUser: 0
             command: [ 'sh', '-c', 'sysctl -w vm.max_map_count=262144' ]
 
-  - name: data-node
+  - name: data
     count: {{ .Values.data.replicas }}
     config:
       node.roles: [ "data" ]

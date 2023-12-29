@@ -15,7 +15,7 @@ metadata:
     name: percona
 spec:
   destination:
-    namespace: percona
+    namespace: percona-2
     server: 'https://kubernetes.default.svc'
   sources:
     - repoURL: 'https://percona.github.io/percona-helm-charts'

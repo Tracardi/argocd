@@ -1,7 +1,9 @@
-version: 8.2.2
+version: 8.11.3
+
+name: cluster
 
 service:
-  type: ClusterIp  # LoadBalancer
+  type: ClusterIP  # LoadBalancer/ClusterIP
   port: 9200
 
 master:

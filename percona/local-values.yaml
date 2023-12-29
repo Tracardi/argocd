@@ -1,13 +1,21 @@
-pxc:
-  size: 1
-  persistence:
-    size: 2Gi
+allowUnsafeConfigurations: true
+
+sharding:
+  enabled: false
 
 backup:
-  enabled: false
+  enabled: true
+
+pxc:
+  size: 1
+  volumeSpec:
+    pvc:
+      resources:
+        requests:
+          storage: 2Gi
 
 haproxy:
-  enabled: false
+  enabled: true
   size: 1
   resources:
     requests:

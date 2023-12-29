@@ -1,17 +1,15 @@
-version: 8.2.2
+version: 8.11.3
 
 service:
-  type: ClusterIp  # LoadBalancer
+  type: ClusterIP  # LoadBalancer
   port: 9200
 
 master:
   replicas: 1
   storage:
     size: 5Gi
-    className: local-path
 
 data:
-  replicas: 1
+  replicas: 3
   storage:
     size: 10Gi
-    className: local-path
