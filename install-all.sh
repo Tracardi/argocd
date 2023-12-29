@@ -4,7 +4,7 @@ kubectl create namespace argocd
 #kubectl create namespace starrocks
 #kubectl create namespace pulsar
 #kubectl create namespace elastic
-kubectl create namespace percona
+kubectl create namespace percona-2
 #kubectl create namespace redis
 kubectl create namespace cert-manager
 kubectl create namespace operators
@@ -54,7 +54,7 @@ kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
 
 ## Percona
 
-helm install percona-op percona/pxc-operator --namespace percona
+helm install percona-op percona/pxc-operator --namespace percona-2
 
 
 # Install prerequisites
