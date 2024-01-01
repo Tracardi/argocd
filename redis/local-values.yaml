@@ -3,5 +3,5 @@ master:
     size: 2Gi
 replica:
   persistence:
-    size: 2Gi
-  replicaCount: 1
+    size: 5Gi
+  replicaCount: 3
