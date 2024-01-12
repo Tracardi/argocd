@@ -35,6 +35,9 @@ spec:
             requests:
               memory: 20Mi
               cpu: 300m
+          env:
+            - name: MULTI_TENANT
+              value: {{ .Values.config.multiTenant.multi | quote }}
           ports:
             - containerPort: 80
               name: gui-port

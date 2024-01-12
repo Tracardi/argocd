@@ -18,10 +18,10 @@ redis:
 
 pulsar:
   name: ps1
-#  host: pulsar-proxy.pulsar.svc.cluster.local
-  host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
+  host: pulsar-proxy.pulsar.svc.cluster.local
+#  host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
   schema: "pulsar://"
-  authenticate: false
+  authenticate: true
   port: 6650
 
 secrets:

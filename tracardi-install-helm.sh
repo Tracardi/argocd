@@ -1,6 +1,6 @@
 NS="tracardi-com-082"
-DOCKERHUB = "dckr_pat_-BIoW7LgPn1bSQNyr64HJantpzE"
-VALUES = "local-com-values.yaml"
+VALUES="local-com-values.yaml"
+DOCKERHUB="dckr_pat_-BIoW7LgPn1bSQNyr64HJantpzE"
 
 kubectl create ns $NS
 
