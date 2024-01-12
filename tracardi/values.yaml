@@ -176,6 +176,16 @@ job:
               schedule: "*/15 * * * *"
 
 worker:
+  apm:
+    image:
+      repository: tracardi/apm
+      tag: 0.8.2-rc4
+      pullPolicy: IfNotPresent
+    profile:
+      enabled: true
+      replicas: 1
+      config:
+        loggingLevel: "INFO"
 
   flusher:
     image:

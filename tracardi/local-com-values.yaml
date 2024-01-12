@@ -65,7 +65,7 @@ worker:
 
     profile:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
@@ -80,17 +80,17 @@ worker:
       pullPolicy: IfNotPresent
     profile:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     event:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
 

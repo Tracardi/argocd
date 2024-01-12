@@ -1,0 +1,40 @@
+{{ if .Values.worker.apm.profile.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk-apm
+  labels:
+    app: wk-apm
+spec:
+  replicas: {{ .Values.worker.apm.profile.replicas }}
+  selector:
+    matchLabels:
+      app: wk-apm
+  template:
+    metadata:
+      labels:
+        app: wk-apm
+    spec:
+      containers:
+      - name: auto-profile-merging
+        image: "{{ .Values.worker.apm.image.repository }}:{{ .Values.worker.apm.image.tag }}"
+        imagePullPolicy: {{ .Values.worker.apm.image.pullPolicy }}
+        env:
+        {{- include "tracardi.env" (dict "ctx" .) | nindent 8 }}
+        - name: MODE
+          value: "worker"
+        - name: PAUSE
+          value: "60"
+        - name: PRODUCTION
+          value: "no"
+        - name: LOGGING_LEVEL
+          value: {{ .Values.worker.apm.profile.config.loggingLevel | quote }}
+        resources:
+          limits:
+            memory: 250Mi
+            cpu: 500m
+          requests:
+            memory: 100Mi
+            cpu: 100m
+
+{{ end }}
