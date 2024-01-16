@@ -84,6 +84,8 @@ spec:
               value: {{ .Values.api.production.config.asyncProcessing | quote }}
             - name: LOCK_ON_DATA_COMPUTATION
               value: 'no'
+            - name: AUTO_PROFILE_MERGING
+              value: "9edcbb29-c07c-476f-985c-4007b5c1a9a3"
 {{ if .Values.api.production.storage.failOver.enabled }}
           volumeMounts:
             - mountPath: "/opt/tracardi"
