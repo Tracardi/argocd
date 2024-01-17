@@ -36,4 +36,10 @@ spec:
               value: "session"
             - name: PULSAR_COLLECTOR_POOL
               value: "500"
+            {{ if and .Values.secrets.maxmind.licenseKey .Values.secrets.maxmind.accountId }}
+            - name: MAXMIND_LICENSE_KEY
+              value: {{ .Values.secrets.maxmind.licenseKey | quote }}
+            - name: MAXMIND_ACCOUNT_ID
+              value: {{ .Values.secrets.maxmind.accountId | quote }}
+            {{end}}
 {{ end }}
