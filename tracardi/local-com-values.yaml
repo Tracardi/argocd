@@ -43,10 +43,11 @@ api:
     pullPolicy: Always
 
   test:
-    enabled: true
-    replicas: 1
-    service:
-      port: 8686
+    replicas: 2
+
+  production:
+    replicas: 2
+
 gui:
   image:
     pullPolicy: IfNotPresent
