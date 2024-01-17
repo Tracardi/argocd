@@ -87,7 +87,7 @@ api:
     enabled: true
     replicas: 1
     config:
-      saveLogs: "no"
+      saveLogs: "yes"
       loggingLevel: "INFO"
       apiDocs: "no"
       asyncProcessing: "yes"

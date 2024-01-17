@@ -40,7 +40,7 @@ digitalOcean:
 
 api:
   image:
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
   test:
     enabled: true
@@ -57,6 +57,10 @@ gui:
 
 
 worker:
+
+  apm:
+    image:
+      pullPolicy: Always
 
   flusher:
     image:
