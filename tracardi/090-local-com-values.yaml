@@ -1,0 +1,178 @@
+# Infrastructure
+
+elastic:
+  name: es1
+  host: cluster-es-http.elastic.svc.cluster.local
+  schema: https
+  authenticate: true
+  port: 9200
+  verifyCerts: "no"
+
+redis:
+  name: rd1
+  host: redis-master.redis.svc.cluster.local
+  schema: "redis://"
+  authenticate: true
+  port: 6379
+  db: "0"
+
+pulsar:
+  name: ps1
+  host: pulsar-proxy.pulsar.svc.cluster.local:6650
+  schema: "pulsar://"
+  authenticate: true
+  port: 6650
+
+secrets:
+  installationToken: "RISTO"
+  dockerHub: "tracardi-dockerhub"
+  license:
+    licenseKey: "UWe6ACkCpEuXkhIp7MDXxuPNBln43UOPA4zLEeYj/4Mf09v0eTf9mJfreff9/M79r74v+3kHu696PE+fdpPaD5jRl1QcBntY7OFjunD7yT7K+jHfh2DNUlAYGmKFgLFBDaFAq+qdc5W0xulmA/Y8RqDly4b6gYqkDnqvDYJnBo5UoA5OgysVdn1Fj7+uV9wvuqHkR4/YG+ScFYJ4BB5aIHKnEVxjTGlF5yO/5kXwSTCjH7YBWBpBaAmhdEO9L+KQai29PFDR0xXrN95YZTJHd4utDQgas61tDcTbCPJZLYiVXfqLCue4oTHknIgDaBNnik02iyuALDEndTX2uqK/+TBT2LsNZeckpOaBXLatkRoUCRZbqEmE1JMPK9rPx9cDRvIbm0rsyVeCUrBYPYa1FggyFU3RYc7xEdRFlxeGKsuT295jaFYNln6v1kJuVG2AaMUkPirhf1bmC/D18qQZq0fUCBjFCipeoXLwkJCZJeXErj1SPsmfJeyfCyInXcUaIbazQPLQPAYwt07T/axEV/Qwd0Uv4fmiJPWsA5qax6Acgd2o0AdL9xoVw6Pb49vhqqfa92mDG+ooOaIJHWIxu/s5stWkrJRGM+F+ut1u/wAy2gUWPgMAAA==8H443seI9AdLd65xeo5W4UdCc/d0728S1ueYe48b0M9Q3y3G1Xc89W4Y2OcgfRdE4262739"
+  redis:
+    password: "D7RhiWgZvD"
+  elastic:
+    password: "2C2w4g5Sx11CvGpB7I6BT9R1"
+  pulsar:
+    token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.lkLZkhoRTS7S11iehntprBA13PjcdDCihanssiSaS0rAHZeJOsCcCKa1XIPZZHbv0SmYwmv4YTIKf7NMSzuI-J0iO9br5caJh_1L3LhUTlsbaWybh7sQPF2rFyEFXa68ojTccjXOk8lWVUg0p3An9q_MMb4jDYND3K89CxRQpwhCPWmF_9Cw4cZJM252NYtSMsVyCkRZsCgu1Zco9GePPlMBrE9MtYpTaIRUuD4MQrunjC9kjWIVgxCEM3wf7B-A8bU_0dDuD5g2WWCsJ_Z-_9T2ucQqglcatrGnsOC0zCmSzmbGDe4372eGo6aak-4kbL3CZ0QnS36Tuji8T1ucHw"
+  maxmind:
+    licenseKey: "ehiKRvACRzeXnjwZ"
+    accountId: "596687"
+
+digitalOcean:
+  loadBalancer: true
+
+api:
+  image:
+    pullPolicy: Always
+    tag: 0.9.0-a1
+
+  test:
+    replicas: 1
+    service:
+      port: 48686
+
+  production:
+    replicas: 1
+    service:
+      port: 48585
+
+gui:
+  image:
+    pullPolicy: IfNotPresent
+    tag: 0.9.0-a1
+  console:
+    service:
+      port: 48787
+
+tms:
+  image:
+    pullPolicy: IfNotPresent
+    tag: 0.8.2-rc5  # Tag should be the same for gui and backend
+  docker:
+    replicas: 0
+    service:
+      port: 48383
+
+worker:
+
+  apm:
+    image:
+      pullPolicy: Always
+      tag: 0.9.0-a1
+
+  flusher:
+    image:
+      pullPolicy: IfNotPresent
+      tag: 0.9.0-a1
+
+    profile:
+      enabled: true
+      replicas: 0
+      config:
+        loggingLevel: "DEBUG"
+    session:
+      enabled: true
+      replicas: 0
+      config:
+        loggingLevel: "INFO"
+
+  storage:
+    image:
+      pullPolicy: IfNotPresent
+      tag: 0.9.0-a1
+    profile:
+      enabled: true
+      replicas: 0
+      config:
+        loggingLevel: "INFO"
+    event:
+      enabled: true
+      replicas: 0
+      config:
+        loggingLevel: "INFO"
+    session:
+      enabled: true
+      replicas: 0
+      config:
+        loggingLevel: "INFO"
+
+
+  workflow:
+    image:
+      pullPolicy: IfNotPresent
+      tag: 0.9.0-a1
+    event:
+      replicas: 0
+
+  outbound:
+    image:
+      pullPolicy: IfNotPresent
+      tag: 0.9.0-a1
+    profile:
+      replicas: 0
+    event:
+      replicas: 0
+
+
+  internal:
+    metrics:
+      image:
+        pullPolicy: IfNotPresent
+        tag: 0.9.0-a1
+      profile:
+        replicas: 0
+
+    scheduler:
+      image:
+        pullPolicy: IfNotPresent
+        tag: 0.9.0-a1
+      event:
+        replicas: 0
+
+    visitEndScheduler:
+      image:
+        pullPolicy: IfNotPresent
+        tag: 0.9.0-a1
+      docker:
+        replicas: 0
+
+    visitEndedDispatcher:
+      image:
+        pullPolicy: IfNotPresent
+        tag: 0.9.0-a1
+      docker:
+        replicas: 0
+
+# -----------------------------------------
+
+segmentationWorker:
+  enabled: false
+  image:
+    tag: 0.9.0-a1
+    pullPolicy: IfNotPresent
+
+copingWorker:
+  enabled: false
+  image:
+    tag: 0.9.0-a1
+    pullPolicy: IfNotPresent
