@@ -54,7 +54,6 @@ api:
 gui:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.0-a1
   console:
     service:
       port: 8787

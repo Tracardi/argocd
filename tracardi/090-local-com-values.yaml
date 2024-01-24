@@ -43,7 +43,7 @@ digitalOcean:
 
 api:
   image:
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     tag: 0.9.0-a1
 
   test:
@@ -67,9 +67,9 @@ gui:
 tms:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.8.2-rc5  # Tag should be the same for gui and backend
+    tag: 0.9.0-a1  # Tag should be the same for gui and backend
   docker:
-    replicas: 0
+    replicas: 1
     service:
       port: 48383
 
@@ -77,7 +77,7 @@ worker:
 
   apm:
     image:
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
       tag: 0.9.0-a1
 
   flusher:
@@ -87,12 +87,12 @@ worker:
 
     profile:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "DEBUG"
     session:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
 
@@ -102,17 +102,17 @@ worker:
       tag: 0.9.0-a1
     profile:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     event:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
 
@@ -122,16 +122,16 @@ worker:
       pullPolicy: IfNotPresent
       tag: 0.9.0-a1
     event:
-      replicas: 0
+      replicas: 1
 
   outbound:
     image:
       pullPolicy: IfNotPresent
       tag: 0.9.0-a1
     profile:
-      replicas: 0
+      replicas: 1
     event:
-      replicas: 0
+      replicas: 1
 
 
   internal:
@@ -140,28 +140,28 @@ worker:
         pullPolicy: IfNotPresent
         tag: 0.9.0-a1
       profile:
-        replicas: 0
+        replicas: 1
 
     scheduler:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-a1
       event:
-        replicas: 0
+        replicas: 1
 
     visitEndScheduler:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-a1
       docker:
-        replicas: 0
+        replicas: 1
 
     visitEndedDispatcher:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-a1
       docker:
-        replicas: 0
+        replicas: 1
 
 # -----------------------------------------
 
