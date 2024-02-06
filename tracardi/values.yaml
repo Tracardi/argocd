@@ -19,6 +19,7 @@ redis:
 pulsar:
   name: ps1
   host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
+  api: "http://pulsar-std-svc.pulsar-standalone.svc.cluster.local:8080"
   schema: "pulsar://"
   authenticate: false
   port: 6650

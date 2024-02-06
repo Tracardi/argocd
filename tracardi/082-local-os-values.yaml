@@ -19,6 +19,7 @@ redis:
 pulsar:
   name: ps1
   host: pulsar-proxy.pulsar.svc.cluster.local
+  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
 #  host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
   schema: "pulsar://"
   authenticate: true

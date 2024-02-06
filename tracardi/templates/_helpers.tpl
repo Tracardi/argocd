@@ -153,6 +153,10 @@ Params:
 {{ end }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
+- name: PULSAR_API
+  value: {{ .ctx.Values.pulsar.api }}
+- name: PULSAR_CLUSTER
+  value: pulsar
 {{ if .ctx.Values.pulsar.authenticate }}
 - name: PULSAR_AUTH_TOKEN
   valueFrom:

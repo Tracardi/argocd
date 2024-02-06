@@ -19,6 +19,7 @@ redis:
 pulsar:
   name: ps1
   host: pulsar-proxy.pulsar.svc.cluster.local:6650
+  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
   schema: "pulsar://"
   authenticate: true
   port: 6650
