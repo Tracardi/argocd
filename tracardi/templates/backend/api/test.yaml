@@ -89,6 +89,12 @@ spec:
               value: {{ .Values.api.test.config.enableProfileFlush | quote }}
             - name: ASYNC_PROCESSING
               value: {{ .Values.api.test.config.asyncProcessing | quote }}
+            - name: EVENT_PARTITIONING
+              value: {{ .Values.api.production.config.eventPartitioning | quote }}
+            - name: PROFILE_PARTITIONING
+              value: {{ .Values.api.production.config.profilePartitioning | quote }}
+            - name: SESSION_PARTITIONING
+              value: {{ .Values.api.production.config.sessionPartitioning | quote }}
             - name: LOCK_ON_DATA_COMPUTATION
               value: 'no'
             - name: AUTO_PROFILE_MERGING
