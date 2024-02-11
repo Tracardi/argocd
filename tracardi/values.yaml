@@ -30,7 +30,7 @@ mysql:
   schema: "mysql+aiomysql://"
   database: "tracardi"
   authenticate: false
-  port: 3360
+  port: 3306
 
 # Digital ocean
 
