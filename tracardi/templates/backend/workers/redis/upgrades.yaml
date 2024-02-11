@@ -27,7 +27,7 @@ spec:
               memory: 100Mi
               cpu: 300m
           env:
-            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            {{- include "tracardi.env" (dict "ctx" . "nolicense" "true") | nindent 12 }}
             - name: LOGGING_LEVEL
               value: {{ .Values.worker.internal.upgrade.docker.config.loggingLevel | quote }}
 {{ end }}

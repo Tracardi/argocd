@@ -26,7 +26,9 @@ pulsar:
 
 mysql:
   name: ms1
-  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  host: mysql.mysql.svc.cluster.local
+  username: root
+  password: root
   schema: "mysql+aiomysql://"
   database: "tracardi"
   port: 3306
@@ -88,10 +90,10 @@ worker:
 
   apm:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: 0.9.0-rc1
     profile:
-      replicas: 0
+      replicas: 1
 
   flusher:
     image:
@@ -111,88 +113,88 @@ worker:
 
   storage:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: 0.9.0-rc1
     profile:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     event:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 0
+      replicas: 1
       config:
         loggingLevel: "INFO"
 
 
   workflow:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: 0.9.0-rc1
     event:
-      replicas: 0
+      replicas: 1
 
   outbound:
     image:
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: 0.9.0-rc1
     profile:
-      replicas: 0
+      replicas: 1
     event:
-      replicas: 0
+      replicas: 1
 
 
   internal:
     metrics:
       image:
-        pullPolicy: IfNotPresent
+        pullPolicy: Always
         tag: 0.9.0-rc1
       profile:
         replicas: 0
 
     scheduler:
       image:
-        pullPolicy: IfNotPresent
+        pullPolicy: Always
         tag: 0.9.0-rc1
       event:
-        replicas: 0
+        replicas: 1
 
     visitEndScheduler:
       image:
-        pullPolicy: IfNotPresent
+        pullPolicy: Always
         tag: 0.9.0-rc1
       docker:
-        replicas: 0
+        replicas: 1
 
     visitEndedDispatcher:
       image:
-        pullPolicy: IfNotPresent
+        pullPolicy: Always
         tag: 0.9.0-rc1
       docker:
-        replicas: 0
+        replicas: 1
 
     upgrade:
       image:
         tag: 0.9.0-rc1
         pullPolicy: Always
       docker:
-        replicas: 0
+        replicas: 1
 
 # -----------------------------------------
 
 segmentationWorker:
-  enabled: false
+  enabled: true
   image:
     tag: 0.9.0-rc1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
 copingWorker:
-  enabled: false
+  enabled: true
   image:
     tag: 0.9.0-rc1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always

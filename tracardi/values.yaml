@@ -27,6 +27,8 @@ pulsar:
 mysql:
   name: ms1
   host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  username: root
+  password: root
   schema: "mysql+aiomysql://"
   database: "tracardi"
   port: 3306
@@ -60,6 +62,7 @@ secrets:
   maxmind:
     licenseKey: ""
     accountId: ""
+  mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"
 
 
 # General Tracardi configuration. Version, images, multi-tenancy, etc.

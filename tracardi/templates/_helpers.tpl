@@ -115,11 +115,13 @@ Params:
   license = name of secret containing the license
 */}}
 {{- define "tracardi.env" -}}
+{{- if not .nolicense }}
 - name: LICENSE
   valueFrom:
     secretKeyRef:
       name: "tracardi-license"
       key: "license-key"
+{{- end }}
 - name: ELASTIC_SCHEME
   value: {{ .ctx.Values.elastic.schema | quote }}
 - name: ELASTIC_HOST
@@ -207,5 +209,7 @@ Params:
   value: "scheduler.tracardi.com"
 - name: INSTALLATION_TOKEN
   value: {{ .ctx.Values.secrets.installationToken | quote }}
+- name: AUTO_PROFILE_MERGING
+  value: {{ .ctx.Values.secrets.mergingToken | quote }}
 
 {{- end -}}

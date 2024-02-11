@@ -32,6 +32,7 @@ spec:
       initContainers:
         - name: tracardi-init
           image: tracardi/init:{{ .Values.api.image.tag }}
+          imagePullPolicy: Always
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
