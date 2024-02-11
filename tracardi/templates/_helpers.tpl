@@ -151,6 +151,18 @@ Params:
       name: "redis-secret"
       key: "redis-password"
 {{ end }}
+- name: MYSQL_SCHEMA
+  value: {{ .ctx.Values.mysql.schema | quote }}
+- name: MYSQL_HOST
+  value: {{ .ctx.Values.mysql.host | quote }}
+- name: MYSQL_USERNAME
+  value: {{ .ctx.Values.mysql.username | quote }}
+- name: MYSQL_PASSWORD
+  value: {{ .ctx.Values.mysql.password | quote }}
+- name: MYSQL_PORT
+  value: {{ .ctx.Values.mysql.port | quote }}
+- name: MYSQL_DATABASE
+  value: {{ .ctx.Values.mysql.database | quote }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
 - name: PULSAR_API

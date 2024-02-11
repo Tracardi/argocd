@@ -24,6 +24,14 @@ pulsar:
   authenticate: true
   port: 6650
 
+mysql:
+  name: ms1
+  host: "root:{pa,)db^A3!CCgm6s@percona-db-pxc-db-pxc.percona.svc.cluster.local:3360"
+  schema: "mysql+aiomysql://"
+  database: "tracardi"
+  authenticate: false
+  port: 3360
+
 secrets:
   installationToken: "RISTO"
   dockerHub: "tracardi-dockerhub"
@@ -35,6 +43,9 @@ secrets:
     password: "2C2w4g5Sx11CvGpB7I6BT9R1"
   pulsar:
     token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.lkLZkhoRTS7S11iehntprBA13PjcdDCihanssiSaS0rAHZeJOsCcCKa1XIPZZHbv0SmYwmv4YTIKf7NMSzuI-J0iO9br5caJh_1L3LhUTlsbaWybh7sQPF2rFyEFXa68ojTccjXOk8lWVUg0p3An9q_MMb4jDYND3K89CxRQpwhCPWmF_9Cw4cZJM252NYtSMsVyCkRZsCgu1Zco9GePPlMBrE9MtYpTaIRUuD4MQrunjC9kjWIVgxCEM3wf7B-A8bU_0dDuD5g2WWCsJ_Z-_9T2ucQqglcatrGnsOC0zCmSzmbGDe4372eGo6aak-4kbL3CZ0QnS36Tuji8T1ucHw"
+  mysql:
+    username: "root"
+    password: "{pa,)db^A3!CCgm6s"
   maxmind:
     licenseKey: "ehiKRvACRzeXnjwZ"
     accountId: "596687"
@@ -45,7 +56,7 @@ digitalOcean:
 api:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.0-a1
+    tag: 0.9.0-rc1
 
   test:
     replicas: 1
@@ -60,7 +71,7 @@ api:
 gui:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.0-a1
+    tag: 0.9.0-rc1
   console:
     service:
       port: 48787
@@ -68,7 +79,7 @@ gui:
 tms:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.0-a1  # Tag should be the same for gui and backend
+    tag: 0.9.0-rc1  # Tag should be the same for gui and backend
   docker:
     replicas: 1
     service:
@@ -79,12 +90,12 @@ worker:
   apm:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-a1
+      tag: 0.9.0-rc1
 
   flusher:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-a1
+      tag: 0.9.0-rc1
 
     profile:
       enabled: true
@@ -100,7 +111,7 @@ worker:
   storage:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-a1
+      tag: 0.9.0-rc1
     profile:
       enabled: true
       replicas: 1
@@ -121,14 +132,14 @@ worker:
   workflow:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-a1
+      tag: 0.9.0-rc1
     event:
       replicas: 1
 
   outbound:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-a1
+      tag: 0.9.0-rc1
     profile:
       replicas: 1
     event:
@@ -139,41 +150,46 @@ worker:
     metrics:
       image:
         pullPolicy: IfNotPresent
-        tag: 0.9.0-a1
+        tag: 0.9.0-rc1
       profile:
         replicas: 1
 
     scheduler:
       image:
         pullPolicy: IfNotPresent
-        tag: 0.9.0-a1
+        tag: 0.9.0-rc1
       event:
         replicas: 1
 
     visitEndScheduler:
       image:
         pullPolicy: IfNotPresent
-        tag: 0.9.0-a1
+        tag: 0.9.0-rc1
       docker:
         replicas: 1
 
     visitEndedDispatcher:
       image:
         pullPolicy: IfNotPresent
-        tag: 0.9.0-a1
+        tag: 0.9.0-rc1
       docker:
         replicas: 1
+
+    upgrade:
+      image:
+        tag: 0.9.0-rc1
+        pullPolicy: Always
 
 # -----------------------------------------
 
 segmentationWorker:
   enabled: false
   image:
-    tag: 0.9.0-a1
+    tag: 0.9.0-rc1
     pullPolicy: IfNotPresent
 
 copingWorker:
   enabled: false
   image:
-    tag: 0.9.0-a1
+    tag: 0.9.0-rc1
     pullPolicy: IfNotPresent
