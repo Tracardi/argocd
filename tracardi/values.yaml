@@ -29,7 +29,6 @@ mysql:
   host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
   schema: "mysql+aiomysql://"
   database: "tracardi"
-  authenticate: false
   port: 3306
 
 # Digital ocean

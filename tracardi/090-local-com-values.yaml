@@ -26,10 +26,9 @@ pulsar:
 
 mysql:
   name: ms1
-  host: "root:{pa,)db^A3!CCgm6s@percona-db-pxc-db-pxc.percona.svc.cluster.local:3360"
+  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
   schema: "mysql+aiomysql://"
   database: "tracardi"
-  authenticate: false
   port: 3306
 
 secrets:
@@ -81,7 +80,7 @@ tms:
     pullPolicy: IfNotPresent
     tag: 0.9.0-rc1  # Tag should be the same for gui and backend
   docker:
-    replicas: 1
+    replicas: 0
     service:
       port: 48383
 
@@ -91,6 +90,8 @@ worker:
     image:
       pullPolicy: IfNotPresent
       tag: 0.9.0-rc1
+    profile:
+      replicas: 0
 
   flusher:
     image:
@@ -99,12 +100,12 @@ worker:
 
     profile:
       enabled: true
-      replicas: 1
+      replicas: 0
       config:
         loggingLevel: "DEBUG"
     session:
       enabled: true
-      replicas: 1
+      replicas: 0
       config:
         loggingLevel: "INFO"
 
@@ -114,17 +115,17 @@ worker:
       tag: 0.9.0-rc1
     profile:
       enabled: true
-      replicas: 1
+      replicas: 0
       config:
         loggingLevel: "INFO"
     event:
       enabled: true
-      replicas: 1
+      replicas: 0
       config:
         loggingLevel: "INFO"
     session:
       enabled: true
-      replicas: 1
+      replicas: 0
       config:
         loggingLevel: "INFO"
 
@@ -134,16 +135,16 @@ worker:
       pullPolicy: IfNotPresent
       tag: 0.9.0-rc1
     event:
-      replicas: 1
+      replicas: 0
 
   outbound:
     image:
       pullPolicy: IfNotPresent
       tag: 0.9.0-rc1
     profile:
-      replicas: 1
+      replicas: 0
     event:
-      replicas: 1
+      replicas: 0
 
 
   internal:
@@ -152,33 +153,35 @@ worker:
         pullPolicy: IfNotPresent
         tag: 0.9.0-rc1
       profile:
-        replicas: 1
+        replicas: 0
 
     scheduler:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-rc1
       event:
-        replicas: 1
+        replicas: 0
 
     visitEndScheduler:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-rc1
       docker:
-        replicas: 1
+        replicas: 0
 
     visitEndedDispatcher:
       image:
         pullPolicy: IfNotPresent
         tag: 0.9.0-rc1
       docker:
-        replicas: 1
+        replicas: 0
 
     upgrade:
       image:
         tag: 0.9.0-rc1
         pullPolicy: Always
+      docker:
+        replicas: 0
 
 # -----------------------------------------
 
