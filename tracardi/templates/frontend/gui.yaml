@@ -36,8 +36,12 @@ spec:
               memory: 20Mi
               cpu: 300m
           env:
+            - name: MODE
+              value: {{ .Values.gui.console.config.mode | quote }}
             - name: MULTI_TENANT
               value: {{ .Values.config.multiTenant.multi | quote }}
+            - name: ALLOW_UPDATES_ON_PRODUCTION
+              value: "true"
           ports:
             - containerPort: 80
               name: gui-port

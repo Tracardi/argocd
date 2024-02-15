@@ -1,56 +1,172 @@
 # Installation
 
-## Install ArgoCD
+Tracardi can be installed using installation scripts or as ARGOCD deployment. Currently argoCD deployment is being developed.
+
+## Install Dependencies Using Helm Scripts
+
+Tracardi depends on:
+
+- Elasticsearch
+- Apache Pulsar
+- Redis
+- Mysql (Percona)
+
+### Install Elasticsearch
 
 ```
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+cd argocd
+bash ./elastic-install-operator.sh
+bash ./elastic-install-helm.sh
 ```
 
-## Install
+To customize installation values go to: elastic/local-values.yaml
 
-Installing as Kubernetes workload in Argo CD namespace
-
-```
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
-```
-
-## Install OLM (Operator Lifecycle Manager) - https://github.com/operator-framework/operator-lifecycle-manager
-
-### Install operator-sdk
-
-Installs operator-sdk on you system
+### Install Apache Pulsar
 
 ```
-export ARCH=$(case $(uname -m) in x86_64) echo -n amd64 ;; aarch64) echo -n arm64 ;; *) echo -n $(uname -m) ;; esac)
-export OS=$(uname | awk '{print tolower($0)}')
-export OPERATOR_SDK_DL_URL=https://github.com/operator-framework/operator-sdk/releases/download/v1.32.0
-curl -LO ${OPERATOR_SDK_DL_URL}/operator-sdk_${OS}_${ARCH}
-chmod +x operator-sdk_${OS}_${ARCH} && sudo mv operator-sdk_${OS}_${ARCH} /usr/local/bin/operator-sdk
+cd argocd
+bash ./pulsar-install-helm.sh
 ```
 
-Use below command to install the OLM
+To customize installation values go to: pulsar/local-values.yaml
+
+### Install Redis
 
 ```
-operator-sdk olm install
+cd argocd
+bash ./redis-install-repo.sh
+bash ./redis-install-helm.sh
 ```
 
-!!! Warning
-
-    I had issues installing it on k3s when local-path was not the default storageClass.
+To customize installation values go to: redis/local-values.yaml
 
 
-## Override default subscription check
+### Install Redis
 
 ```
-kubectl apply -f setup/argocd-setup.yaml
+cd argocd
+bash ./percona-install-repo.sh
+bash ./percona-install-helm.sh
 ```
 
-This will make ArgoCD wait for the operators to install before proceeding.
+To customize installation values go to: percona/local-values.yaml
 
-# DELETE OLM
+
+## Install Tracardi Using Helm Scripts
+
+Current version is 0.9.0
+
+### Configuration
+
+Before you start copy docker-hub access token to:
 
 ```
-operator-sdk olm uninstall
+DOCKERHUB="docker-hub access token"
 ```
 
+in file ./090-tracardi-install-helm.sh
+
+Then configure access to dependent resources.
+
+Go to file: `tracardi/090-local-com-values.yaml`
+
+This part is responsible for connecting to dependencies. With this setup most values should be correct. No need to change anything.
+
+```yaml
+elastic:
+  name: es1
+  host: cluster-es-http.elastic.svc.cluster.local
+  schema: https
+  authenticate: true
+  port: 9200
+  verifyCerts: "no"
+
+redis:
+  name: rd1
+  host: redis-master.redis.svc.cluster.local
+  schema: "redis://"
+  authenticate: true
+  port: 6379
+  db: "0"
+
+pulsar:
+  name: ps1
+  host: pulsar-proxy.pulsar.svc.cluster.local:6650
+  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
+  schema: "pulsar://"
+  authenticate: true
+  port: 6650
+
+mysql:
+  name: ms1
+  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  username: root
+  password: root
+  schema: "mysql+aiomysql://"
+  database: "tracardi"
+  port: 3306
+```
+
+This part has all the secrets. Please copy the secrets for the dependant resources.
+
+```
+secrets:
+  installationToken: "RISTO"
+  dockerHub: "tracardi-dockerhub"
+  license:
+    licenseKey: "<copy-license-here>"
+  redis:
+    password: "<copy-redis-password>"
+  elastic:
+    password: "<copy-elastic-password>"
+  pulsar:
+    token: "<copy-pulsar-token>"
+  mysql:
+    username: "root"
+    password: "<copy-mysql-password>"
+```
+
+Then run
+
+```
+bash ./090-tracardi-install-helm.sh
+```
+
+see tracardi/090-local-com-values.yaml for custom settings.
+
+## UnInstall Tracardi
+
+```
+kubectl delete ns tracardi-com-090
+```
+
+## UnInstall Dependencies Using Helm Scripts
+
+### Elasticsearch
+
+```
+cd argocd
+bash ./elastic-uninstall-helm.sh
+bash ./elastic-uninstall-operator.sh
+```
+
+### Apache Pulsar
+
+```
+cd argocd
+bash ./pulsar-uninstall-helm.sh
+```
+
+### Redis
+
+```
+cd argocd
+bash ./redis-uninstall-helm.sh
+```
+
+### Mysql (Percona)
+
+```
+cd argocd
+bash ./percona-uninstall-helm.sh
+```

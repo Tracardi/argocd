@@ -48,8 +48,8 @@ secrets:
     username: "root"
     password: "{pa,)db^A3!CCgm6s"
   maxmind:
-    licenseKey: "ehiKRvACRzeXnjwZ"
-    accountId: "596687"
+    licenseKey: ""
+    accountId: ""
 
 digitalOcean:
   loadBalancer: true
@@ -71,7 +71,7 @@ api:
 
 gui:
   image:
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: 0.9.0-rc1
   console:
     service:
@@ -82,7 +82,7 @@ tms:
     pullPolicy: IfNotPresent
     tag: 0.9.0-rc1  # Tag should be the same for gui and backend
   docker:
-    replicas: 0
+    replicas: 1
     service:
       port: 48383
 
@@ -162,21 +162,21 @@ worker:
         pullPolicy: Always
         tag: 0.9.0-rc1
       event:
-        replicas: 1
+        replicas: 0
 
     visitEndScheduler:
       image:
         pullPolicy: Always
         tag: 0.9.0-rc1
       docker:
-        replicas: 1
+        replicas: 0
 
     visitEndedDispatcher:
       image:
         pullPolicy: Always
         tag: 0.9.0-rc1
       docker:
-        replicas: 1
+        replicas: 0
 
     upgrade:
       image:
@@ -188,13 +188,13 @@ worker:
 # -----------------------------------------
 
 segmentationWorker:
-  enabled: true
+  enabled: false
   image:
     tag: 0.9.0-rc1
     pullPolicy: Always
 
 copingWorker:
-  enabled: true
+  enabled: false
   image:
     tag: 0.9.0-rc1
     pullPolicy: Always

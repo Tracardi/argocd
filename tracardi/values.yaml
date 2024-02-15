@@ -135,6 +135,8 @@ gui:
     replicas: 1
     service:
         port: 8787
+    config:
+      mode: "with-deployment"
 
 tms:
   image:
