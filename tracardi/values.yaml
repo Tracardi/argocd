@@ -68,6 +68,10 @@ secrets:
 config:
   multiTenant:
     multi: "no"
+  storage:
+    failOver:
+      enabled: true
+      size: 1Gi
 
 api:
   image:

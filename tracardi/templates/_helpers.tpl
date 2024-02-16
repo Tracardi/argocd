@@ -214,5 +214,9 @@ Params:
   value: {{ .ctx.Values.secrets.installationToken | quote }}
 - name: AUTO_PROFILE_MERGING
   value: {{ .ctx.Values.secrets.mergingToken | quote }}
+{{ if .ctx.Values.config.storage.failOver.enabled }}
+- name: ENABLE_PULSAR_FAIL_OVER_DB
+  value: "yes"
+{{ end }}
 
 {{- end -}}
