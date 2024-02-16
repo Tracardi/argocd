@@ -2,6 +2,14 @@
 
 Tracardi can be installed using installation scripts or as ARGOCD deployment. Currently argoCD deployment is being developed.
 
+## Prerequisites
+
+
+* kubectl 1.21 or higher, compatible with your cluster (+/- 1 minor release from your cluster)
+* Helm v3 (3.10.0 or higher)
+* A Kubernetes cluster, version 1.21 or higher.
+
+
 ## Install Dependencies Using Helm Scripts
 
 Tracardi depends on:
@@ -109,7 +117,7 @@ mysql:
 
 This part has all the secrets. Please copy the secrets for the dependant resources.
 
-```
+```yaml
 secrets:
   installationToken: "RISTO"
   dockerHub: "tracardi-dockerhub"

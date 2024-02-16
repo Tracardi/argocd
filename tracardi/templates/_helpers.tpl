@@ -158,9 +158,12 @@ Params:
 - name: MYSQL_HOST
   value: {{ .ctx.Values.mysql.host }}
 - name: MYSQL_USERNAME
-  value: {{ .ctx.Values.mysql.username }}
+  value: {{ .ctx.Values.secrets.mysql.username }}
 - name: MYSQL_PASSWORD
-  value: {{ .ctx.Values.mysql.password }}
+  valueFrom:
+    secretKeyRef:
+      name: "mysql-secret"
+      key: "mysql-password"
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
 - name: MYSQL_DATABASE
