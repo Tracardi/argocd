@@ -60,7 +60,7 @@ digitalOcean:
 api:
   image:
     pullPolicy: Always
-    tag: 0.9.0-rc1
+    tag: 0.9.0-rc2
 
   test:
     replicas: 1
@@ -75,7 +75,7 @@ api:
 gui:
   image:
     pullPolicy: Always
-    tag: 0.9.0-rc1
+    tag: 0.9.0-rc2
   console:
     service:
       port: 48787
@@ -83,7 +83,7 @@ gui:
 tms:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.0-rc1  # Tag should be the same for gui and backend
+    tag: 0.9.0-rc2  # Tag should be the same for gui and backend
   docker:
     replicas: 1
     service:
@@ -94,14 +94,14 @@ worker:
   apm:
     image:
       pullPolicy: Always
-      tag: 0.9.0-rc1
+      tag: 0.9.0-rc2
     profile:
       replicas: 1
 
   flusher:
     image:
       pullPolicy: IfNotPresent
-      tag: 0.9.0-rc1
+      tag: 0.9.0-rc2
 
     profile:
       enabled: true
@@ -117,7 +117,7 @@ worker:
   storage:
     image:
       pullPolicy: Always
-      tag: 0.9.0-rc1
+      tag: 0.9.0-rc2
     profile:
       enabled: true
       replicas: 1
@@ -138,14 +138,14 @@ worker:
   workflow:
     image:
       pullPolicy: Always
-      tag: 0.9.0-rc1
+      tag: 0.9.0-rc2
     event:
       replicas: 1
 
   outbound:
     image:
       pullPolicy: Always
-      tag: 0.9.0-rc1
+      tag: 0.9.0-rc2
     profile:
       replicas: 1
     event:
@@ -156,34 +156,34 @@ worker:
     metrics:
       image:
         pullPolicy: Always
-        tag: 0.9.0-rc1
+        tag: 0.9.0-rc2
       profile:
         replicas: 0
 
     scheduler:
       image:
         pullPolicy: Always
-        tag: 0.9.0-rc1
+        tag: 0.9.0-rc2
       event:
         replicas: 0
 
     visitEndScheduler:
       image:
         pullPolicy: Always
-        tag: 0.9.0-rc1
+        tag: 0.9.0-rc2
       docker:
         replicas: 0
 
     visitEndedDispatcher:
       image:
         pullPolicy: Always
-        tag: 0.9.0-rc1
+        tag: 0.9.0-rc2
       docker:
         replicas: 0
 
     upgrade:
       image:
-        tag: 0.9.0-rc1
+        tag: 0.9.0-rc2
         pullPolicy: Always
       docker:
         replicas: 1
@@ -193,11 +193,11 @@ worker:
 segmentationWorker:
   enabled: false
   image:
-    tag: 0.9.0-rc1
+    tag: 0.9.0-rc2
     pullPolicy: Always
 
 copingWorker:
   enabled: false
   image:
-    tag: 0.9.0-rc1
+    tag: 0.9.0-rc2
     pullPolicy: Always
