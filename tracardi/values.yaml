@@ -23,6 +23,7 @@ pulsar:
   schema: "pulsar://"
   authenticate: false
   port: 6650
+  cluster_name: pulsar
 
 mysql:
   name: ms1
@@ -72,6 +73,7 @@ config:
     failOver:
       enabled: true
       size: 1Gi
+  primaryId: "emm-"  # This value should be set only once during installation and never changed
 
 api:
   image:

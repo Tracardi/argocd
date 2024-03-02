@@ -168,12 +168,14 @@ Params:
   value: {{ .ctx.Values.mysql.port | quote }}
 - name: MYSQL_DATABASE
   value: {{ .ctx.Values.mysql.database }}
+- name: PRIMARY_ID
+  value: {{ .ctx.Values.config.primaryId }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
 - name: PULSAR_API
   value: {{ .ctx.Values.pulsar.api }}
 - name: PULSAR_CLUSTER
-  value: pulsar
+  value: {{ .ctx.Values.pulsar.cluster_name }}
 {{ if .ctx.Values.pulsar.authenticate }}
 - name: PULSAR_AUTH_TOKEN
   valueFrom:
