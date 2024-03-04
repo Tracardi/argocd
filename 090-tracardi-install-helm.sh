@@ -1,7 +1,7 @@
 NS="tracardi-com-090"
 #VALUES="090-local-com-values.yaml"
-#VALUES="090-uf-values.yaml"
-VALUES="090-hl-com-values.yaml"
+VALUES="090-uf-com-values.yaml"
+#VALUES="090-hl-com-values.yaml"
 DOCKERHUB="dckr_pat_v_3C-NJQbY1nWBrsktNbtfeGOgA"
 
 kubectl create ns $NS
