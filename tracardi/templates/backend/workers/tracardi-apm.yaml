@@ -15,8 +15,10 @@ spec:
       labels:
         app: wk-apm
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
       containers:
-      - name: auto-profile-merging
+      - name: wk-apm
         image: "{{ .Values.worker.apm.image.repository }}:{{ .Values.worker.apm.image.tag }}"
         imagePullPolicy: {{ .Values.worker.apm.image.pullPolicy }}
         env:

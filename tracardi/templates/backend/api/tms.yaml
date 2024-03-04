@@ -25,6 +25,7 @@ spec:
             - containerPort: 80
               name: tms-port
           env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: {{ .Values.tms.docker.config.loggingLevel | quote }}
             - name: SECRET
