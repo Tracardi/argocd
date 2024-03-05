@@ -90,12 +90,6 @@ spec:
               value: {{ .Values.api.test.config.enableProfileFlush | quote }}
             - name: ASYNC_PROCESSING
               value: {{ .Values.api.test.config.asyncProcessing | quote }}
-            - name: EVENT_PARTITIONING
-              value: {{ .Values.api.production.config.eventPartitioning | quote }}
-            - name: PROFILE_PARTITIONING
-              value: {{ .Values.api.production.config.profilePartitioning | quote }}
-            - name: SESSION_PARTITIONING
-              value: {{ .Values.api.production.config.sessionPartitioning | quote }}
             - name: LOCK_ON_DATA_COMPUTATION
               value: 'no'
 
@@ -139,12 +133,12 @@ spec:
       protocol: TCP
       port: {{ .Values.api.test.service.port }}
       targetPort: test-port
-    {{ if .Values.digitalOcean.certId }}
+{{ if .Values.digitalOcean.certId }}
     - name: https
       protocol: TCP
       port: 443
       targetPort: test-port
-    {{ end }}
+{{ end }}
 
 {{ end }}
 {{ end }}

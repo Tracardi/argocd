@@ -220,5 +220,11 @@ Params:
 - name: ENABLE_PULSAR_FAIL_OVER_DB
   value: "yes"
 {{ end }}
+- name: EVENT_PARTITIONING
+  value: {{ .ctx.Values.api.production.config.eventPartitioning | quote }}
+- name: PROFILE_PARTITIONING
+  value: {{ .ctx.Values.api.production.config.profilePartitioning | quote }}
+- name: SESSION_PARTITIONING
+  value: {{ .ctx.Values.api.production.config.sessionPartitioning | quote }}
 
 {{- end -}}
