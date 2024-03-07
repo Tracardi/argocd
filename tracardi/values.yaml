@@ -203,20 +203,20 @@ job:
               schedule: "*/15 * * * *"
 
 worker:
+
+  background:
+    image:
+      repository: tracardi/background-worker
+      tag: 0.9.0-rc3
+      pullPolicy: Always
+    enabled: true
+    replicas: 1
+    config:
+      loggingLevel: "INFO"
+
   apm:
     image:
       repository: tracardi/apm
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-  activation:
-    image:
-      repository: tracardi/com-tracardi-activation-worker
       tag: 0.9.0-rc3
       pullPolicy: IfNotPresent
     profile:
@@ -231,12 +231,12 @@ worker:
       tag: 0.9.0-rc3
       pullPolicy: IfNotPresent
     profile:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
     session:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
@@ -279,12 +279,12 @@ worker:
       tag: 0.9.0-rc3
       pullPolicy: IfNotPresent
     profile:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
     event:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
@@ -296,7 +296,7 @@ worker:
         tag: 0.9.0-rc3
         pullPolicy: IfNotPresent
       profile:
-        enabled: true
+        enabled: false
         replicas: 1
         config:
           loggingLevel: "INFO"
@@ -375,7 +375,7 @@ bridge:
 # -----------------------------------------
 
 segmentationWorker:
-  enabled: true
+  enabled: false
   image:
     repository: tracardi/com-tracardi-segmentation-worker
     tag: 0.9.0-rc3

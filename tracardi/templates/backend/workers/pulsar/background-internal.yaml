@@ -1,0 +1,35 @@
+{{ if and .Values.secrets.dockerHub .Values.worker.background.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk-pl-background
+  labels:
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-background") | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.background.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      containers:
+        - name: wk-pl-background
+          image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
+          resources:
+            limits:
+              memory: 150Mi
+              cpu: 100m
+            requests:
+              memory: 50Mi
+              cpu: 50m
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.worker.background.config.loggingLevel | quote }}
+{{ end }}
