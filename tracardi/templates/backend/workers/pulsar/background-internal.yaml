@@ -17,6 +17,14 @@ spec:
     spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
+      initContainers:
+        - name: tracardi-init
+          image: tracardi/init:{{ .Values.api.image.tag }}
+          imagePullPolicy: Always
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
       containers:
         - name: wk-pl-background
           image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
