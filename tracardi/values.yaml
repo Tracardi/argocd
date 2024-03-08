@@ -99,7 +99,7 @@ api:
       sessionPartitioning: "quarter"
     storage:
       failOver:
-        enabled: true
+        enabled: false
         size: 1Gi
     service:
       port: 8686
@@ -124,7 +124,7 @@ api:
       sessionPartitioning: "quarter"
     storage:
       failOver:
-        enabled: true
+        enabled: false
         size: 1Gi
     service:
       port: 8585
