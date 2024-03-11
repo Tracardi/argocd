@@ -247,17 +247,17 @@ worker:
       tag: 0.9.0-rc3
       pullPolicy: IfNotPresent
     profile:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
     event:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
     session:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
@@ -268,7 +268,7 @@ worker:
       tag: 0.9.0-rc3
       pullPolicy: IfNotPresent
     event:
-      enabled: true
+      enabled: false
       replicas: 1
       config:
         loggingLevel: "INFO"
@@ -306,7 +306,7 @@ worker:
         tag: 0.9.0-rc3
         pullPolicy: IfNotPresent
       event:
-        enabled: true
+        enabled: false
         replicas: 1
         config:
           loggingLevel: "INFO"
@@ -316,7 +316,7 @@ worker:
         tag: 0.9.0-rc3
         pullPolicy: IfNotPresent
       docker:
-        enabled: true
+        enabled: false
         replicas: 1
         config:
           loggingLevel: "INFO"
@@ -328,7 +328,7 @@ worker:
         tag: 0.9.0-rc3
         pullPolicy: IfNotPresent
       docker:
-        enabled: true
+        enabled: false
         replicas: 1
         config:
           loggingLevel: "INFO"
@@ -385,7 +385,7 @@ segmentationWorker:
     loggingLevel: "INFO"
 
 copingWorker:
-  enabled: true
+  enabled: false
   image:
     repository: tracardi/com-tracardi-coping-worker
     tag: 0.9.0-rc3
