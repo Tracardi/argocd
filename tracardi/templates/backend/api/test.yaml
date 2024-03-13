@@ -60,6 +60,8 @@ spec:
 {{ end }}
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: DEMO
+              value: {{ .Values.config.demo | quote }}
             - name: EXPOSE_GUI_API
               value: "yes"
             - name: PRODUCTION

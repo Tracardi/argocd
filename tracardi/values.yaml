@@ -32,6 +32,9 @@ mysql:
   database: "tracardi"
   port: 3306
 
+tmsApi:
+  host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
+
 # Digital ocean
 
 digitalOcean:
@@ -74,6 +77,7 @@ config:
       enabled: true
       size: 1Gi
   primaryId: "emm-"  # This value should be set only once during installation and never changed
+  demo: "no"
 
 api:
   image:
