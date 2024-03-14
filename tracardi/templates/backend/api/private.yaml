@@ -86,12 +86,6 @@ spec:
               value: {{ .Values.api.private.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.private.config.enableIdentification | quote }}
-            - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
-              value: {{ .Values.api.private.config.enableProfileFlush | quote }}
-            - name: ASYNC_PROCESSING
-              value: {{ .Values.api.private.config.asyncProcessing | quote }}
-            - name: LOCK_ON_DATA_COMPUTATION
-              value: 'no'
 
 {{ if .Values.config.storage.failOver.enabled }}
           volumeMounts:

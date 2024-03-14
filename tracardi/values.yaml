@@ -127,12 +127,10 @@ api:
       saveLogs: "yes"
       loggingLevel: "INFO"
       apiDocs: "yes"
-      asyncProcessing: "yes"
       enableWorkflow: "yes"
       enableEventDestinations: "yes"
       enableProfileDestinations: "yes"
       enableIdentification: "yes"
-      enableProfileFlush: "yes"
       eventPartitioning: "month"
       profilePartitioning: "quarter"
       sessionPartitioning: "quarter"
@@ -150,12 +148,10 @@ api:
       saveLogs: "yes"
       loggingLevel: "INFO"
       apiDocs: "no"
-      asyncProcessing: "yes"
       enableWorkflow: "yes"
       enableEventDestinations: "yes"
       enableProfileDestinations: "yes"
       enableIdentification: "yes"
-      enableProfileFlush: "yes"
       elasticSavePool: 0
       eventPartitioning: "month"
       profilePartitioning: "quarter"
@@ -218,23 +214,21 @@ worker:
       config:
         loggingLevel: "INFO"
 
-  internal:
-
-    upgrade:
-      image:
-        repository: tracardi/update-worker
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      docker:
-        enabled: true
-        replicas: 1
-        config:
-          saveLogs: "no"
-          loggingLevel: "INFO"
-        resources:
-          limits:
-            memory: 500Mi
-            cpu: 500m
+  upgrade:
+    image:
+      repository: tracardi/update-worker
+      tag: 0.9.0-rc3
+      pullPolicy: IfNotPresent
+    docker:
+      enabled: true
+      replicas: 1
+      config:
+        saveLogs: "no"
+        loggingLevel: "INFO"
+      resources:
+        limits:
+          memory: 500Mi
+          cpu: 500m
 
 # Bridges. Services responsible for collection data from different channels. They bridge the defined transportation protocol to tracardi event source.
 

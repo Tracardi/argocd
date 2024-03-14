@@ -82,14 +82,9 @@ spec:
               value: {{ .Values.api.public.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.public.config.enableIdentification | quote }}
-            - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
-              value: {{ .Values.api.public.config.enableProfileFlush | quote }}
             - name: ELASTIC_SAVE_POOL
               value: {{ .Values.api.public.config.elasticSavePool | quote }}
-            - name: ASYNC_PROCESSING
-              value: {{ .Values.api.public.config.asyncProcessing | quote }}
-            - name: LOCK_ON_DATA_COMPUTATION
-              value: 'no'
+
 
 {{ if .Values.config.storage.failOver.enabled }}
           volumeMounts:
