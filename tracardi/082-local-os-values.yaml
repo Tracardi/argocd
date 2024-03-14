@@ -46,53 +46,7 @@ api:
 
 worker:
 
-  flusher:
-    profile:
-      enabled: false
-
-    session:
-      enabled: false
-
-
-  storage:
-    profile:
-      enabled: false
-
-    event:
-      enabled: false
-
-    session:
-      enabled: false
-
-
-  workflow:
-    event:
-      enabled: false
-
-  outbound:
-    profile:
-      enabled: false
-
-    event:
-      enabled: false
-
   internal:
-    metrics:
-      profile:
-        enabled: false
-
-    scheduler:
-      event:
-        enabled: false
-
-    visitEndScheduler:
-      docker:
-        enabled: false
-
-    visitEndedDispatcher:
-      docker:
-        enabled: false
-
     upgrade:
       docker:
         enabled: false
@@ -100,11 +54,6 @@ worker:
 tms:
   docker:
     enabled: false
-
-
-segmentationWorker:
-  enabled: false
-
 
 copingWorker:
   enabled: false

@@ -82,8 +82,6 @@ spec:
               value: {{ .Values.api.production.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.production.config.enableIdentification | quote }}
-            - name: ENABLE_POST_EVENT_SEGMENTATION
-              value: {{ .Values.api.production.config.enablePostEventSegmentation | quote }}
             - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
               value: {{ .Values.api.production.config.enableProfileFlush | quote }}
             - name: ELASTIC_SAVE_POOL

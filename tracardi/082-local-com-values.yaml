@@ -66,10 +66,6 @@ worker:
     image:
       pullPolicy: Always
 
-  flusher:
-    image:
-      pullPolicy: IfNotPresent
-
     profile:
       enabled: true
       replicas: 1
@@ -80,50 +76,3 @@ worker:
       replicas: 0
       config:
         loggingLevel: "INFO"
-
-  storage:
-    image:
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    event:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    session:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-
-  workflow:
-    image:
-      pullPolicy: IfNotPresent
-
-  outbound:
-    image:
-      pullPolicy: IfNotPresent
-
-
-  internal:
-    metrics:
-      image:
-        pullPolicy: IfNotPresent
-
-    scheduler:
-      image:
-        pullPolicy: IfNotPresent
-
-    visitEndScheduler:
-      image:
-        pullPolicy: IfNotPresent
-
-    visitEndedDispatcher:
-      image:
-        pullPolicy: IfNotPresent
-

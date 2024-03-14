@@ -86,8 +86,6 @@ spec:
               value: {{ .Values.api.test.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.test.config.enableIdentification | quote }}
-            - name: ENABLE_POST_EVENT_SEGMENTATION
-              value: {{ .Values.api.test.config.enablePostEventSegmentation | quote }}
             - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
               value: {{ .Values.api.test.config.enableProfileFlush | quote }}
             - name: ASYNC_PROCESSING

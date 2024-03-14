@@ -97,88 +97,7 @@ worker:
     profile:
       replicas: 1
 
-  flusher:
-    image:
-      pullPolicy: IfNotPresent
-      tag: 0.9.0-rc3
-
-    profile:
-      enabled: true
-      replicas: 0
-      config:
-        loggingLevel: "DEBUG"
-    session:
-      enabled: true
-      replicas: 0
-      config:
-        loggingLevel: "INFO"
-
-  storage:
-    image:
-      pullPolicy: Always
-      tag: 0.9.0-rc3
-    profile:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    event:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    session:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-
-  workflow:
-    image:
-      pullPolicy: Always
-      tag: 0.9.0-rc3
-    event:
-      replicas: 1
-
-  outbound:
-    image:
-      pullPolicy: Always
-      tag: 0.9.0-rc3
-    profile:
-      replicas: 1
-    event:
-      replicas: 1
-
-
   internal:
-    metrics:
-      image:
-        pullPolicy: Always
-        tag: 0.9.0-rc3
-      profile:
-        replicas: 0
-
-    scheduler:
-      image:
-        pullPolicy: Always
-        tag: 0.9.0-rc3
-      event:
-        replicas: 0
-
-    visitEndScheduler:
-      image:
-        pullPolicy: Always
-        tag: 0.9.0-rc3
-      docker:
-        replicas: 0
-
-    visitEndedDispatcher:
-      image:
-        pullPolicy: Always
-        tag: 0.9.0-rc3
-      docker:
-        replicas: 0
 
     upgrade:
       image:
@@ -188,12 +107,6 @@ worker:
         replicas: 1
 
 # -----------------------------------------
-
-segmentationWorker:
-  enabled: false
-  image:
-    tag: 0.9.0-rc3
-    pullPolicy: Always
 
 copingWorker:
   enabled: false

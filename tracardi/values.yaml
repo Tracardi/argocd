@@ -47,13 +47,24 @@ digitalOcean:
 secrets:
   installationToken: "<SET-INSTALLATION-SECRET>"
   dockerHub: "tracardi-dockerhub"
+
   license:
     licenseKey: "<LICENSE-KEY-VALUE>"
+    valueFrom:
+      licenseKey:
+        name: ""
+        key: ""
+
   tms:
     tokenKey: "<SECRET-KEY-VALUE>"
     apiKey: "<API-KEY-VALUE>"
+
   redis:
     password: "<REDIS-PASSWORD>"
+    valueFrom:
+      password:
+        name: ""
+        key: ""
 
   elastic:
     username: "elastic"
@@ -83,9 +94,12 @@ secrets:
       password:
         name: ""
         key: ""
+
   maxmind:
     licenseKey: ""
     accountId: ""
+
+
   mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"
 
 
@@ -118,7 +132,6 @@ api:
       enableEventDestinations: "yes"
       enableProfileDestinations: "yes"
       enableIdentification: "yes"
-      enablePostEventSegmentation: "yes"
       enableProfileFlush: "yes"
       eventPartitioning: "month"
       profilePartitioning: "quarter"
@@ -142,7 +155,6 @@ api:
       enableEventDestinations: "yes"
       enableProfileDestinations: "yes"
       enableIdentification: "yes"
-      enablePostEventSegmentation: "yes"
       enableProfileFlush: "yes"
       elasticSavePool: 0
       eventPartitioning: "month"
@@ -182,51 +194,6 @@ tms:
       port: 8383
       name: be-fa-tms-svc  # The name of tms service
 
-# TODO Jobs to be removed
-job:
-  metrics:
-    image:
-      repository: tracardi/com-metrics-job
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    docker:
-      enabled: false
-      config:
-        successfulJobsHistoryLimit: 2
-        failedJobsHistoryLimit: 2
-        schedules:
-          - name: jb-metrics # every 30min get last events of last month and skip first 20 minutes.
-            schedule: "*/30 * * * *"
-
-  segmentation:
-    conditional:
-      image:
-        repository: tracardi/com-cond-segmentation-job
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      docker:
-        enabled: false
-        config:
-          loggingLevel: "INFO"
-          successfulJobsHistoryLimit: 2
-          failedJobsHistoryLimit: 2
-          schedules:
-            - name: jb-segmentation-conditional
-              schedule: "*/10 * * * *"
-    workflow:
-      image:
-        repository: tracardi/com-wf-segmentation-job
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      docker:
-        enabled: false
-        config:
-          loggingLevel: "INFO"
-          successfulJobsHistoryLimit: 2
-          failedJobsHistoryLimit: 2
-          schedules:
-            - name: jb-segmentation-workflow
-              schedule: "*/15 * * * *"
 
 worker:
 
@@ -251,113 +218,8 @@ worker:
       config:
         loggingLevel: "INFO"
 
-  flusher:
-    image:
-      repository: tracardi/com-tracardi-flusher-worker
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    session:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-  storage:
-    image:
-      repository: tracardi/com-tracardi-storage-worker
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    event:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    session:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-  workflow:
-    image:
-      repository: tracardi/com-tracardi-workflow-worker
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    event:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
-  outbound:
-    image:
-      repository: tracardi/com-tracardi-outbound-worker
-      tag: 0.9.0-rc3
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-    event:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
-
   internal:
-    metrics:
-      image:
-        repository: tracardi/com-tracardi-metrics-worker
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      profile:
-        enabled: false
-        replicas: 1
-        config:
-          loggingLevel: "INFO"
-    scheduler:
-      image:
-        repository: tracardi/com-tracardi-scheduler-worker
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      event:
-        enabled: false
-        replicas: 1
-        config:
-          loggingLevel: "INFO"
-    visitEndScheduler:
-      image:
-        repository: tracardi/com-tracardi-visit-end-checker-worker
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      docker:
-        enabled: false
-        replicas: 1
-        config:
-          loggingLevel: "INFO"
-          defaultReschedulingTime: 1200  # 20 min
-          closeVisitAfter: 2100  # 35 min
-    visitEndedDispatcher:
-      image:
-        repository: tracardi/com-tracardi-visit-ended-worker
-        tag: 0.9.0-rc3
-        pullPolicy: IfNotPresent
-      docker:
-        enabled: false
-        replicas: 1
-        config:
-          loggingLevel: "INFO"
+
     upgrade:
       image:
         repository: tracardi/update-worker
@@ -373,16 +235,6 @@ worker:
           limits:
             memory: 500Mi
             cpu: 500m
-#    trigger:
-#      image:
-#        repository: tracardi/com-tracardi-trigger-worker
-#        tag: 0.9.0-rc3
-#        pullPolicy: IfNotPresent
-#      segmentation:
-#        enabled: false
-#        replicas: 1
-#        config:
-#          loggingLevel: "INFO"
 
 # Bridges. Services responsible for collection data from different channels. They bridge the defined transportation protocol to tracardi event source.
 
@@ -399,16 +251,6 @@ bridge:
         loggingLevel: "INFO"
 
 # -----------------------------------------
-
-segmentationWorker:
-  enabled: false
-  image:
-    repository: tracardi/com-tracardi-segmentation-worker
-    tag: 0.9.0-rc3
-    pullPolicy: IfNotPresent
-  config:
-    saveLogs: "no"
-    loggingLevel: "INFO"
 
 copingWorker:
   enabled: false

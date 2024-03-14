@@ -115,12 +115,18 @@ Params:
   license = name of secret containing the license
 */}}
 {{- define "tracardi.env" -}}
-{{- if not .nolicense }}
+{{- if and (not .nolicense) .ctx.Values.secrets.license.licenseKey }}
 - name: LICENSE
   valueFrom:
     secretKeyRef:
       name: "tracardi-license"
       key: "license-key"
+{{ else if and (not .nolicense) .ctx.Values.secrets.license.valueFrom.licenseKey.name .ctx.Values.secrets.license.valueFrom.licenseKey.key }}
+- name: LICENSE
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.license.valueFrom.licenseKey.name }}
+      key: {{ .ctx.Values.secrets.license.valueFrom.licenseKey.key }}
 {{- end }}
 - name: ELASTIC_SCHEME
   value: {{ .ctx.Values.elastic.schema | quote }}
@@ -146,8 +152,8 @@ Params:
 - name: ELASTIC_HTTP_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ ctx.Values.secrets.elastic.valueFrom.password.name | quote }}
-      key: {{ ctx.Values.secrets.elastic.valueFrom.password.key | quote }}
+      name: {{ .ctx.Values.secrets.elastic.valueFrom.password.name | quote }}
+      key: {{ .ctx.Values.secrets.elastic.valueFrom.password.key | quote }}
 {{ end }}
 - name: ELASTIC_PORT
   value: {{ .ctx.Values.elastic.port | quote }}
@@ -157,18 +163,24 @@ Params:
   value: "120"
 - name: REDIS_HOST
   value: {{ .ctx.Values.redis.schema }}{{ .ctx.Values.redis.host }}
-{{ if .ctx.Values.redis.authenticate }}
+{{ if and .ctx.Values.secrets.redis.password }}
 - name: REDIS_PASSWORD
   valueFrom:
     secretKeyRef:
       name: "redis-secret"
       key: "redis-password"
+{{ else if and .ctx.Values.secrets.redis.valueFrom.password.name .ctx.Values.secrets.redis.valueFrom.password.key }}
+- name: REDIS_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.redis.valueFrom.password.name | quote }}
+      key: {{ .ctx.Values.secrets.redis.valueFrom.password.key | quote }}
 {{ end }}
 - name: MYSQL_SCHEMA
   value: {{ .ctx.Values.mysql.schema }}
 - name: MYSQL_HOST
   value: {{ .ctx.Values.mysql.host }}
-{{ if and .Values.secrets.mysql.password }}
+{{ if and .ctx.Values.secrets.mysql.password .ctx.Values.secrets.mysql.username }}
 - name: MYSQL_USERNAME
   valueFrom:
     secretKeyRef:
@@ -203,12 +215,18 @@ Params:
   value: {{ .ctx.Values.pulsar.api }}
 - name: PULSAR_CLUSTER
   value: {{ .ctx.Values.pulsar.cluster_name }}
-{{ if .ctx.Values.pulsar.authenticate }}
+{{ if and .ctx.Values.secrets.pulsar.token }}
 - name: PULSAR_AUTH_TOKEN
   valueFrom:
     secretKeyRef:
       name: "pulsar-secret"
       key: "pulsar-token"
+{{ else if and .ctx.Values.secrets.pulsar.valueFrom.token.name .ctx.Values.secrets.pulsar.valueFrom.token.key }}
+- name: PULSAR_AUTH_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.pulsar.valueFrom.token.name | quote }}
+      key: {{ .ctx.Values.secrets.pulsar.valueFrom.token.key | quote }}
 {{ end }}
 {{ if .ctx.Values.config.multiTenant.multi }}
 - name: MULTI_TENANT
@@ -237,8 +255,6 @@ Params:
   value: "pro.tracardi.com"
 - name: TRACARDI_PRO_PORT
   value: "40000"
-- name: TRACARDI_SCHEDULER_HOST
-  value: "scheduler.tracardi.com"
 - name: INSTALLATION_TOKEN
   value: {{ .ctx.Values.secrets.installationToken | quote }}
 - name: AUTO_PROFILE_MERGING
