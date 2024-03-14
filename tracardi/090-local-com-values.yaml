@@ -49,9 +49,6 @@ secrets:
   mysql:
     username: "root"
     password: "root"
-  maxmind:
-    licenseKey: ""
-    accountId: ""
 
 digitalOcean:
   loadBalancer: true

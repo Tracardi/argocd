@@ -42,11 +42,30 @@ digitalOcean:
   certId: ""  # SET-CERT-ID
 
 
+# General Tracardi configuration. Version, images, multi-tenancy, etc.
+
+config:
+  multiTenant:
+    multi: "no"
+  storage:
+    failOver:
+      enabled: true
+      size: 1Gi
+  primaryId: "emm-"  # This value should be set only once during installation and never changed
+  demo: "no"
+
+
 # Definition of defined secrets.
 
 secrets:
-  installationToken: "<SET-INSTALLATION-SECRET>"
   dockerHub: "tracardi-dockerhub"
+
+  installation:
+    token: "<SET-INSTALLATION-SECRET>"  # Random value
+    valueFrom:
+      token:
+        name: ""
+        key: ""
 
   license:
     licenseKey: "<LICENSE-KEY-VALUE>"
@@ -56,8 +75,8 @@ secrets:
         key: ""
 
   tms:
-    tokenKey: "<SECRET-KEY-VALUE>"
-    apiKey: "<API-KEY-VALUE>"
+    tokenKey: "<SECRET-KEY-VALUE>"  # Random value
+    apiKey: "<API-KEY-VALUE>"       # Random value
 
   redis:
     password: "<REDIS-PASSWORD>"
@@ -98,22 +117,15 @@ secrets:
   maxmind:
     licenseKey: ""
     accountId: ""
+    valueFrom:
+      licenseKey:
+        name: ""
+        key: ""
+      accountId:
+        name: ""
+        key: ""
 
-
-  mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"
-
-
-# General Tracardi configuration. Version, images, multi-tenancy, etc.
-
-config:
-  multiTenant:
-    multi: "no"
-  storage:
-    failOver:
-      enabled: true
-      size: 1Gi
-  primaryId: "emm-"  # This value should be set only once during installation and never changed
-  demo: "no"
+  mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"  # Random value
 
 api:
   image:

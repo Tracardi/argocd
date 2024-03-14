@@ -241,6 +241,23 @@ Params:
       key: "api-key"
 {{ end }}
 {{ end }}
+{{ if and .ctx.Values.secrets.maxmind.licenseKey .ctx.Values.secrets.maxmind.accountId }}
+- name: MAXMIND_LICENSE_KEY
+  value: {{ .ctx.Values.secrets.maxmind.licenseKey | quote}}
+- name: MAXMIND_ACCOUNT_ID
+  value: {{ .ctx.Values.secrets.maxmind.accountId | quote }}
+{{ else if and .ctx.Values.secrets.maxmind.valueFrom.licenseKey.name .ctx.Values.secrets.maxmind.valueFrom.licenseKey.key .ctx.Values.secrets.maxmind.valueFrom.accountId.name .ctx.Values.secrets.maxmind.valueFrom.accountId.key }}
+- name: MAXMIND_LICENSE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.maxmind.valueFrom.licenseKey.name | quote }}
+      key: {{ .ctx.Values.secrets.maxmind.valueFrom.licenseKey.key | quote }}
+- name: MAXMIND_ACCOUNT_ID
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.name | quote }}
+      key: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.key | quote }}
+{{end}}
 - name: SOURCE_CACHE_TTL
   value: "2"
 - name: SESSION_CACHE_TTL
@@ -255,8 +272,16 @@ Params:
   value: "pro.tracardi.com"
 - name: TRACARDI_PRO_PORT
   value: "40000"
+{{ if .ctx.Values.secrets.installation.token }}
 - name: INSTALLATION_TOKEN
-  value: {{ .ctx.Values.secrets.installationToken | quote }}
+  value: {{ .ctx.Values.secrets.installation.token | quote }}
+{{ else if and .ctx.Values.secrets.installation.fromValue.token.name .ctx.Values.secrets.installation.fromValue.token.key }}
+- name: INSTALLATION_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.installation.fromValue.token.name | quote }}
+      key: {{ .ctx.Values.secrets.installation.fromValue.token.key | quote }}
+{{ end }}
 - name: AUTO_PROFILE_MERGING
   value: {{ .ctx.Values.secrets.mergingToken | quote }}
 {{ if .ctx.Values.config.storage.failOver.enabled }}

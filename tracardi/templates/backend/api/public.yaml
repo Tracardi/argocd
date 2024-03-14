@@ -68,12 +68,6 @@ spec:
               value: {{ .Values.api.public.config.loggingLevel | quote }}
             - name: SAVE_LOGS
               value: {{ .Values.api.public.config.saveLogs | quote }}
-{{ if and .Values.secrets.maxmind.licenseKey .Values.secrets.maxmind.accountId }}
-            - name: MAXMIND_LICENSE_KEY
-              value: {{ .Values.secrets.maxmind.licenseKey | quote}}
-            - name: MAXMIND_ACCOUNT_ID
-              value: {{ .Values.secrets.maxmind.accountId | quote }}
-{{end}}
             - name: ENABLE_EVENT_DESTINATIONS
               value: {{ .Values.api.public.config.enableEventDestinations | quote }}
             - name: ENABLE_PROFILE_DESTINATIONS
