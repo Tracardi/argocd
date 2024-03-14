@@ -54,13 +54,35 @@ secrets:
     apiKey: "<API-KEY-VALUE>"
   redis:
     password: "<REDIS-PASSWORD>"
+
   elastic:
+    username: "elastic"
     password: "<ELASTIC-PASSWORD>"
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
+
   pulsar:
     token: "<PULSAR-TOKEN>"
+    valueFrom:
+      token:
+        name: ""
+        key: ""
+
   mysql:
     username: "<MYSQL-USER>"
     password: "<MYSQL-PASSWORD>"
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
   maxmind:
     licenseKey: ""
     accountId: ""

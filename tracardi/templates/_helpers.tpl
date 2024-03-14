@@ -126,7 +126,7 @@ Params:
   value: {{ .ctx.Values.elastic.schema | quote }}
 - name: ELASTIC_HOST
   value: {{ .ctx.Values.elastic.host }}
-{{ if .ctx.Values.elastic.authenticate }}
+{{ if and .ctx.Values.secrets.elastic.password .ctx.Values.secrets.elastic.username }}
 - name: ELASTIC_HTTP_AUTH_USERNAME
   valueFrom:
     secretKeyRef:
@@ -137,6 +137,17 @@ Params:
     secretKeyRef:
       name: "elastic-secret"
       key: "elastic-password"
+{{ else if and .ctx.Values.secrets.elastic.valueFrom.password.name .ctx.Values.secrets.elastic.valueFrom.password.key .ctx.Values.secrets.elastic.valueFrom.username.name .ctx.Values.secrets.elastic.valueFrom.username.key }}
+- name: ELASTIC_HTTP_AUTH_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.elastic.valueFrom.username.name | quote  }}
+      key: {{ .ctx.Values.secrets.elastic.valueFrom.username.key | quote  }}
+- name: ELASTIC_HTTP_AUTH_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ ctx.Values.secrets.elastic.valueFrom.password.name | quote }}
+      key: {{ ctx.Values.secrets.elastic.valueFrom.password.key | quote }}
 {{ end }}
 - name: ELASTIC_PORT
   value: {{ .ctx.Values.elastic.port | quote }}
@@ -157,13 +168,29 @@ Params:
   value: {{ .ctx.Values.mysql.schema }}
 - name: MYSQL_HOST
   value: {{ .ctx.Values.mysql.host }}
+{{ if and .Values.secrets.mysql.password }}
 - name: MYSQL_USERNAME
-  value: {{ .ctx.Values.secrets.mysql.username }}
+  valueFrom:
+    secretKeyRef:
+      name: "elastic-secret"
+      key: "elastic-username"
 - name: MYSQL_PASSWORD
   valueFrom:
     secretKeyRef:
       name: "mysql-secret"
       key: "mysql-password"
+{{ else if and .ctx.Values.secrets.mysql.valueFrom.password.name .ctx.Values.secrets.mysql.valueFrom.password.key .ctx.Values.secrets.mysql.valueFrom.username.name .ctx.Values.secrets.mysql.valueFrom.username.key }}
+- name: MYSQL_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.mysql.valueFrom.username.name | quote }}
+      key: {{ .ctx.Values.secrets.mysql.valueFrom.username.key | quote }}
+- name: MYSQL_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.mysql.valueFrom.password.name | quote }}
+      key: {{ .ctx.Values.secrets.mysql.valueFrom.password.key | quote }}
+{{ end }}
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
 - name: MYSQL_DATABASE
