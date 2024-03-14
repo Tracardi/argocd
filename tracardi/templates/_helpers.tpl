@@ -184,8 +184,8 @@ Params:
 - name: MYSQL_USERNAME
   valueFrom:
     secretKeyRef:
-      name: "elastic-secret"
-      key: "elastic-username"
+      name: "mysql-secret"
+      key: "mysql-username"
 - name: MYSQL_PASSWORD
   valueFrom:
     secretKeyRef:
