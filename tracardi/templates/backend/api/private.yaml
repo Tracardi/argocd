@@ -1,16 +1,16 @@
-{{ if and .Values.secrets.dockerHub .Values.api.test.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.api.private.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: be-fa-test
+  name: be-fa-private
   labels:
-    {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-test") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-private") | nindent 4 }}
 spec:
-  serviceName: "tracardi-api-test"
-  replicas: {{ .Values.api.test.replicas }}
+  serviceName: "tracardi-api-private"
+  replicas: {{ .Values.api.private.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
 {{ if .Values.config.storage.failOver.enabled }}
   volumeClaimTemplates:
     - metadata:
@@ -24,8 +24,8 @@ spec:
   template:
     metadata:
       labels:
-        app: be-fa-test
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-test") | nindent 8 }}
+        app: be-fa-private
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-private") | nindent 8 }}
     spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub  | quote }}
@@ -38,7 +38,7 @@ spec:
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: be-fa-test
+        - name: be-fa-private
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.image.repository "tag" .Values.api.image.tag "policy" .Values.api.image.pullPolicy) | nindent 10 }}
           resources:
             limits:
@@ -48,7 +48,7 @@ spec:
               memory: 100Mi
               cpu: 100m
           ports:
-            - name: test-port
+            - name: private-port
               containerPort: 80
 {{ if not .Values.config.multiTenant }}
           livenessProbe:
@@ -67,11 +67,11 @@ spec:
             - name: PRODUCTION
               value: "no"
             - name: LOGGING_LEVEL
-              value: {{ .Values.api.test.config.loggingLevel | quote }}
+              value: {{ .Values.api.private.config.loggingLevel | quote }}
             - name: API_DOCS
-              value: {{ .Values.api.test.config.apiDocs | quote}}
+              value: {{ .Values.api.private.config.apiDocs | quote}}
             - name: SAVE_LOGS
-              value: {{ .Values.api.test.config.saveLogs | quote }}
+              value: {{ .Values.api.private.config.saveLogs | quote }}
 {{ if and .Values.secrets.maxmind.licenseKey .Values.secrets.maxmind.accountId }}
             - name: MAXMIND_LICENSE_KEY
               value: {{ .Values.secrets.maxmind.licenseKey | quote}}
@@ -79,17 +79,17 @@ spec:
               value: {{ .Values.secrets.maxmind.accountId | quote }}
 {{end}}
             - name: ENABLE_EVENT_DESTINATIONS
-              value: {{ .Values.api.test.config.enableEventDestinations | quote }}
+              value: {{ .Values.api.private.config.enableEventDestinations | quote }}
             - name: ENABLE_PROFILE_DESTINATIONS
-              value: {{ .Values.api.test.config.enableProfileDestinations | quote }}
+              value: {{ .Values.api.private.config.enableProfileDestinations | quote }}
             - name: ENABLE_WORKFLOW
-              value: {{ .Values.api.test.config.enableWorkflow | quote }}
+              value: {{ .Values.api.private.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
-              value: {{ .Values.api.test.config.enableIdentification | quote }}
+              value: {{ .Values.api.private.config.enableIdentification | quote }}
             - name: ENABLE_PROFILE_IMMEDIATE_FLUSH
-              value: {{ .Values.api.test.config.enableProfileFlush | quote }}
+              value: {{ .Values.api.private.config.enableProfileFlush | quote }}
             - name: ASYNC_PROCESSING
-              value: {{ .Values.api.test.config.asyncProcessing | quote }}
+              value: {{ .Values.api.private.config.asyncProcessing | quote }}
             - name: LOCK_ON_DATA_COMPUTATION
               value: 'no'
 
@@ -102,22 +102,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: be-fa-test-svc
+  name: be-fa-private-svc
 spec:
   type: ClusterIP
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
   ports:
     - protocol: TCP
-      port: {{ .Values.api.test.service.port }}
-      targetPort: test-port
+      port: {{ .Values.api.private.service.port }}
+      targetPort: private-port
 
 {{ if .Values.digitalOcean.loadBalancer }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: do-be-fa-test-lb
+  name: do-be-fa-private-lb
   {{ if .Values.digitalOcean.certId }}
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
@@ -127,17 +127,17 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-test") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
   ports:
-    - name: http-{{ .Values.api.test.service.port }}
+    - name: http-{{ .Values.api.private.service.port }}
       protocol: TCP
-      port: {{ .Values.api.test.service.port }}
-      targetPort: test-port
+      port: {{ .Values.api.private.service.port }}
+      targetPort: private-port
 {{ if .Values.digitalOcean.certId }}
     - name: https
       protocol: TCP
       port: 443
-      targetPort: test-port
+      targetPort: private-port
 {{ end }}
 
 {{ end }}

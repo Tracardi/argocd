@@ -264,10 +264,10 @@ Params:
   value: "yes"
 {{ end }}
 - name: EVENT_PARTITIONING
-  value: {{ .ctx.Values.api.production.config.eventPartitioning | quote }}
+  value: {{ .ctx.Values.api.public.config.eventPartitioning | quote }}
 - name: PROFILE_PARTITIONING
-  value: {{ .ctx.Values.api.production.config.profilePartitioning | quote }}
+  value: {{ .ctx.Values.api.public.config.profilePartitioning | quote }}
 - name: SESSION_PARTITIONING
-  value: {{ .ctx.Values.api.production.config.sessionPartitioning | quote }}
+  value: {{ .ctx.Values.api.public.config.sessionPartitioning | quote }}
 
 {{- end -}}

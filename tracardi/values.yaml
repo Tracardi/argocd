@@ -120,7 +120,7 @@ api:
     repository: tracardi/com-tracardi-api
     pullPolicy: IfNotPresent
     tag: 0.9.0-rc3  # Tag should be the same for gui and backend
-  test:
+  private:
     enabled: true
     replicas: 1
     config:
@@ -143,7 +143,7 @@ api:
     service:
       port: 8686
 
-  production:
+  public:
     enabled: true
     replicas: 1
     config:
