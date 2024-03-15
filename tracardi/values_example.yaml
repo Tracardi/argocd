@@ -1,0 +1,116 @@
+# Infrastructure
+
+elastic:
+  name: es1
+  host: cluster-es-http.elastic.svc.cluster.local
+  schema: https
+  authenticate: true
+  port: 9200
+  verifyCerts: "no"
+
+redis:
+  name: rd1
+  host: redis-master.redis.svc.cluster.local
+  schema: "redis://"
+  authenticate: true
+  port: 6379
+  db: "0"
+
+pulsar:
+  name: ps1
+  host: pulsar-proxy.pulsar.svc.cluster.local:6650
+  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
+  schema: "pulsar://"
+  authenticate: true
+  port: 6650
+
+mysql:
+  name: ms1
+  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  schema: "mysql+aiomysql://"
+  database: "tracardi"
+  port: 3306
+
+secrets:
+  dockerHub: "tracardi-dockerhub"
+  installation:
+    valueFrom:
+      token:
+        name: ""
+        key: ""
+  license:
+    valueFrom:
+      licenseKey:
+        name: ""
+        key: ""
+  redis:
+    valueFrom:
+      password:
+        name: ""
+        key: ""
+  elastic:
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
+  pulsar:
+    valueFrom:
+      token:
+        name: ""
+        key: ""
+  mysql:
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
+
+api:
+
+  image:
+    pullPolicy: Always
+    tag: 0.9.0-rc3
+
+  test:
+    replicas: 1
+    service:
+      port: 8686
+
+  production:
+    replicas: 1
+    service:
+      port: 8585
+
+gui:
+  image:
+    pullPolicy: Always
+    tag: 0.9.0-rc3
+  console:
+    service:
+      port: 8787
+
+worker:
+
+  background:
+    image:
+      pullPolicy: Always
+      tag: 0.9.0-rc3
+
+  apm:
+    image:
+      pullPolicy: Always
+      tag: 0.9.0-rc3
+    profile:
+      replicas: 1
+
+  upgrade:
+    image:
+      tag: 0.9.0-rc3
+      pullPolicy: Always
+    docker:
+      replicas: 1
