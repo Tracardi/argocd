@@ -61,33 +61,33 @@ secrets:
   dockerHub: "tracardi-dockerhub"
 
   installation:
-    token: "<SET-INSTALLATION-SECRET>"  # Random value
+    token: ""  # Random value
     valueFrom:
       token:
         name: ""
         key: ""
 
   license:
-    licenseKey: "<LICENSE-KEY-VALUE>"
+    licenseKey: ""
     valueFrom:
       licenseKey:
         name: ""
         key: ""
 
   tms:
-    tokenKey: "<SECRET-KEY-VALUE>"  # Random value
-    apiKey: "<API-KEY-VALUE>"       # Random value
+    tokenKey: ""  # Random value
+    apiKey: ""       # Random value
 
   redis:
-    password: "<REDIS-PASSWORD>"
+    password: ""
     valueFrom:
       password:
         name: ""
         key: ""
 
   elastic:
-    username: "elastic"
-    password: "<ELASTIC-PASSWORD>"
+    username: ""
+    password: ""
     valueFrom:
       username:
         name: ""
@@ -97,15 +97,15 @@ secrets:
         key: ""
 
   pulsar:
-    token: "<PULSAR-TOKEN>"
+    token: ""
     valueFrom:
       token:
         name: ""
         key: ""
 
   mysql:
-    username: "<MYSQL-USER>"
-    password: "<MYSQL-PASSWORD>"
+    username: ""
+    password: ""
     valueFrom:
       username:
         name: ""
