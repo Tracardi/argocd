@@ -205,8 +205,6 @@ Params:
 {{ end }}
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
-- name: MYSQL_DATABASE
-  value: {{ .ctx.Values.mysql.database }}
 - name: PRIMARY_ID
   value: {{ .ctx.Values.config.primaryId }}
 - name: PULSAR_HOST

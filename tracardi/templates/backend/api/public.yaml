@@ -78,6 +78,8 @@ spec:
               value: {{ .Values.api.public.config.enableIdentification | quote }}
             - name: ELASTIC_SAVE_POOL
               value: {{ .Values.api.public.config.elasticSavePool | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database }}
 
 
 {{ if .Values.config.storage.failOver.enabled }}

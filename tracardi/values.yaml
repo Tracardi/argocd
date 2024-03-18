@@ -34,6 +34,7 @@ mysql:
 
 tmsApi:
   host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
+  database: "tms"
 
 # Digital ocean
 

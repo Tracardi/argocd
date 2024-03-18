@@ -80,6 +80,8 @@ spec:
               value: {{ .Values.api.private.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.private.config.enableIdentification | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database }}
 
 {{ if .Values.config.storage.failOver.enabled }}
           volumeMounts:
