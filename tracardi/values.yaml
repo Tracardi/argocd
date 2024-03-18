@@ -61,7 +61,7 @@ secrets:
   dockerHub: "tracardi-dockerhub"
 
   installation:
-    token: ""  # Random value
+    token: "tracardi"  # Random value
     valueFrom:
       token:
         name: ""
@@ -75,8 +75,15 @@ secrets:
         key: ""
 
   tms:
-    tokenKey: ""  # Random value
-    apiKey: ""       # Random value
+    secretKey: ""  # Random value
+    apiKey: ""    # Random value
+    valueFrom:
+      secretKey:
+        name: ""
+        key: ""
+      apiKey:
+        name: ""
+        key: ""
 
   redis:
     password: ""
@@ -86,7 +93,7 @@ secrets:
         key: ""
 
   elastic:
-    username: ""
+    username: "elastic"
     password: ""
     valueFrom:
       username:

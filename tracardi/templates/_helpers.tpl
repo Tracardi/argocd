@@ -228,17 +228,23 @@ Params:
       name: {{ .ctx.Values.secrets.pulsar.valueFrom.token.name | quote }}
       key: {{ .ctx.Values.secrets.pulsar.valueFrom.token.key | quote }}
 {{ end }}
-{{ if .ctx.Values.config.multiTenant.multi }}
+{{ if and .ctx.Values.secrets.tms.apiKey .ctx.Values.secrets.tms.secretKey }}
 - name: MULTI_TENANT
-  value: {{ .ctx.Values.config.multiTenant.multi | quote }}
-{{ if eq .ctx.Values.config.multiTenant.multi "yes" }}
+  value: "yes"
 - name: MULTI_TENANT_MANAGER_URL
   value: http://{{ .ctx.Values.tmsApi.host }}:{{ .ctx.Values.tms.docker.service.port }}
+{{ if and .ctx.Values.secrets.tms.apiKey }}
 - name: MULTI_TENANT_MANAGER_API_KEY
   valueFrom:
     secretKeyRef:
       name: "tms"
       key: "api-key"
+{{ else if and .ctx.Values.secrets.tms.valueFrom.apiKey.name .ctx.Values.secrets.tms.valueFrom.apiKey.key }}
+- name: MULTI_TENANT_MANAGER_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.tms.valueFrom.apiKey.name | quote }}
+      key: {{ .ctx.Values.secrets.tms.valueFrom.apiKey.key | quote }}
 {{ end }}
 {{ end }}
 {{ if and .ctx.Values.secrets.maxmind.licenseKey .ctx.Values.secrets.maxmind.accountId }}

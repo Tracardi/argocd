@@ -28,16 +28,32 @@ spec:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: {{ .Values.tms.docker.config.loggingLevel | quote }}
-            - name: SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: "tms"
-                  key: "token-key"
+{{ if and .Values.secrets.tms.apiKey }}
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
                   name: "tms"
                   key: "api-key"
+{{ else if and .Values.secrets.tms.valueFrom.apiKey.name .cValues.secrets.tms.valueFrom.apiKey.key }}
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.tms.valueFrom.apiKey.name | quote }}
+                  key: {{ .Values.secrets.tms.valueFrom.apiKey.key | quote }}
+{{ end }}
+{{ if and .Values.secrets.tms.secretKey }}
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "tms"
+                  key: "secret-key"
+{{ else if and .Values.secrets.tms.valueFrom.secretKey.name .cValues.secrets.tms.valueFrom.secretKey.key }}
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.tms.valueFrom.secretKey.name | quote }}
+                  key: {{ .Values.secrets.tms.valueFrom.secretKey.key | quote }}
+{{ end }}
 ---
 apiVersion: v1
 kind: Service
