@@ -228,7 +228,7 @@ Params:
 {{ end }}
 {{ if and .ctx.Values.secrets.tms.apiKey .ctx.Values.secrets.tms.secretKey }}
 - name: MULTI_TENANT
-  value: "yes"
+  value: {{ .ctx.Values.config.multiTenant.multi | quote }}
 - name: MULTI_TENANT_MANAGER_URL
   value: http://{{ .ctx.Values.tmsApi.host }}:{{ .ctx.Values.tms.docker.service.port }}
 {{ if and .ctx.Values.secrets.tms.apiKey }}
@@ -298,5 +298,7 @@ Params:
   value: {{ .ctx.Values.api.public.config.profilePartitioning | quote }}
 - name: SESSION_PARTITIONING
   value: {{ .ctx.Values.api.public.config.sessionPartitioning | quote }}
+- name: CLOSE_VISIT_AFTER
+  value: {{ .ctx.Values.config.visit.close | quote }}
 
 {{- end -}}

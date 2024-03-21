@@ -54,6 +54,8 @@ config:
       size: 1Gi
   primaryId: "emm-"  # This value should be set only once during installation and never changed
   demo: "no"
+  visit:
+    close: 1200  # Close visit after 20 min
 
 
 # Definition of defined secrets.
