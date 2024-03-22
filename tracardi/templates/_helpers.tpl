@@ -279,12 +279,12 @@ Params:
 {{ if .ctx.Values.secrets.installation.token }}
 - name: INSTALLATION_TOKEN
   value: {{ .ctx.Values.secrets.installation.token | quote }}
-{{ else if and .ctx.Values.secrets.installation.fromValue.token.name .ctx.Values.secrets.installation.fromValue.token.key }}
+{{ else if and .ctx.Values.secrets.installation.valueFrom.token.name .ctx.Values.secrets.installation.valueFrom.token.key }}
 - name: INSTALLATION_TOKEN
   valueFrom:
     secretKeyRef:
-      name: {{ .ctx.Values.secrets.installation.fromValue.token.name | quote }}
-      key: {{ .ctx.Values.secrets.installation.fromValue.token.key | quote }}
+      name: {{ .ctx.Values.secrets.installation.valueFrom.token.name | quote }}
+      key: {{ .ctx.Values.secrets.installation.valueFrom.token.key | quote }}
 {{ end }}
 - name: AUTO_PROFILE_MERGING
   value: {{ .ctx.Values.secrets.mergingToken | quote }}
