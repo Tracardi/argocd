@@ -163,6 +163,8 @@ Params:
   value: "120"
 - name: REDIS_HOST
   value: {{ .ctx.Values.redis.schema }}{{ .ctx.Values.redis.host }}
+- name: REDIS_PORT
+  value: {{ .ctx.Values.redis.port | quote }}
 {{ if and .ctx.Values.secrets.redis.password }}
 - name: REDIS_PASSWORD
   valueFrom:
