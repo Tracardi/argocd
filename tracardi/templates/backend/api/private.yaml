@@ -4,6 +4,8 @@ kind: StatefulSet
 metadata:
   name: be-fa-private
   labels:
+    app: be-fa-private
+    version: {{ .Chart.AppVersion | quote }}
     {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-private") | nindent 4 }}
 spec:
   serviceName: "tracardi-api-private"
@@ -24,7 +26,6 @@ spec:
   template:
     metadata:
       labels:
-        app: be-fa-private
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-private") | nindent 8 }}
     spec:
       imagePullSecrets:

@@ -9,11 +9,11 @@ spec:
   replicas: {{ .Values.worker.apm.profile.replicas }}
   selector:
     matchLabels:
-      app: wk-apm
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-apm") | nindent 6 }}
   template:
     metadata:
       labels:
-        app: wk-apm
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-apm") | nindent 8 }}
     spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}

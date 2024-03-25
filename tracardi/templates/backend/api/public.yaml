@@ -24,7 +24,6 @@ spec:
   template:
     metadata:
       labels:
-        app: be-fa-public
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-public") | nindent 8 }}
     spec:
       imagePullSecrets:

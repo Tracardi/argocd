@@ -13,7 +13,6 @@ spec:
   template:
     metadata:
       labels:
-        app: be-fa-tms
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-tms") | nindent 8 }}
     spec:
       imagePullSecrets:

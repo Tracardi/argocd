@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: wk-pl-background
   labels:
+    app: wk-pl-background
+    version: {{ .Chart.AppVersion | quote }}
     {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-background") | nindent 4 }}
 spec:
   replicas: {{ .Values.worker.background.replicas }}

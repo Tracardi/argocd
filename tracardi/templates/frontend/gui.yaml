@@ -22,7 +22,6 @@ spec:
   template:
     metadata:
       labels:
-        app: fe-rj-gui
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 8 }}
     spec:
       containers:

@@ -53,11 +53,14 @@ Params:
 helm.sh/chart: {{ include "tracardi.chart" .ctx }}
 app.kubernetes.io/name: {{ include "tracardi.name" .ctx }}
 app.kubernetes.io/instance: {{ .ctx.Release.Name }}
+
+
 {{- if .component }}
 app.kubernetes.io/component: {{ .component }}
 {{- end }}
 {{- if .ctx.Chart.AppVersion }}
 app.kubernetes.io/version: {{ .ctx.Chart.AppVersion | quote }}
+service.istio.io/canonical-revision: {{ .ctx.Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
 {{- end -}}
@@ -71,6 +74,7 @@ Params:
 {{- define "tracardi.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "tracardi.name" .ctx }}
 app.kubernetes.io/instance: {{ .ctx.Release.Name }}
+
 {{- if .component }}
 app.kubernetes.io/component: {{ .component }}
 {{- end }}
@@ -96,12 +100,14 @@ Params:
 */}}
 {{- define "tracardi.podLabels" -}}
 helm.sh/chart: {{ include "tracardi.chart" .ctx }}
+app: {{ include "tracardi.name" .ctx }}
+version: {{ .ctx.Chart.AppVersion | quote }}
 app.kubernetes.io/name: {{ include "tracardi.name" .ctx }}
+app.kubernetes.io/version: {{ .ctx.Chart.AppVersion | quote }}
 app.kubernetes.io/ns-elastic: {{ .ctx.Values.elastic.name }}
 app.kubernetes.io/ns-cache: {{ .ctx.Values.redis.name }}
 app.kubernetes.io/ns-pulsar: {{ .ctx.Values.pulsar.name }}
 app.kubernetes.io/instance: {{ .ctx.Release.Name }}
-app.kubernetes.io/version: {{ .ctx.Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
 {{- if .component }}
 app.kubernetes.io/component: {{ .component }}
