@@ -1,6 +1,6 @@
 NS="tracardi-com-090"
 #VALUES="090-local-com-values.yaml"
-#VALUES="090-uf-com-values.yaml"
+#VALUES="090-eq-com-values.yaml"
 VALUES="090-hl-com-values.yaml"
 DOCKERHUB="dckr_pat_JHTY5gyyruN_w9G3C2MbW7MeBVI"
 
