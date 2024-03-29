@@ -45,7 +45,7 @@ istioctl install --set profile=default -y
 Enable automatic sidecar injection for a namespace (replace `default` with your namespace if different):
 
 ```bash
-kubectl label namespace default istio-injection=enabled
+kubectl label namespace tracardi-com-090 istio-injection=enabled
 ```
 
 ### Considerations for k3s
