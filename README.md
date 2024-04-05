@@ -1,6 +1,6 @@
 # Installation
 
-Tracardi can be installed using installation scripts or as ARGOCD deployment. Currently argoCD deployment is being developed.
+Tracardi can be installed using installation scripts.
 
 ## Prerequisites
 
@@ -66,15 +66,14 @@ Current version is 0.9.0
 
 ### Configuration
 
-Before you start copy docker-hub access token to:
+Before you start copy docker-hub access token to DOCKERHUB in file ./090-tracardi-install-helm.sh:
 
 ```
 DOCKERHUB="docker-hub access token"
 ```
 
-in file ./090-tracardi-install-helm.sh
 
-Then configure access to dependent resources.
+#### Configure access to dependent resources.
 
 Go to file: `tracardi/090-local-com-values.yaml`
 
@@ -134,13 +133,56 @@ secrets:
     password: "<copy-mysql-password>"
 ```
 
-Then run
+If you store credentials in secrets then there is a `valueFrom` option for every secret.
+
+This is the example use for redis:
+
+Instead of setting credentials this way, as in the example above:
+
+```yaml
+  redis:
+    password: ""
+```
+
+Set it this way:
+
+```yaml
+  redis:
+    valueFrom:
+      password:
+        name: ""
+        key: ""
+```
+
+The same way can be set any of the dependant resource:
+
+Example can be found in: tracardi/values.yaml
+
+### Installation
+
+When all the credentials and URLs are set, run:
 
 ```
 bash ./090-tracardi-install-helm.sh
 ```
 
-see tracardi/090-local-com-values.yaml for custom settings.
+it will use tracardi/090-local-com-values.yaml for custom settings. It will basically do this:
+
+```
+NS="tracardi-com-090"
+VALUES="090-local-com-values.yaml"
+DOCKERHUB=""
+
+kubectl create ns $NS
+
+kubectl create secret docker-registry tracardi-dockerhub \
+    --docker-server=index.docker.io/v1/  \
+    --docker-username=tracardi \
+    --docker-password=$DOCKERHUB \
+    -n $NS
+
+helm upgrade --install tracardi tracardi -f tracardi/$VALUES -n $NS
+```
 
 ## UnInstall Tracardi
 
