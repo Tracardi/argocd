@@ -54,6 +54,8 @@ config:
       size: 1Gi
   primaryId: "emm-"  # This value should be set only once during installation and never changed
   demo: "no"
+  systemEvents: "yes"
+  enableVisitEnded: "no"
   visit:
     close: 1200  # Close visit after 20 min
 
@@ -197,6 +199,7 @@ gui:
         port: 8787
     config:
       mode: "with-deployment"
+      allowUpdatesOnProduction: "no"
 
 tms:
   image:

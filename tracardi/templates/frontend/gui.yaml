@@ -40,7 +40,7 @@ spec:
             - name: MULTI_TENANT
               value: {{ .Values.config.multiTenant.multi | quote }}
             - name: ALLOW_UPDATES_ON_PRODUCTION
-              value: "true"
+              value: {{ .Values.gui.console.config.allowUpdatesOnProduction | quote }}
           ports:
             - containerPort: 80
               name: gui-port

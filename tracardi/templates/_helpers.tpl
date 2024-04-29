@@ -280,6 +280,10 @@ Params:
   value: "10"
 - name: TRACK_DEBUG
   value: "yes"
+- name: SYSTEM_EVENTS
+  value: {{ .ctx.Values.config.systemEvents | quote }}
+- name: ENABLE_VISIT_ENDED
+  value: {{ .ctx.Values.config.enableVisitEnded | quote }}
 - name: TRACARDI_PRO_HOST
   value: "pro.tracardi.com"
 - name: TRACARDI_PRO_PORT
