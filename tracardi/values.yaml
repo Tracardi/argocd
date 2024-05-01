@@ -181,8 +181,8 @@ api:
                 app.kubernetes.io/component: be-fa-public
     replicas: 1
     config:
-      saveLogs: "yes"
-      loggingLevel: "INFO"
+      saveLogs: "no"
+      loggingLevel: "WARNING"
       apiDocs: "no"
       enableWorkflow: "yes"
       enableEventDestinations: "yes"
