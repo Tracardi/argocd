@@ -26,6 +26,11 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-public") | nindent 8 }}
     spec:
+      {{ if .Values.api.public.spread }}
+        {{range .Values.api.public.spread }}
+          {{ toYaml . | nindent 6 }}
+        {{ end }}
+      {{ end }}
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
@@ -75,8 +80,10 @@ spec:
               value: {{ .Values.api.public.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.public.config.enableIdentification | quote }}
-            - name: ELASTIC_SAVE_POOL
-              value: {{ .Values.api.public.config.elasticSavePool | quote }}
+            - name: ELASTIC_INDEX_SHARDS
+              value: {{ .Values.elastic.index.shards | quote }}
+            - name: ELASTIC_INDEX_REPLICAS
+              value: {{ .Values.elastic.index.replicas | quote }}
             - name: MYSQL_DATABASE
               value: {{ .Values.mysql.database }}
 

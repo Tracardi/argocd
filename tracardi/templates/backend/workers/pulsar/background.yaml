@@ -17,6 +17,11 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 8 }}
     spec:
+      {{ if .Values.worker.background.spread }}
+        {{range .Values.worker.background.spread }}
+          {{ toYaml . | nindent 6 }}
+        {{ end }}
+      {{ end }}
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
