@@ -39,6 +39,16 @@ tmsApi:
   host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
   database: "tms"
 
+telemetry:
+  disabled: true
+  name: "tracardi"
+  log_level: "info"
+  export:
+    endpoint: http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
+    time_out: 30000
+    delay: 5000
+    batch_size: 512
+
 # Digital ocean
 
 digitalOcean:
@@ -61,6 +71,7 @@ config:
   enableVisitEnded: "no"
   visit:
     close: 1200  # Close visit after 20 min
+
 
 
 # Definition of defined secrets.

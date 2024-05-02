@@ -313,4 +313,25 @@ Params:
 - name: CLOSE_VISIT_AFTER
   value: {{ .ctx.Values.config.visit.close | quote }}
 
+- name: OTEL_SDK_DISABLED
+  value: {{ .ctx.Values.telemetry.disabled | quote }}
+- name: OTEL_SERVICE_NAME
+  value: {{ .ctx.Values.telemetry.name | quote }}
+- name: OTEL_LOG_LEVEL
+  value: {{ .ctx.Values.telemetry.log_level | quote }}
+- name: OTEL_BLRP_SCHEDULE_DELAY
+  value: {{ .ctx.Values.telemetry.export.delay | quote }}
+- name: OTEL_BSP_SCHEDULE_DELAY
+  value: {{ .ctx.Values.telemetry.export.delay | quote }}
+- name: OTEL_BSP_EXPORT_TIMEOUT
+  value: {{ .ctx.Values.telemetry.export.time_out | quote }}
+- name: OTEL_BLRP_EXPORT_TIMEOUT
+  value: {{ .ctx.Values.telemetry.export.time_out | quote }}
+- name: OTEL_BLRP_MAX_EXPORT_BATCH_SIZE
+  value: {{ .ctx.Values.telemetry.export.batch_size | quote }}
+- name: OTEL_BSP_MAX_EXPORT_BATCH_SIZE
+  value: {{ .ctx.Values.telemetry.export.batch_size | quote }}
+- name: OTEL_EXPORTER_OTLP_ENDPOINT
+  value: {{ .ctx.Values.telemetry.export.endpoint | quote }}
+
 {{- end -}}
