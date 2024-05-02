@@ -44,10 +44,15 @@ telemetry:
   name: "tracardi"
   log_level: "info"
   export:
-    endpoint: http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
+    endpoint: "" # e.g.http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
+    headers: ""  # Use when needed
+    metrics: "" # Use when needed
+    logs: "" # Use when needed
+    attributes: "" # Use when needed
     time_out: 30000
     delay: 5000
     batch_size: 512
+
 
 # Digital ocean
 

@@ -331,7 +331,24 @@ Params:
   value: {{ .ctx.Values.telemetry.export.batch_size | quote }}
 - name: OTEL_BSP_MAX_EXPORT_BATCH_SIZE
   value: {{ .ctx.Values.telemetry.export.batch_size | quote }}
+{{ if .ctx.Values.telemetry.export.endpoint }}
 - name: OTEL_EXPORTER_OTLP_ENDPOINT
   value: {{ .ctx.Values.telemetry.export.endpoint | quote }}
-
+{{- end -}}
+{{ if .ctx.Values.telemetry.export.headers }}
+- name: OTEL_EXPORTER_OTLP_HEADERS
+  value: {{ .ctx.Values.telemetry.export.headers | quote }}
+{{- end -}}
+{{ if .ctx.Values.telemetry.export.metrics }}
+- name: OTEL_METRICS_EXPORTER
+  value: {{ .ctx.Values.telemetry.export.metrics | quote }}
+{{- end -}}
+{{ if .ctx.Values.telemetry.export.logs }}
+- name: OTEL_LOGS_EXPORTER
+  value: {{ .ctx.Values.telemetry.export.logs | quote }}
+{{- end -}}
+{{ if .ctx.Values.telemetry.export.attributes }}
+- name: OTEL_RESOURCE_ATTRIBUTES
+  value: {{ .ctx.Values.telemetry.export.attributes | quote }}
+{{- end -}}
 {{- end -}}
