@@ -8,4 +8,11 @@ spec:
   elasticsearchRef:
     name: cluster
     namespace: elastic
+  http:
+    service:
+      spec:
+        type: LoadBalancer # default is ClusterIP for no internet access
+    tls:
+      selfSignedCertificate:
+        disabled: true
 

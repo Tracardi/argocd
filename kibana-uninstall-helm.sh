@@ -1,0 +1,1 @@
+kubectl delete -f kibana/deployment.yaml -n elastic
