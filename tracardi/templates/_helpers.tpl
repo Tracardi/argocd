@@ -234,8 +234,10 @@ Params:
       name: {{ .ctx.Values.secrets.pulsar.valueFrom.token.name | quote }}
       key: {{ .ctx.Values.secrets.pulsar.valueFrom.token.key | quote }}
 {{ end }}
+{{ if not .ctx.Values.pulsar.enabled }}
 - name: PULSAR_DISABLED
-  value: {{ .ctx.Values.pulsar.disabled | quote }}
+  value: "yes"
+{{ end }}
 {{ if and .ctx.Values.secrets.tms.apiKey .ctx.Values.secrets.tms.secretKey }}
 - name: MULTI_TENANT
   value: {{ .ctx.Values.config.multiTenant.multi | quote }}

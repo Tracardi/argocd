@@ -1,4 +1,4 @@
-{{ if and .Values.secrets.dockerHub .Values.worker.background.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.worker.background.enabled .Values.pulsar.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

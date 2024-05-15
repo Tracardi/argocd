@@ -27,7 +27,7 @@ pulsar:
   authenticate: false
   port: 6650
   cluster_name: pulsar
-  disabled: "no"
+  enabled: true
 
 mysql:
   name: ms1
