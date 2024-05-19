@@ -1,0 +1,1 @@
+kubectl apply -f qdrant/qdrant-console-deployment.yaml -n qdrant

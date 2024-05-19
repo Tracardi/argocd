@@ -1,0 +1,1 @@
+helm upgrade -i qdrant --values qdrant/local-values.yaml qdrant/qdrant  -n qdrant

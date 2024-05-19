@@ -1,0 +1,1 @@
+kubectl delete -f qdrant/qdrant-console-deployment.yaml -n qdrant

@@ -1,0 +1,42 @@
+replicaCount: 3
+
+image:
+  pullPolicy: IfNotPresent
+  tag: ""
+
+service:
+  type: LoadBalancer
+  port: 6333
+
+apiKey: true
+
+resources:
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+
+cluster:
+  enabled: true
+
+persistence:
+  enabled: true
+  size: 10Gi
+#  storageClassName: longhorn
+
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 6333
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 6333
+  initialDelaySeconds: 20
+  periodSeconds: 10

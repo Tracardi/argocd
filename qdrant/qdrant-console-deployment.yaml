@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant-console
+  namespace: qdrant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qdrant-console
+  template:
+    metadata:
+      labels:
+        app: qdrant-console
+    spec:
+      containers:
+        - name: qdrant-console
+          image: qdrant/qdrant
+          ports:
+            - containerPort: 8000
+          env:
+            - name: QDRANT_CONSOLE_PORT
+              value: "8000"
+            - name: QDRANT_API_URL
+              value: "http://qdrant:6333"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant-console
+  namespace: qdrant
+spec:
+  selector:
+    app: qdrant-console
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: LoadBalancer

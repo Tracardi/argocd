@@ -1,0 +1,1 @@
+helm uninstall qdrant -n qdrant

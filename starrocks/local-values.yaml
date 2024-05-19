@@ -1,4 +1,7 @@
 starrocks:
+  initPassword:
+    enabled: true
+    password: "root"
   starrocksBeSpec:
     replicas: 1
     resources:
@@ -11,6 +14,8 @@ starrocks:
       requests:
         memory: 1Gi
         cpu: 1
+    service:
+      type: LoadBalancer  # Comment out to disable
   starrocksCnSpec:
     replicas: 1
     resources:
