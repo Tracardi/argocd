@@ -1,0 +1,36 @@
+config:
+  cluster:
+    enabled: true
+    replicas: 3
+  jetstream:
+    enabled: true
+    fileStore:
+      pvc:
+        size: 10Gi
+  merge:
+    accounts:
+      A:
+        users:
+        - {user: a, password: a}
+      B:
+        users:
+        - {user: b, password: b}
+natsBox:
+  contexts:
+    a:
+      merge: {user: a, password: a}
+    b:
+      merge: {user: b, password: b}
+  defaultContextName: a
+
+podTemplate:
+  topologySpreadConstraints:
+    kubernetes.io/hostname:
+      maxSkew: 1
+      whenUnsatisfiable: DoNotSchedule
+
+# Expose
+service:
+  merge:
+    spec:
+      type: LoadBalancer
