@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  labels:
+    app: scoring-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scoring-api
+  template:
+    metadata:
+      labels:
+        app: scoring-api
+    spec:
+      imagePullSecrets:
+        - name: "tracardi-dockerhub"
+      containers:
+      - name: scoring-api
+        image: tracardi/scoring:0.1.0
+        ports:
+        - containerPort: 80
+        env:
+          - name: STARROCKS_HOST
+            value: kube-starrocks-fe-service.starrocks.svc.cluster.local

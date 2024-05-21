@@ -1,4 +1,4 @@
-percona-install-repo.sh
-redis-install-repo.sh
-pulsar-install-repo.sh
-elastic-install-operator.sh
+bash percona-install-repo.sh
+bash redis-install-repo.sh
+bash pulsar-install-repo.sh
+bash elastic-install-operator.sh

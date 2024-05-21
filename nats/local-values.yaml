@@ -10,8 +10,13 @@ config:
   merge:
     accounts:
       A:
+        jetstream: enabled
         users:
-        - {user: a, password: a}
+          - user: a
+            password: a
+            permissions:
+              publish: ["foo", "bar", "help", "$JS.API.>", "_INBOX.>"]
+              subscribe: ["foo", "bar", "help", "$JS.API.>", "$JS.EVENT.>", "_INBOX.>"]
       B:
         users:
         - {user: b, password: b}
