@@ -814,6 +814,8 @@ mysql:
 tmsApi:
   host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
 
+# Secrets
+
 secrets:
   installation:
     token: "XXXX"
@@ -831,14 +833,19 @@ secrets:
     username: "root"
     password: "XXXX"
 
+# Networking
+
 digitalOcean:
   loadBalancer: true
 
+# Configuration
 
 config:
   multiTenant:
     multi: "yes"
   primaryId: "phm-"  # Use phone as primary ID key, This value should be set only once during installation and never changed
+
+# Images and Versions
 
 api:
   image:
@@ -871,6 +878,8 @@ tms:
     replicas: 1
     service:
       port: 48383
+
+# Workers
 
 worker:
 
