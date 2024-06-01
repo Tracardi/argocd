@@ -69,7 +69,7 @@ config:
     multi: "no"
   storage:
     failOver:
-      enabled: true
+      enabled: false
       size: 1Gi
   primaryId: "emm-"  # This value should be set only once during installation and never changed
   demo: "no"
