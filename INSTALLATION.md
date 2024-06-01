@@ -87,6 +87,8 @@ To customize installation values go to: percona/local-values.yaml
 
 ## Infrastructure Configuration for Various Services Used by Tracardi
 
+Infrastructure installation is the part in helm configuration that defines all the services that Tracardi needs to connect to. 
+
 ### Elasticsearch Configuration
 
 The Elasticsearch configuration specifies the necessary settings to connect Tracardi to an Elasticsearch service. This
@@ -105,16 +107,16 @@ elastic:
     replicas: 1  # Number of replica shards for the index
 ```
 
-| Field              | Description                                                              | Needs change |
-|--------------------|--------------------------------------------------------------------------|--------------|
-| **name**           | Identifier for the Elasticsearch service                                 |              |
-| **host**           | Hostname or IP address of the Elasticsearch service                      | yes          |
-| **schema**         | Protocol used to connect (http or https)                                 | yes          |
-| **authenticate**   | Toggle for enabling authentication. See secrets part for authentication. | yes          |
-| **port**           | Port number on which Elasticsearch is running                            |              |
-| **verifyCerts**    | Indicates whether SSL certificates should be verified                    |              |
-| **index.shards**   | Number of primary shards for the index                                   |              |
-| **index.replicas** | Number of replica shards for the index                                   |              |
+| Field              | Description                                                              | Needs change          |
+|--------------------|--------------------------------------------------------------------------|-----------------------|
+| **name**           | Identifier for the Elasticsearch service                                 |                       |
+| **host**           | Hostname or IP address of the Elasticsearch service                      | yes                   |
+| **schema**         | Protocol used to connect (http or https)                                 | yes                   |
+| **authenticate**   | Toggle for enabling authentication. See secrets part for authentication. | yes                   |
+| **port**           | Port number on which Elasticsearch is running                            |                       |
+| **verifyCerts**    | Indicates whether SSL certificates should be verified                    |                       |
+| **index.shards**   | Number of primary shards for the index                                   | Use default or change |
+| **index.replicas** | Number of replica shards for the index                                   | Use default or change                      |
 
 ### Redis Configuration
 
