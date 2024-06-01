@@ -336,7 +336,7 @@ config:
     failOver:
       enabled: true  # Whether failover storage is enabled
       size: 1Gi  # Size of the failover storage
-  primaryId: "emm-"  # Primary ID prefix for the system, set only once during installation. Emm prefix means use email.main as a merging key during automatic profile merging. This means tracardi will automatically merge profiles when there are 2 profiles with the same email.
+  primaryId: "emm-" 
   demo: "no"  # Whether demo mode is enabled. Disable on production
   systemEvents: "no"  # Whether system events are enabled.
   enableVisitEnded: "no"  # Whether to enable visit ended events. Will the system register when the visit ends.
@@ -346,14 +346,14 @@ config:
 
 ### Explanation of Fields
 
-| Field                   | Description                                      |
-|-------------------------|--------------------------------------------------|
-| **multiTenant.multi**   | Indicates whether multi-tenancy is enabled.      |
-| **primaryId**           | The primary ID prefix for the system.            |
-| **demo**                | Indicates whether demo mode is enabled.          |
-| **systemEvents**        | Indicates whether system events are enabled.     |
-| **enableVisitEnded**    | Indicates whether visit ended events are enabled.|
-| **visit.close**         | The time in seconds to close a visit after inactivity. |
+| Field                   | Description                                                                                                                                                                                                                                                                                        |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **multiTenant.multi**   | Indicates whether multi-tenancy is enabled.                                                                                                                                                                                                                                                        |
+| **primaryId**           | Primary ID prefix for the system, set only once during installation. Emm prefix means use email.main to compute the primary key and use it as a merging key during automatic profile merging. This means tracardi will automatically merge profiles when there are 2 profiles with the same email. |
+| **demo**                | Indicates whether demo mode is enabled.                                                                                                                                                                                                                                                            |
+| **systemEvents**        | Indicates whether system events are enabled.                                                                                                                                                                                                                                                       |
+| **enableVisitEnded**    | Indicates whether visit ended events are enabled.                                                                                                                                                                                                                                                  |
+| **visit.close**         | The time in seconds to close a visit after inactivity.                                                                                                                                                                                                                                             |
 
 ### Example
 
