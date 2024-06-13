@@ -1,0 +1,41 @@
+bridge:
+  id: 5e3c6bc4-e8d7-4b64-8f0c-77625fe17f89
+  image: tracardi/mtsilesia-bridge:0.9.0
+
+elastic:
+  name: es1
+  host: cluster-es-http.elastic.svc.cluster.local
+  schema: https
+  authenticate: true
+  port: 9200
+  verifyCerts: "no"
+
+redis:
+  name: rd1
+  host: redis-master.redis.svc.cluster.local
+  schema: "redis://"
+  authenticate: true
+  port: 6379
+  db: "0"
+
+mysql:
+  name: ms1
+  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  schema: "mysql+aiomysql://"
+  database: "tracardi"
+  port: 3306
+
+secrets:
+  dockerHub: "tracardi-dockerhub"
+  installation:
+    token: "RISTO"
+  license:
+    licenseKey: ""
+  redis:
+    password: ""
+  elastic:
+    username: "elastic"
+    password: ""
+  mysql:
+    username: ""
+    password: ""
