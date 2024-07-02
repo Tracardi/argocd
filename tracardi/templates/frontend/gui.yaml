@@ -51,47 +51,5 @@ spec:
         - name: gui-config-volume
           configMap:
             name: gui-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fe-rj-gui-svc
-spec:
-  type: ClusterIP
-  selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 6 }}
-  ports:
-    - protocol: TCP
-      port: {{ .Values.gui.console.service.port }}
-      targetPort: gui-port
 
-{{ if .Values.digitalOcean.loadBalancer }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: do-fe-rj-gui-lb
-  {{ if .Values.digitalOcean.certId }}
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
-  {{ end }}
-spec:
-  type: LoadBalancer
-  selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 6 }}
-  ports:
-    - name: http-{{ .Values.gui.console.service.port }}
-      protocol: TCP
-      port: {{ .Values.gui.console.service.port }}
-      targetPort: gui-port
-    {{ if .Values.digitalOcean.certId }}
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: gui-port
-    {{ end }}
-
-{{ end }}
 {{ end }}

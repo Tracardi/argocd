@@ -1,0 +1,20 @@
+{{ if and .Values.gui.console.enabled .Values.gui.console.ingress.enabled  }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fe-gui-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: {{ .Values.gui.console.ingress.host }}
+      http:
+        paths:
+          - path: {{ .Values.gui.console.ingress.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: fe-rj-gui-svc
+                port:
+                  number: {{ .Values.gui.console.service.port }}
+  {{ end }}

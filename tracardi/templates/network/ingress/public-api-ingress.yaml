@@ -1,0 +1,20 @@
+{{ if and .Values.api.public.enabled .Values.api.public.ingress.enabled  }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: be-api-public-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: {{ .Values.api.public.ingress.host | quote  }}
+      http:
+        paths:
+          - path: {{ .Values.api.public.ingress.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: be-fa-public-svc
+                port:
+                  number: {{ .Values.api.public.service.port }}
+  {{ end }}

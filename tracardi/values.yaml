@@ -184,6 +184,10 @@ api:
         size: 1Gi
     service:
       port: 8686
+    ingress:
+      enabled: false
+      host: "*.private.your-domain.com"
+      path: /
 
   public:
     enabled: true
@@ -214,6 +218,10 @@ api:
         size: 1Gi
     service:
       port: 8585
+    ingress:
+      enabled: false
+      host: "*.public.your-domain.com"
+      path: /
 
 gui:
   image:
@@ -225,6 +233,10 @@ gui:
     replicas: 1
     service:
         port: 8787
+    ingress:
+      enabled: false
+      host: gui.your-domain.com
+      path: /
     config:
       mode: "with-deployment"
       allowUpdatesOnProduction: "no"
