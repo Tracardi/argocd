@@ -31,7 +31,7 @@ spec:
           value: {{ .Values.worker.apm.profile.config.loggingLevel | quote }}
         resources:
           limits:
-            memory: 250Mi
+            memory: 2500Mi
             cpu: 500m
           requests:
             memory: 100Mi

@@ -1,7 +1,17 @@
 master:
   persistence:
     size: 2Gi
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 1Gi
 replica:
   persistence:
     size: 5Gi
   replicaCount: 1
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 1Gi
