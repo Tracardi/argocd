@@ -4,4 +4,4 @@ metadata:
   name: pre-resources-cm
 data:
   resources.json: |
-    {{ .Values.config.preConfiguration.resources | indent 4 }}
+    {{ .Values.config.preConfiguration.resources | quote }}

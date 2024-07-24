@@ -4,4 +4,4 @@ metadata:
   name: pre-event-sources-cm
 data:
   event-sources.json: |
-    {{ .Values.config.preConfiguration.eventSources | indent 4 }}
+    {{ .Values.config.preConfiguration.eventSources | quote }}

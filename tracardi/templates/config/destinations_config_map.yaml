@@ -4,4 +4,4 @@ metadata:
   name: pre-destinations-cm
 data:
   destinations.json: |
-    {{ .Values.config.preConfiguration.destinations | indent 4 }}
+    {{ .Values.config.preConfiguration.destinations | quote }}
