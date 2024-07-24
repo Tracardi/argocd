@@ -88,28 +88,28 @@ spec:
               value: {{ .Values.mysql.database }}
 
           volumeMounts:
-            - name: public-resources-vol
+            - name: pre-resources-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
               subPath: "resources.json"
-            - name: public-destinations-vol
+            - name: pre-destinations-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
               subPath: "destinations.json"
-            - name: public-event-sources-vol
+            - name: pre-event-sources-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
               subPath: "event-sources.json"
 
       volumes:
-        - name: public-resources-vol
+        - name: pre-resources-vol
           configMap:
-            name: public-resources-cm
+            name: pre-resources-cm
 
-        - name: public-destinations-vol
+        - name: pre-destinations-vol
           configMap:
-            name: public-destinations-cm
+            name: pre-destinations-cm
 
-        - name: public-event-sources-vol
+        - name: pre-event-sources-vol
           configMap:
-            name: public-event-sources-cm
+            name: pre-event-sources-cm
 
 
 {{ end }}

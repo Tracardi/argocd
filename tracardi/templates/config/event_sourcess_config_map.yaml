@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-event-sources-cm
+data:
+  event-sources.json: |
+    {{ .Values.config.preConfiguration.eventSources | indent 4 }}

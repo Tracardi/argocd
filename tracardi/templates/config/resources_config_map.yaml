@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-resources-cm
+data:
+  resources.json: |
+    {{ .Values.config.preConfiguration.resources | indent 4 }}

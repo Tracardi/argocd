@@ -62,7 +62,7 @@ digitalOcean:
   certId: ""  # SET-CERT-ID
 
 
-# General Tracardi configuration. Version, images, multi-tenancy, etc.
+# Cluster wide configuration. Version, images, multi-tenancy, etc.
 
 config:
   multiTenant:
@@ -77,7 +77,13 @@ config:
   enableVisitEnded: "no"
   visit:
     close: 1200  # Close visit after 20 min
-
+  preConfiguration:
+    resources: |
+      {}
+    eventSources: |
+      {}
+    destinations: |
+      {}
 
 
 # Definition of defined secrets.
@@ -178,6 +184,7 @@ api:
       eventPartitioning: "month"
       profilePartitioning: "quarter"
       sessionPartitioning: "quarter"
+
     storage:
       failOver:
         enabled: false
@@ -212,6 +219,7 @@ api:
       eventPartitioning: "month"
       profilePartitioning: "quarter"
       sessionPartitioning: "quarter"
+
     storage:
       failOver:
         enabled: false

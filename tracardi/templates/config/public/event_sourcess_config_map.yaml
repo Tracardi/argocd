@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: public-event-sources-cm
-data:
-  event-sources.json: |
-    {}

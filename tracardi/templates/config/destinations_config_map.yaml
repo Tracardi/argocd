@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-destinations-cm
+data:
+  destinations.json: |
+    {{ .Values.config.preConfiguration.destinations | indent 4 }}
