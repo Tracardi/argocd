@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: public-resources-cm
 data:
-  app.properties: |
+  resources.json: |
     {}

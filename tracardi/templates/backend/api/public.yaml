@@ -87,16 +87,29 @@ spec:
             - name: MYSQL_DATABASE
               value: {{ .Values.mysql.database }}
 
-{{ if .Values.config.storage.failOver.enabled }}
           volumeMounts:
-            - name: fail-over-storage
-              mountPath: "/opt/tracardi"
-            - name: public-resources-cm
-              mountPath: "/system/com_tracaardi/storage/preconfig/data/resources.json"
-            - name: public-destinations-cm
-              mountPath: "/system/com_tracaardi/storage/preconfig/data/destinations.json"
-            - name: public-event-sources-cm
-              mountPath: "/system/com_tracaardi/storage/preconfig/data/event-sources.json"
-{{ end }}
+            - name: public-resources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+              subPath: "resources.json"
+            - name: public-destinations-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+              subPath: "destinations.json"
+            - name: public-event-sources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+              subPath: "event-sources.json"
+
+      volumes:
+        - name: public-resources-vol
+          configMap:
+            name: public-resources-cm
+
+        - name: public-destinations-vol
+          configMap:
+            name: public-destinations-cm
+
+        - name: public-event-sources-vol
+          configMap:
+            name: public-event-sources-cm
+
 
 {{ end }}
