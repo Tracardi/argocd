@@ -10,4 +10,4 @@ bash ./create-helm-chart.sh
 
 # Use repo
 
-helm repo add tracardi-helm-chat https://www.tracardi.com/helm
+helm repo add tracardi https://www.tracardi.com/helm/1.0.0

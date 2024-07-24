@@ -10,4 +10,4 @@ kubectl create secret docker-registry tracardi-dockerhub \
     --docker-password=$DOCKERHUB \
     -n $NS
 
-helm upgrade --install tracardi tracardi -f tracardi/$VALUES -n $NS
+helm upgrade --install tracardi tracardi -f values/$VALUES -n $NS

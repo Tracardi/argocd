@@ -3,4 +3,4 @@
 helm upgrade --wait --timeout=1200s \
 --install tracardi tracardi \
 --values tracardi/local-core-values.yaml \
---namespace tracardi-com-082  --create-namespace
+--namespace tracardi  --create-namespace

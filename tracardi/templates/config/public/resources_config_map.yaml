@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: public-resources-cm
+data:
+  app.properties: |
+    {}
