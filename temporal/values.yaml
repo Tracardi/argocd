@@ -1,0 +1,6 @@
+server:
+  env:
+    - name: TEMPORAL_CSRF_COOKIE_INSECURE
+      value: "true"
+cors:
+  cookieInsecure: true

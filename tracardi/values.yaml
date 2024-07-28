@@ -81,6 +81,9 @@ config:
     resources: "{}"
     eventSources: "{}"
     destinations: "{}"
+  pro:
+    host : "pro.tracardi.com"
+    port: 40000
 
 # Definition of defined secrets.
 

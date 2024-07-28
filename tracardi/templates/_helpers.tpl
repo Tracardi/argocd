@@ -289,9 +289,9 @@ Params:
 - name: ENABLE_VISIT_ENDED
   value: {{ .ctx.Values.config.enableVisitEnded | quote }}
 - name: TRACARDI_PRO_HOST
-  value: "pro.tracardi.com"
+  value: {{ .ctx.Values.config.pro.host | quote }}
 - name: TRACARDI_PRO_PORT
-  value: "40000"
+  value: {{ .ctx.Values.config.pro.port | quote }}
 {{ if .ctx.Values.secrets.installation.token }}
 - name: INSTALLATION_TOKEN
   value: {{ .ctx.Values.secrets.installation.token | quote }}
