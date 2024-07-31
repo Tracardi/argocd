@@ -184,10 +184,14 @@ Params:
       name: {{ .ctx.Values.secrets.redis.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.redis.valueFrom.password.key | quote }}
 {{ end }}
+{{ if .ctx.Values.mysql.schema }}
 - name: MYSQL_SCHEMA
   value: {{ .ctx.Values.mysql.schema }}
+{{ end }}
+{{ if .ctx.Values.mysql.host }}
 - name: MYSQL_HOST
   value: {{ .ctx.Values.mysql.host }}
+{{ end }}
 {{ if and .ctx.Values.secrets.mysql.password .ctx.Values.secrets.mysql.username }}
 - name: MYSQL_USERNAME
   valueFrom:
