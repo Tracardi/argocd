@@ -16,7 +16,17 @@ data:
         proxy_http_version 1.1;
       }
     }
+    server {
+      resolver 8.8.8.8;
+      listen 18383;
+      listen [::]:18383;
+      server_name tracardi-tms;
 
+      location / {
+        proxy_pass http://192.168.1.119:18383/;
+        proxy_http_version 1.1;
+      }
+    }
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -59,6 +69,10 @@ spec:
   selector:
     app: nginx-twingate-forwarder
   ports:
+    - name: tms
+      protocol: TCP
+      port: 18383
+      targetPort: 18383
     - name: web-api
       protocol: TCP
       port: 80
