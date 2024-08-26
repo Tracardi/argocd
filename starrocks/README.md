@@ -15,6 +15,6 @@ helm upgrade -f starrocks/local-values.yaml --install starrocks starrocks-commun
 helm uninstall starrocks -n starrocks
 ```
 
-More information:
+More inforamtion:
 https://github.com/StarRocks/starrocks-kubernetes-operator/blob/main/doc/deploy_starrocks_with_helm_howto.md
 https://github.com/StarRocks/starrocks-kubernetes-operator/blob/main/doc/local_installation_how_to.md
