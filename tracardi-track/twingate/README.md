@@ -4,4 +4,13 @@ Tracardi track proxy
 
 FOr this to work twingate is required.
 
-here is how to isntall it on linux:
+here is how to install it:
+1. Add Connector
+2. CLick on connector and find you preferred way of installation
+
+Then Add resources.
+On The forwarder node do:
+
+twingate resoures - list resources
+twingate auth reasource-name
+

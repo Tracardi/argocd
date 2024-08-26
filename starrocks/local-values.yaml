@@ -4,16 +4,32 @@ starrocks:
     password: "root"
   starrocksBeSpec:
     replicas: 1
+    storageSpec:
+      name: sr-be-storage
+      # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
+      logStorageSize: 10Gi
+      storageSize: 10Gi
     resources:
+      limits:
+        cpu: 2
+        memory: 4Gi
       requests:
+        cpu: 500m
         memory: 1Gi
-        cpu: 1
   starrocksFESpec:
     replicas: 1
+    storageSpec:
+      name: sr-fe-storage
+      # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
+      logStorageSize: 10Gi
+      storageSize: 10Gi
     resources:
+      limits:
+        cpu: 2
+        memory: 4Gi
       requests:
+        cpu: 500m
         memory: 1Gi
-        cpu: 1
     service:
       type: LoadBalancer  # Comment out to disable
   starrocksCnSpec:
