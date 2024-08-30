@@ -60,6 +60,7 @@ To customize installation values go to: elastic/local-values.yaml
 
 ```
 cd argocd
+bash ./pulsar-install-repo.sh
 bash ./pulsar-install-helm.sh
 ```
 

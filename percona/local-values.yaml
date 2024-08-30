@@ -7,7 +7,7 @@ backup:
   enabled: true
 
 pxc:
-  size: 1
+  size: 3
   volumeSpec:
     pvc:
       resources:
@@ -16,7 +16,7 @@ pxc:
 
 haproxy:
   enabled: true
-  size: 1
+  size: 2
   resources:
     requests:
       memory: 100Mi
