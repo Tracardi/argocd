@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: tenant-aliases-cm
 data:
-  tenant-aliases.txt: |
+  tenant-aliases.json: |
     {{ .Values.config.preConfiguration.tenantAliases | quote }}

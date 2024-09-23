@@ -99,8 +99,8 @@ spec:
               mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
               subPath: "event-sources.json"
             - name: tenant-aliases-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.txt"
-              subPath: "tenant-aliases.txt"
+              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+              subPath: "tenant-aliases.json"
 
       volumes:
         - name: pre-resources-vol
