@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-aliases-cm
+data:
+  tenant-aliases.txt: |
+    {{ .Values.config.preConfiguration.tenantAliases | quote }}

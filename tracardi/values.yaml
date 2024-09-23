@@ -81,6 +81,7 @@ config:
     resources: "{}"
     eventSources: "{}"
     destinations: "{}"
+    tenantAliases: ""
   pro:
     host : "pro.tracardi.com"
     port: 40000
