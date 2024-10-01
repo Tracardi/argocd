@@ -278,14 +278,6 @@ Params:
       name: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.name | quote }}
       key: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.key | quote }}
 {{end}}
-- name: SOURCE_CACHE_TTL
-  value: "2"
-- name: SESSION_CACHE_TTL
-  value: "2"
-- name: EVENT_TAG_CACHE_TTL
-  value: "10"
-- name: EVENT_VALIDATION_CACHE_TTL
-  value: "10"
 - name: TRACK_DEBUG
   value: "yes"
 - name: SYSTEM_EVENTS
