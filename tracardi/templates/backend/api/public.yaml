@@ -46,11 +46,11 @@ spec:
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.image.repository "tag" .Values.api.image.tag "policy" .Values.api.image.pullPolicy) | nindent 10 }}
           resources:
             limits:
-              memory: 250Mi
-              cpu: 500m
+              memory: {{ .Values.api.public.resources.limits.memory }}
+              cpu: {{ .Values.api.public.resources.limits.cpu }}
             requests:
-              memory: 100Mi
-              cpu: 100m
+              memory: {{ .Values.api.public.resources.requests.memory }}
+              cpu: {{ .Values.api.public.resources.requests.cpu }}
           ports:
             - name: be-fa-p-port
               containerPort: 80

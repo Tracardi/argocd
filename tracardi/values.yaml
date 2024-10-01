@@ -192,6 +192,13 @@ api:
       enabled: false
       host: "*.private.your-domain.com"
       path: /
+    resources:
+      limits:
+        memory: 250Mi
+        cpu: 500m
+      requests:
+        memory: 100Mi
+        cpu: 100m
 
   public:
     enabled: true
@@ -227,6 +234,13 @@ api:
       enabled: false
       host: "*.public.your-domain.com"
       path: /
+    resources:
+      limits:
+        memory: 250Mi
+        cpu: 500m
+      requests:
+        memory: 100Mi
+        cpu: 100m
 
 gui:
   image:
