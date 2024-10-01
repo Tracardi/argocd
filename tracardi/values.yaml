@@ -166,7 +166,7 @@ api:
   image:
     repository: tracardi/com-tracardi-api
     pullPolicy: IfNotPresent
-    tag: 1.0.0  # Tag should be the same for gui and backend
+    tag: 1.1.0  # Tag should be the same for gui and backend
   private:
     enabled: true
     replicas: 1
@@ -232,7 +232,7 @@ gui:
   image:
     repository: tracardi/tracardi-gui
     pullPolicy: IfNotPresent
-    tag: 1.0.0  # Tag should be the same for gui and backend
+    tag: 1.1.0  # Tag should be the same for gui and backend
   console:
     enabled: true
     replicas: 1
@@ -250,7 +250,7 @@ tms:
   image:
     repository: tracardi/tms
     pullPolicy: IfNotPresent
-    tag: 1.0.0  # Tag should be the same for gui and backend
+    tag: 1.1.0  # Tag should be the same for gui and backend
   docker:
     enabled: true
     replicas: 1
@@ -266,7 +266,7 @@ worker:
   background:
     image:
       repository: tracardi/background-worker
-      tag: 1.0.0
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     enabled: true
     replicas: 1
@@ -302,7 +302,7 @@ worker:
   apm:
     image:
       repository: tracardi/apm
-      tag: 1.0.0
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     profile:
       enabled: true
@@ -313,7 +313,7 @@ worker:
   upgrade:
     image:
       repository: tracardi/update-worker
-      tag: 1.0.0
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     docker:
       enabled: true
@@ -332,7 +332,7 @@ bridge:
   queue:
     image:
       repository: tracardi/com-bridge-queue
-      tag: 1.0.0
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     docker:
       enabled: false
@@ -346,7 +346,7 @@ copingWorker:
   enabled: false
   image:
     repository: tracardi/com-tracardi-coping-worker
-    tag: 1.0.0
+    tag: 1.1.0
     pullPolicy: IfNotPresent
   config:
     saveLogs: "no"
