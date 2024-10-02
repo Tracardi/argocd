@@ -38,11 +38,18 @@ spec:
           imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
           resources:
             limits:
-              memory: 250Mi
-              cpu: 500m
+              memory: 500Mi
+              cpu: 1000m
             requests:
               memory: 50Mi
               cpu: 50m
+          resources:
+            limits:
+              memory: {{ .Values.worker.background.resources.limits.memory }}
+              cpu: {{ .Values.worker.background.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.worker.background.resources.requests.memory }}
+              cpu: {{ .Values.worker.background.resources.requests.cpu }}
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
