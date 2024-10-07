@@ -54,14 +54,8 @@ spec:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: {{ .Values.worker.background.config.loggingLevel | quote }}
-            - name: MAX_TIME_IN_BUFFER
-              value: {{ .Values.worker.background.config.bulker.maxTimeInBuffer | quote }}
             - name: INACTIVITY_TIME_OUT
               value: {{ .Values.worker.background.config.bulker.bufferInactivityTimeOut | quote }}
-            - name: MIN_BATCH_SIZE
-              value: {{ .Values.worker.background.config.bulker.minBatchSize | quote }}
-            - name: MAX_BATCH_SIZE
-              value: {{ .Values.worker.background.config.bulker.maxBatchSize | quote }}
 
           volumeMounts:
             - name: pre-resources-vol

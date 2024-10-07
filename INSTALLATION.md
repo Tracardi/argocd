@@ -702,10 +702,7 @@ worker:
          # 
          # Additionally, if no new data arrives within a specified period of inactivity, a timeout is triggered that
          # automatically flushes any remaining data in the queue that has not yet been processed.
-         maxTimeInBuffer: 5  # TimeLimit: Flush data to storage every X sec
          bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
-         minBatchSize: 200  # SizeLimit: Min number of messages in the queue buffer
-         maxBatchSize: 1000  # SizeLimit: Max number of messages in the queue buffer
 
   apm:
     image:
