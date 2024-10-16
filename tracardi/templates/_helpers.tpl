@@ -347,4 +347,10 @@ Params:
 - name: OTEL_RESOURCE_ATTRIBUTES
   value: {{ .ctx.Values.telemetry.export.attributes | quote }}
 {{- end -}}
+
+{{ if and .ctx.Values.config.apm.identification_event_property (not (empty .ctx.Values.config.apm.identification_event_property))}}
+- name: IDENTIFICATION_EVENT_PROPERTY
+  value: {{ .ctx.Values.config.apm.identification_event_property | quote }}
+{{- end -}}
+
 {{- end -}}
