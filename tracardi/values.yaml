@@ -76,6 +76,7 @@ config:
   systemEvents: "yes"
   apm:
     identification_event_property: ""
+    tip_type: ""
   enableVisitEnded: "no"
   visit:
     close: 1200  # Close visit after 20 min

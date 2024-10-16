@@ -352,5 +352,9 @@ Params:
 - name: IDENTIFICATION_EVENT_PROPERTY
   value: {{ .ctx.Values.config.apm.identification_event_property | quote }}
 {{- end -}}
+{{ if and .ctx.Values.config.apm.tip_type (not (empty .ctx.Values.config.apm.tip_type))}}
+- name: IDENTIFICATION_POINT_TYPE
+  value: {{ .ctx.Values.config.apm.tip_type | quote }}
+{{- end -}}
 
 {{- end -}}
