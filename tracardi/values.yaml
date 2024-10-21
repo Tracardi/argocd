@@ -217,7 +217,7 @@ api:
     replicas: 1
     config:
       saveLogs: "no"
-      loggingLevel: "WARNING"
+      loggingLevel: "INFO"
       apiDocs: "no"
       enableWorkflow: "yes"
       enableEventDestinations: "yes"
