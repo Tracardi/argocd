@@ -350,7 +350,39 @@ tms:
 #          operator: In
 #          values:
 #            - c5.xlarge
+tmsGui:
+  image:
+    repository: tracardi/tms-gui
+    pullPolicy: IfNotPresent
+    tag: 1.1.0  # Tag should be the same for gui and backend
+  docker:
+    enabled: true
+    replicas: 1
+    service:
+      port: 8383
+      name: be-fa-tms-gui-svc  # The name of tms service
 
+
+
+
+# Example of nodeAffinity
+#  nodeAffinity:
+#    required:
+#      - key: node-type
+#        operator: In
+#        values:
+#          - compute
+#    preferred:
+#      - weight: 100
+#        key: zone
+#        operator: In
+#        values:
+#          - us-east-1a
+#      - weight: 50
+#        key: instance-type
+#        operator: In
+#        values:
+#          - c5.xlarge
 
 worker:
   background:

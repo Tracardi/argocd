@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fe-rj-gui-svc
+  name: fe-gui-svc
 spec:
   type: ClusterIP
   selector:
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: do-fe-rj-gui-lb
+  name: fe-gui-lb
   {{ if .Values.digitalOcean.certId }}
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"

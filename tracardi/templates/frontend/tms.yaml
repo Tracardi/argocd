@@ -1,0 +1,40 @@
+{{ if and .Values.tmsGui.docker.enabled .Values.tms.docker.enabled (eq .Values.config.multiTenant.multi "yes") }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-rj-tms-gui
+  labels:
+    {{- include "tracardi.labels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 4 }}
+spec:
+  replicas: {{ .Values.tmsGui.docker.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "tmsGui") | nindent 6 }}
+      containers:
+        - name: fe-rj-tms-gui
+          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.tmsGui.image.repository "tag" .Values.tmsGui.image.tag "policy" .Values.tmsGui.image.pullPolicy) | nindent 10 }}
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: 500m
+            requests:
+              memory: 20Mi
+              cpu: 300m
+          ports:
+            - containerPort: 80
+              name: gui-port
+          volumeMounts:
+            - name: gui-config-volume
+              mountPath: /usr/share/nginx/html/config
+      volumes:
+        - name: gui-config-volume
+          configMap:
+            name: gui-config
+
+{{ end }}

@@ -1,0 +1,15 @@
+{{ if and .Values.tmsGui.docker.enabled .Values.tms.docker.enabled (eq .Values.config.multiTenant.multi "yes") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: fa-tms-gui
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 6 }}
+  ports:
+    - name: http-{{ .Values.tmsGui.docker.service.port }}
+      protocol: TCP
+      port: {{ .Values.tmsGui.docker.service.port }}
+      targetPort: tms-port
+{{ end }}
