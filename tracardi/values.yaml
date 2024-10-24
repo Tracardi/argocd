@@ -37,7 +37,7 @@ mysql:
   port: 3306
 
 tmsApi:
-  host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
+  host: be-tms-svc.tracardi-com-090.svc.cluster.local
   database: "tms"
 
 telemetry:
@@ -330,7 +330,7 @@ tms:
       loggingLevel: "INFO"
     service:
       port: 8383
-      name: be-fa-tms-svc  # The name of tms service
+      name: be-tms-svc  # The name of tms service
 
 # Example of nodeAffinity
 #    nodeAffinity:
@@ -359,8 +359,7 @@ tmsGui:
     enabled: true
     replicas: 1
     service:
-      port: 8383
-      name: be-fa-tms-gui-svc  # The name of tms service
+      port: 8282
 
 
 

@@ -11,5 +11,5 @@ spec:
     - name: http-{{ .Values.tmsGui.docker.service.port }}
       protocol: TCP
       port: {{ .Values.tmsGui.docker.service.port }}
-      targetPort: tms-port
+      targetPort: tms-gui-port
 {{ end }}

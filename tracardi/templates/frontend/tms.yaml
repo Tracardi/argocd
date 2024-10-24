@@ -16,6 +16,8 @@ spec:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 8 }}
     spec:
       {{- include "chart.nodeAffinity" (dict "context" . "path" "tmsGui") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
       containers:
         - name: fe-rj-tms-gui
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.tmsGui.image.repository "tag" .Values.tmsGui.image.tag "policy" .Values.tmsGui.image.pullPolicy) | nindent 10 }}
@@ -28,13 +30,6 @@ spec:
               cpu: 300m
           ports:
             - containerPort: 80
-              name: gui-port
-          volumeMounts:
-            - name: gui-config-volume
-              mountPath: /usr/share/nginx/html/config
-      volumes:
-        - name: gui-config-volume
-          configMap:
-            name: gui-config
+              name: tms-gui-port
 
 {{ end }}
