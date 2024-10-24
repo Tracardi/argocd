@@ -15,6 +15,7 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-tms") | nindent 8 }}
     spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "tms.docker") | nindent 6 }}
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub  | quote }}
       containers:

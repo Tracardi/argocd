@@ -24,6 +24,7 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 8 }}
     spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "gui") | nindent 6 }}
       containers:
         - name: fe-rj-gui
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.gui.image.repository "tag" .Values.gui.image.tag "policy" .Values.gui.image.pullPolicy) | nindent 10 }}

@@ -26,6 +26,7 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "be-fa-public") | nindent 8 }}
     spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "api.public") | nindent 6 }}
       {{ if .Values.api.public.spread }}
         {{range .Values.api.public.spread }}
           {{ toYaml . | nindent 6 }}

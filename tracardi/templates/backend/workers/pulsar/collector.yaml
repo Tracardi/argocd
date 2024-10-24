@@ -8,7 +8,7 @@ metadata:
     version: {{ .Chart.AppVersion | quote }}
     {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-collector") | nindent 4 }}
 spec:
-  replicas: {{ .Values.worker.background.replicas }}
+  replicas: {{ .Values.worker.collector.replicas }}
   selector:
     matchLabels:
       {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-pl-collector") | nindent 6 }}
@@ -17,11 +17,14 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-collector") | nindent 8 }}
     spec:
-      {{ if .Values.worker.background.spread }}
-        {{range .Values.worker.background.spread }}
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.collector") | nindent 6 }}
+
+      {{ if .Values.worker.collector.spread }}
+        {{range .Values.worker.collector.spread }}
           {{ toYaml . | nindent 6 }}
         {{ end }}
       {{ end }}
+
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
@@ -34,21 +37,21 @@ spec:
               value: debug
       containers:
         - name: wk-pl-collector
-          image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
-          imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
+          image: "{{ .Values.worker.collector.image.repository }}:{{ .Values.worker.collector.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.collector.image.pullPolicy }}
           resources:
             limits:
-              memory: {{ .Values.worker.background.resources.limits.memory }}
-              cpu: {{ .Values.worker.background.resources.limits.cpu }}
+              memory: {{ .Values.worker.collector.resources.limits.memory }}
+              cpu: {{ .Values.worker.collector.resources.limits.cpu }}
             requests:
-              memory: {{ .Values.worker.background.resources.requests.memory }}
-              cpu: {{ .Values.worker.background.resources.requests.cpu }}
+              memory: {{ .Values.worker.collector.resources.requests.memory }}
+              cpu: {{ .Values.worker.collector.resources.requests.cpu }}
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
-              value: {{ .Values.worker.background.config.loggingLevel | quote }}
+              value: {{ .Values.worker.collector.config.loggingLevel | quote }}
             - name: INACTIVITY_TIME_OUT
-              value: {{ .Values.worker.background.config.bulker.bufferInactivityTimeOut | quote }}
+              value: {{ .Values.worker.collector.config.bulker.bufferInactivityTimeOut | quote }}
             - name: CONSUMER_TYPE
               value: "system.collector"
 

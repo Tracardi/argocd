@@ -358,3 +358,50 @@ Params:
 {{- end -}}
 
 {{- end -}}
+
+# templates/_helpers.tpl
+
+{{/*
+Node affinity helper with nested path support and error checking
+Usage: include "chart.nodeAffinity" (dict "context" . "path" "api.private")
+*/}}
+{{- define "chart.nodeAffinity" -}}
+{{- $root := .context.Values }}
+{{- $affinity := $root }}
+{{- $valid := true }}
+{{- range splitList "." .path }}
+  {{- if $affinity }}
+    {{- $affinity = get $affinity . }}
+  {{- else }}
+    {{- $valid = false }}
+  {{- end }}
+{{- end }}
+{{- if and $valid $affinity }}
+  {{- if kindIs "map" $affinity }}
+    {{- if hasKey $affinity "nodeAffinity" }}
+      {{- with $affinity.nodeAffinity }}
+affinity:
+  nodeAffinity:
+        {{- with .required }}
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .preferred }}
+    preferredDuringSchedulingIgnoredDuringExecution:
+        {{- range . }}
+    - weight: {{ .weight }}
+      preference:
+        matchExpressions:
+        - key: {{ .key }}
+          operator: {{ .operator }}
+          values:
+          {{- toYaml .values | nindent 10 }}
+        {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}

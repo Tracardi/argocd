@@ -17,6 +17,7 @@ spec:
       labels:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 8 }}
     spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.background") | nindent 6 }}
       {{ if .Values.worker.background.spread }}
         {{range .Values.worker.background.spread }}
           {{ toYaml . | nindent 6 }}
