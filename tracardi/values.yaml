@@ -519,9 +519,9 @@ worker:
     resources:
       limits:
         memory: 500Mi # 400Mi max for worker that saves data only, not collector
-        cpu: 1000m  # 700m max for worker that saves data only, not collector
+        cpu: 800m  # 700m max for worker that saves data only, not collector
       requests:
-        memory: 300Mi
+        memory: 200Mi
         cpu: 300m
 
     config:
