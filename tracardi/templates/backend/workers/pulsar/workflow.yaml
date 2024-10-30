@@ -1,0 +1,88 @@
+{{ if and .Values.secrets.dockerHub .Values.worker.workflow.enabled .Values.pulsar.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk-pl-workflow
+  labels:
+    app: wk-pl-workflow
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-workflow") | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.workflow.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-pl-workflow") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-workflow") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.workflow") | nindent 6 }}
+
+      {{ if .Values.worker.workflow.spread }}
+        {{range .Values.worker.workflow.spread }}
+          {{ toYaml . | nindent 6 }}
+        {{ end }}
+      {{ end }}
+
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      initContainers:
+        - name: tracardi-init
+          image: tracardi/init:{{ .Values.api.image.tag }}
+          imagePullPolicy: Always
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: wk-pl-workflow
+          image: "{{ .Values.worker.workflow.image.repository }}:{{ .Values.worker.workflow.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.workflow.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.worker.workflow.resources.limits.memory }}
+              cpu: {{ .Values.worker.workflow.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.worker.workflow.resources.requests.memory }}
+              cpu: {{ .Values.worker.workflow.resources.requests.cpu }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.worker.workflow.config.loggingLevel | quote }}
+            - name: INACTIVITY_TIME_OUT
+              value: {{ .Values.worker.workflow.config.bulker.bufferInactivityTimeOut | quote }}
+            - name: CONSUMER_TYPE
+              value: "system.workflow"
+
+          volumeMounts:
+            - name: pre-resources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+              subPath: "resources.json"
+            - name: pre-destinations-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+              subPath: "destinations.json"
+            - name: pre-event-sources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+              subPath: "event-sources.json"
+            - name: tenant-aliases-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+              subPath: "tenant-aliases.json"
+
+      volumes:
+        - name: pre-resources-vol
+          configMap:
+            name: pre-resources-cm
+
+        - name: pre-destinations-vol
+          configMap:
+            name: pre-destinations-cm
+
+        - name: pre-event-sources-vol
+          configMap:
+            name: pre-event-sources-cm
+
+        - name: tenant-aliases-vol
+          configMap:
+            name: tenant-aliases-cm
+{{ end }}

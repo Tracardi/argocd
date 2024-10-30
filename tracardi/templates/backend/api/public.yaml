@@ -77,8 +77,6 @@ spec:
               value: {{ .Values.api.public.config.enableEventDestinations | quote }}
             - name: ENABLE_PROFILE_DESTINATIONS
               value: {{ .Values.api.public.config.enableProfileDestinations | quote }}
-            - name: ENABLE_WORKFLOW
-              value: {{ .Values.api.public.config.enableWorkflow | quote }}
             - name: ENABLE_IDENTIFICATION_POINT
               value: {{ .Values.api.public.config.enableIdentification | quote }}
             - name: ELASTIC_INDEX_SHARDS
