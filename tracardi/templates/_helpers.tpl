@@ -348,18 +348,24 @@ Params:
   value: {{ .ctx.Values.telemetry.export.attributes | quote }}
 {{- end -}}
 
-{{ if and .ctx.Values.config.apm.identification_event_property (not (empty .ctx.Values.config.apm.identification_event_property))}}
+{{ if and .ctx.Values.config.apm.identificationEventProperty (not (empty .ctx.Values.config.apm.identificationEventProperty))}}
 - name: IDENTIFICATION_EVENT_PROPERTY
-  value: {{ .ctx.Values.config.apm.identification_event_property | quote }}
+  value: {{ .ctx.Values.config.apm.identificationEventProperty | quote }}
 {{- end -}}
-{{ if and .ctx.Values.config.apm.tip_type (not (empty .ctx.Values.config.apm.tip_type))}}
+{{ if and .ctx.Values.config.apm.tipType (not (empty .ctx.Values.config.apm.tipType))}}
 - name: IDENTIFICATION_POINT_TYPE
-  value: {{ .ctx.Values.config.apm.tip_type | quote }}
+  value: {{ .ctx.Values.config.apm.tipType | quote }}
 {{- end -}}
 {{ if .ctx.Values.worker.workflow.enabled }}
 - name: ENABLE_WORKFLOW
   value: {{ .ctx.Values.worker.workflow.enabled | quote }}
 {{- end -}}
+{{ if .ctx.Values.config.eff.lateProfileBinding }}
+- name: EFF_LATE_PROFILE_BINDING
+  value: {{ .ctx.Values.config.eff.lateProfileBinding | quote }}
+{{- end -}}
+
+
 {{- end -}}
 
 # templates/_helpers.tpl
