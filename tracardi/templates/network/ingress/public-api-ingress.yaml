@@ -14,7 +14,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: be-fa-public-svc
+                name: be-public-svc
                 port:
                   number: {{ .Values.api.public.service.port }}
   {{ end }}
