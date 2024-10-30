@@ -356,7 +356,7 @@ Params:
 - name: IDENTIFICATION_POINT_TYPE
   value: {{ .ctx.Values.config.apm.tip_type | quote }}
 {{- end -}}
-{{ if ..ctx.Values.worker.workflow.enabled }}
+{{ if .ctx.Values.worker.workflow.enabled }}
 - name: ENABLE_WORKFLOW
   value: {{ .ctx.Values.worker.workflow.enabled | quote }}
 {{- end -}}
