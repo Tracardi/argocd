@@ -217,6 +217,16 @@ Params:
 {{ end }}
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
+
+- name: MYSQL_POOL_SIZE
+  value: {{ .ctx.Values.mysql.pool.size | quote }}
+- name: MYSQL_POOL_MAX_OVERFLOW
+  value: {{ .ctx.Values.mysql.pool.maxOverflow | quote }}
+- name: MYSQL_POOL_TIMEOUT
+  value: {{ .ctx.Values.mysql.pool.timeout | quote }}
+- name: MYSQL_POOL_RECYCLE
+  value: {{ .ctx.Values.mysql.pool.recycle | quote }}
+
 - name: PRIMARY_ID
   value: {{ .ctx.Values.config.primaryId }}
 - name: PULSAR_HOST

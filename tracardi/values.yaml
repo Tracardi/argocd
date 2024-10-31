@@ -35,6 +35,11 @@ mysql:
   schema: "mysql+aiomysql://"
   database: "tracardi"
   port: 3306
+  pool:
+    size: 5
+    maxOverflow: 2
+    timeout: 3
+    recycle: 1800
 
 tmsApi:
   host: be-tms-svc.tracardi-com-090.svc.cluster.local
