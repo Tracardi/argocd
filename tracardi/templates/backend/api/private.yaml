@@ -1,6 +1,6 @@
 {{ if and .Values.secrets.dockerHub .Values.api.private.enabled }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: be-fa-private
   labels:
@@ -8,7 +8,6 @@ metadata:
     version: {{ .Chart.AppVersion | quote }}
     {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-private") | nindent 4 }}
 spec:
-  serviceName: "tracardi-api-private"
   replicas: {{ .Values.api.private.replicas }}
   selector:
     matchLabels:

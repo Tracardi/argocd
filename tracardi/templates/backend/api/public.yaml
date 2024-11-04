@@ -1,12 +1,11 @@
 {{ if and .Values.secrets.dockerHub .Values.api.public.enabled }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: be-fa-public
   labels:
     {{- include "tracardi.labels" (dict "ctx" . "component" "be-fa-public") | nindent 4 }}
 spec:
-  serviceName: "tracardi-api-public"
   replicas: {{ .Values.api.public.replicas }}
   selector:
     matchLabels:
