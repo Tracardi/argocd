@@ -13,18 +13,12 @@ spec:
       targetPort: gui-port
 
 
-{{ if .Values.digitalOcean.loadBalancer }}
+{{ if .Values.gui.console.service.loadBalancer }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: fe-gui-lb
-  {{ if .Values.digitalOcean.certId }}
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
-  {{ end }}
 spec:
   type: LoadBalancer
   selector:
@@ -34,12 +28,5 @@ spec:
       protocol: TCP
       port: {{ .Values.gui.console.service.port }}
       targetPort: gui-port
-    {{ if .Values.digitalOcean.certId }}
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: gui-port
-    {{ end }}
-
 {{ end }}
 {{ end }}

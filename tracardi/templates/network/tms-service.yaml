@@ -1,14 +1,24 @@
-{{ if and .Values.tms.docker.enabled (eq .Values.config.multiTenant.multi "yes") .Values.digitalOcean.loadBalancer }}
+{{ if and .Values.tms.docker.enabled (eq .Values.config.multiTenant.multi "yes") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-tms-svc
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-tms") | nindent 6 }}
+  ports:
+    - name: http-{{ .Values.tms.docker.service.port }}
+      protocol: TCP
+      port: {{ .Values.tms.docker.service.port }}
+      targetPort: tms-port
+
+{{ if and  .Values.tms.docker.service.loadBalancer }}
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: be-tms-lb
-  {{ if .Values.digitalOcean.certId }}
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
-  {{ end }}
 spec:
   type: LoadBalancer
   selector:
@@ -18,10 +28,5 @@ spec:
       protocol: TCP
       port: {{ .Values.tms.docker.service.port }}
       targetPort: tms-port
-    {{ if .Values.digitalOcean.certId }}
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: tms-port
-    {{ end }}
+{{ end }}
 {{ end }}

@@ -2,9 +2,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fa-tms-gui
+  name: fe-tms-gui-svc
 spec:
   type: ClusterIP
+  selector:
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 6 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.tmsGui.docker.service.port }}
+      targetPort: tms-gui-port
+
+
+{{ if and .Values.tmsGui.docker.service.loadBalancer }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fe-tms-gui-lb
+spec:
+  type: LoadBalancer
   selector:
     {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-tms-gui") | nindent 6 }}
   ports:
@@ -12,4 +28,5 @@ spec:
       protocol: TCP
       port: {{ .Values.tmsGui.docker.service.port }}
       targetPort: tms-gui-port
+{{ end }}
 {{ end }}

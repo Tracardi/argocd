@@ -60,13 +60,6 @@ telemetry:
     batch_size: 512
 
 
-# Digital ocean
-
-digitalOcean:
-  loadBalancer: false
-  certId: ""  # SET-CERT-ID
-
-
 # Cluster wide configuration. Version, images, multi-tenancy, etc.
 
 config:
@@ -198,6 +191,7 @@ api:
         size: 1Gi
     service:
       port: 8686
+      loadBalancer: false
     ingress:
       enabled: false
       host: "*.private.your-domain.com"
@@ -259,6 +253,7 @@ api:
         size: 1Gi
     service:
       port: 8585
+      loadBalancer: false
     ingress:
       enabled: false
       host: "*.public.your-domain.com"
@@ -300,6 +295,7 @@ gui:
     replicas: 1
     service:
         port: 8787
+        loadBalancer: false
     ingress:
       enabled: false
       host: gui.your-domain.com
@@ -339,6 +335,7 @@ tms:
     service:
       port: 8383
       name: be-tms-svc  # The name of tms service
+      loadBalancer: false
 
 # Example of nodeAffinity
 #    nodeAffinity:
@@ -368,6 +365,7 @@ tmsGui:
     replicas: 1
     service:
       port: 8282
+      loadBalancer: false
 
 
 

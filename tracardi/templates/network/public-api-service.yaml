@@ -12,18 +12,12 @@ spec:
       port: {{ .Values.api.public.service.port }}
       targetPort: be-fa-p-port
 
-{{ if .Values.digitalOcean.loadBalancer }}
+{{ if .Values.api.public.service.loadBalancer }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: be-public-lb
-  {{ if .Values.digitalOcean.certId }}
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: {{ .Values.digitalOcean.certId | quote }}
-  {{ end }}
 spec:
   type: LoadBalancer
   selector:
@@ -33,12 +27,5 @@ spec:
       protocol: TCP
       port: {{ .Values.api.public.service.port }}
       targetPort: be-fa-p-port
-    {{ if .Values.digitalOcean.certId }}
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: be-fa-p-port
-    {{ end }}
-
 {{ end }}
 {{ end }}
