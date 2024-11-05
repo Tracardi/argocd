@@ -73,18 +73,6 @@ spec:
               value: {{ .Values.api.private.config.apiDocs | quote}}
             - name: SAVE_LOGS
               value: {{ .Values.api.private.config.saveLogs | quote }}
-            - name: ENABLE_EVENT_DESTINATIONS
-              value: {{ .Values.api.private.config.enableEventDestinations | quote }}
-            - name: ENABLE_PROFILE_DESTINATIONS
-              value: {{ .Values.api.private.config.enableProfileDestinations | quote }}
-            - name: ENABLE_IDENTIFICATION_POINT
-              value: {{ .Values.api.private.config.enableIdentification | quote }}
-            - name: ELASTIC_INDEX_SHARDS
-              value: {{ .Values.elastic.index.shards | quote }}
-            - name: ELASTIC_INDEX_REPLICAS
-              value: {{ .Values.elastic.index.replicas | quote }}
-            - name: MYSQL_DATABASE
-              value: {{ .Values.mysql.database }}
 
           volumeMounts:
             - name: pre-resources-vol

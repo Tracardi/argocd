@@ -121,6 +121,7 @@ Params:
   license = name of secret containing the license
 */}}
 {{- define "tracardi.env" -}}
+
 {{- if and (not .nolicense) .ctx.Values.secrets.license.licenseKey }}
 - name: LICENSE
   valueFrom:
@@ -134,6 +135,7 @@ Params:
       name: {{ .ctx.Values.secrets.license.valueFrom.licenseKey.name }}
       key: {{ .ctx.Values.secrets.license.valueFrom.licenseKey.key }}
 {{- end }}
+
 - name: ELASTIC_SCHEME
   value: {{ .ctx.Values.elastic.schema | quote }}
 - name: ELASTIC_HOST
@@ -165,6 +167,12 @@ Params:
   value: {{ .ctx.Values.elastic.port | quote }}
 - name: ELASTIC_VERIFY_CERTS
   value: {{ .ctx.Values.elastic.verifyCerts | quote }}
+{{ if .ctx.Values.elastic.index }}
+- name: ELASTIC_INDEX_SHARDS
+  value: {{ .ctx.Values.elastic.index.shards | quote }}
+- name: ELASTIC_INDEX_REPLICAS
+  value: {{ .ctx.Values.elastic.index.replicas | quote }}
+{{ end }}
 - name: ELASTIC_QUERY_TIMEOUT
   value: "120"
 - name: REDIS_HOST
@@ -217,6 +225,8 @@ Params:
 {{ end }}
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
+- name: MYSQL_DATABASE
+  value: {{ .ctx.Values.mysql.database }}
 
 - name: MYSQL_POOL_SIZE
   value: {{ .ctx.Values.mysql.pool.size | quote }}
@@ -306,19 +316,19 @@ Params:
 {{ end }}
 - name: AUTO_PROFILE_MERGING
   value: {{ .ctx.Values.secrets.mergingToken | quote }}
-{{ if .ctx.Values.config.storage.failOver.enabled }}
-- name: ENABLE_PULSAR_FAIL_OVER_DB
-  value: "yes"
-{{ end }}
+
 - name: EVENT_PARTITIONING
   value: {{ .ctx.Values.api.public.config.eventPartitioning | quote }}
 - name: PROFILE_PARTITIONING
   value: {{ .ctx.Values.api.public.config.profilePartitioning | quote }}
 - name: SESSION_PARTITIONING
   value: {{ .ctx.Values.api.public.config.sessionPartitioning | quote }}
+- name: ENTITY_PARTITIONING
+  value: {{ .ctx.Values.api.public.config.entityPartitioning | quote }}
 - name: CLOSE_VISIT_AFTER
   value: {{ .ctx.Values.config.visit.close | quote }}
 
+{{- if .ctx.Values.telemetry }}
 - name: OTEL_SDK_DISABLED
   value: {{ .ctx.Values.telemetry.disabled | quote }}
 - name: OTEL_SERVICE_NAME
@@ -357,6 +367,7 @@ Params:
 - name: OTEL_RESOURCE_ATTRIBUTES
   value: {{ .ctx.Values.telemetry.export.attributes | quote }}
 {{- end -}}
+{{- end -}}
 
 {{ if and .ctx.Values.config.apm.identificationEventProperty (not (empty .ctx.Values.config.apm.identificationEventProperty))}}
 - name: IDENTIFICATION_EVENT_PROPERTY
@@ -366,14 +377,124 @@ Params:
 - name: IDENTIFICATION_POINT_TYPE
   value: {{ .ctx.Values.config.apm.tipType | quote }}
 {{- end -}}
-{{ if .ctx.Values.worker.workflow.enabled }}
+{{ if and .ctx.Values.config.apm.eventType (not (empty .ctx.Values.config.apm.eventType))}}
+- name: IDENTIFICATION_EVENT_TYPE
+  value: {{ .ctx.Values.config.apm.eventType | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableEventDestinations }}
+- name: ENABLE_EVENT_DESTINATIONS
+  value: {{ .ctx.Values.config.features.enableEventDestinations | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableProfileDestinations }}
+- name: ENABLE_PROFILE_DESTINATIONS
+  value: {{ .ctx.Values.config.features.enableProfileDestinations | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableAudiences }}
+- name: ENABLE_AUDIENCES
+  value: {{ .ctx.Values.config.features.enableAudiences | quote }}
+{{- end -}}
+
+{{ if and .ctx.Values.worker.workflow.enabled  .ctx.Values.config.features.enableWorkflow }}
 - name: ENABLE_WORKFLOW
-  value: {{ .ctx.Values.worker.workflow.enabled | quote }}
+  value: {{ .ctx.Values.config.features.enableWorkflow | quote }}
 {{- end -}}
-{{ if .ctx.Values.config.eff.lateProfileBinding }}
+
+{{ if .ctx.Values.config.features.enableEventValidation }}
+- name: ENABLE_EVENT_VALIDATION
+  value: {{ .ctx.Values.config.features.enableEventValidation | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableEventReshaping }}
+- name: ENABLE_EVENT_RESHAPING
+  value: {{ .ctx.Values.config.features.enableEventReshaping | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableEventMapping }}
+- name: ENABLE_EVENT_MAPPING
+  value: {{ .ctx.Values.config.features.enableEventMapping | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableEventToProfileMapping }}
+- name: ENABLE_EVENT_TO_PROFILE_MAPPING
+  value: {{ .ctx.Values.config.features.enableEventToProfileMapping | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableDataCompliance }}
+- name: ENABLE_DATA_COMPLIANCE
+  value: {{ .ctx.Values.config.features.enableDataCompliance | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableEventSourceCheck }}
+- name: ENABLE_EVENT_SOURCE_CHECK
+  value: {{ .ctx.Values.config.features.enableEventSourceCheck | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.features.enableIdentificationPoints }}
+- name: ENABLE_IDENTIFICATION_POINTS
+  value: {{ .ctx.Values.config.features.enableIdentificationPoints | quote }}
+{{- end -}}
+
+{{ if .ctx.Values.config.eff.enableLateProfileBinding }}
 - name: EFF_LATE_PROFILE_BINDING
-  value: {{ .ctx.Values.config.eff.lateProfileBinding | quote }}
+  value: {{ .ctx.Values.config.eff.enableLateProfileBinding | quote }}
 {{- end -}}
+
+{{ if .ctx.Values.config.cache.keepProfileInCacheFor }}
+- name: KEEP_PROFILE_IN_CACHE_FOR
+  value: "{{ .ctx.Values.config.cache.keepProfileInCacheFor }}"
+{{- end -}}
+
+{{ if .ctx.Values.config.cache.keepSessionInCacheFor }}
+- name: KEEP_SESSION_IN_CACHE_FOR
+  value: "{{ .ctx.Values.config.cache.keepSessionInCacheFor }}"
+{{- end -}}
+
+
+{{- if .ctx.Values.starrocks }}
+{{- if .ctx.Values.starrocks.host }}
+- name: STARROCKS_HOST
+  value: {{ .ctx.Values.starrocks.host | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.username }}
+- name: STARROCKS_USERNAME
+  value: {{ .ctx.Values.starrocks.username | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.password }}
+- name: STARROCKS_PASSWORD
+  value: {{ .ctx.Values.starrocks.password | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.schema }}
+- name: STARROCKS_SCHEMA
+  value: {{ .ctx.Values.starrocks.schema | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.schemaSync }}
+- name: STARROCKS_SCHEMA_SYNC
+  value: {{ .ctx.Values.starrocks.schemaSync | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.port }}
+- name: STARROCKS_PORT
+  value: "{{ .ctx.Values.starrocks.port }}"
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.database }}
+- name: STARROCKS_DATABASE
+  value: {{ .ctx.Values.starrocks.database | quote }}
+{{- end -}}
+
+{{- if .ctx.Values.starrocks.echo }}
+- name: STARROCKS_ECHO
+  value: {{ .ctx.Values.starrocks.echo | quote }}
+{{- end -}}
+{{- end -}}
+
 
 
 {{- end -}}

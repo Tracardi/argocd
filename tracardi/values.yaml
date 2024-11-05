@@ -41,23 +41,36 @@ mysql:
     timeout: 3
     recycle: 1800
 
+# Not used
+#starrocks:
+#  host: "localhost"
+#  username: "root"
+#  password: "root"
+#  schema: "mysql+aiomysql://"
+#  schemaSync: "mysql+pymysql://"
+#  port: 9030
+#  database: "tracardi"
+#  echo: "no"
+
+
 tmsApi:
   host: be-tms-svc.tracardi-com-090.svc.cluster.local
   database: "tms"
 
-telemetry:
-  disabled: true
-  name: "tracardi"
-  log_level: "info"
-  export:
-    endpoint: "" # e.g.http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
-    headers: ""  # Use when needed
-    metrics: "" # Use when needed
-    logs: "" # Use when needed
-    attributes: "" # Use when needed
-    time_out: 30000
-    delay: 5000
-    batch_size: 512
+# Not used. Experimental
+#telemetry:
+#  disabled: true
+#  name: "tracardi"
+#  log_level: "info"
+#  export:
+#    endpoint: "" # e.g.http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
+#    headers: ""  # Use when needed
+#    metrics: "" # Use when needed
+#    logs: "" # Use when needed
+#    attributes: "" # Use when needed
+#    time_out: 30000
+#    delay: 5000
+#    batch_size: 512
 
 
 # Cluster wide configuration. Version, images, multi-tenancy, etc.
@@ -75,11 +88,31 @@ config:
   apm:
     identificationEventProperty: ""
     tipType: ""
+    eventType: ""
   eff:
-    lateProfileBinding: "no"
+    enableLateProfileBinding: "no"
+  features:
+    enableEventDestinations: "yes"
+    enableProfileDestinations: "yes"
+    enableAudiences: "yes"
+    enableWorkflow: "yes"
+    enableEventValidation: "yes"
+    enableEventReshaping: "yes"
+    enableEventMapping: "yes"
+    enableEventToProfileMapping: "yes"
+    enableDataCompliance: "yes"
+    enableEventSourceCheck: "yes"
+    enableIdentificationPoints: "yes"
+
+  cache:
+    keepProfileInCacheFor: 3600    # Equivalent to 60 * 60
+    keepSessionInCacheFor: 1800    # Equivalent to 30 * 60
+
   enableVisitEnded: "no"
+
   visit:
     close: 1200  # Close visit after 20 min
+
   preConfiguration:
     resources: "{}"
     eventSources: "{}"
@@ -239,13 +272,10 @@ api:
       saveLogs: "no"
       loggingLevel: "INFO"
       apiDocs: "no"
-      enableWorkflow: "yes"
-      enableEventDestinations: "yes"
-      enableProfileDestinations: "yes"
-      enableIdentification: "yes"
       eventPartitioning: "month"
       profilePartitioning: "quarter"
       sessionPartitioning: "quarter"
+      entityPartitioning: "quarter"
 
     storage:
       failOver:
