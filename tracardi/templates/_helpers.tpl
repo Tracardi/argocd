@@ -228,6 +228,7 @@ Params:
 - name: MYSQL_DATABASE
   value: {{ .ctx.Values.mysql.database }}
 
+{{- if .ctx.Values.mysql.pool}}
 - name: MYSQL_POOL_SIZE
   value: {{ .ctx.Values.mysql.pool.size | quote }}
 - name: MYSQL_POOL_MAX_OVERFLOW
@@ -236,6 +237,7 @@ Params:
   value: {{ .ctx.Values.mysql.pool.timeout | quote }}
 - name: MYSQL_POOL_RECYCLE
   value: {{ .ctx.Values.mysql.pool.recycle | quote }}
+{{- end }}
 
 - name: PRIMARY_ID
   value: {{ .ctx.Values.config.primaryId }}
