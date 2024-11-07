@@ -47,6 +47,7 @@ pulsar:
   # Port number for Pulsar service
   port: 6650
   cluster_name: pulsar
+  # Enable pulsar service
   enabled: true
 
 mysql:
@@ -82,8 +83,11 @@ mysql:
 #  echo: "no"
 
 
+# Tenant Management Service (TMS) API configuration
 tmsApi:
+  # Host address for TMS API service
   host: be-tms-svc.tracardi-com-090.svc.cluster.local
+  # Database name for TMS API
   database: "tms"
 
 # Not used. Experimental
@@ -102,24 +106,32 @@ tmsApi:
 #    batch_size: 512
 
 
-# Cluster wide configuration. Version, images, multi-tenancy, etc.
-
+# Cluster-wide Configuration: General settings for Tracardi system
 config:
+  # Enable or disable multi-tenancy
   multiTenant:
     multi: "no"
+  # Failover storage settings
   storage:
     failOver:
+      # Enable or disable failover storage
       enabled: false
+      # Size of the failover storage
       size: 1Gi
-  primaryId: "emm-"  # This value should be set only once during installation and never changed
+  # Primary ID prefix; should be set only once and never changed
+  primaryId: "emm-"
+  # Enable or disable demo mode
   demo: "no"
+  # Enable or disable system events logging
   systemEvents: "yes"
   apm:
     identificationEventProperty: ""
     tipType: ""
     eventType: ""
+  # Experimental Feature Flag
   eff:
     enableLateProfileBinding: "no"
+  # Enable features for various aspects of the Tracardi system
   features:
     enableEventDestinations: "yes"
     enableProfileDestinations: "yes"
@@ -132,15 +144,17 @@ config:
     enableDataCompliance: "yes"
     enableEventSourceCheck: "yes"
     enableIdentificationPoints: "yes"
-
+  # Cache expiration settings in seconds
   cache:
-    keepProfileInCacheFor: 3600    # Equivalent to 60 * 60
-    keepSessionInCacheFor: 1800    # Equivalent to 30 * 60
-
+    # Time in seconds to keep profile data in cache
+    keepProfileInCacheFor: 3600
+    # Time in seconds to keep session data in cache
+    keepSessionInCacheFor: 1800
+  # Enable visit-ended event handling
   enableVisitEnded: "no"
-
   visit:
-    close: 1200  # Close visit after 20 min
+    # Time in seconds after inactivity to close a visit
+    close: 1200
 
   preConfiguration:
     resources: "{}"
