@@ -337,7 +337,7 @@ api:
       path: /
     resources:
       limits:
-        memory: 250Mi
+        memory: 300Mi
         cpu: 500m
       requests:
         memory: 100Mi
