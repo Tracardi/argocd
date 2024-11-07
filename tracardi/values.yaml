@@ -1,44 +1,73 @@
 # Infrastructure
 
 elastic:
+  # Identifier for Elasticsearch service instance
   name: es1
+  # Host address for Elasticsearch
   host: elastic-std-svc.elastic-standalone.svc.cluster.local
+  # Protocol for connecting to Elasticsearch (http/https)
   schema: http
+  # Enable or disable authentication for Elasticsearch
   authenticate: false
+  # Port number for Elasticsearch service
   port: 9200
+  # Whether to verify SSL certificates (yes/no)
   verifyCerts: "no"
   index:
+    # Number of primary shards for Elasticsearch index
     shards: 3
+    # Number of replica shards for Elasticsearch index
     replicas: 1
 
 redis:
+  # Identifier for Redis service instance
   name: rd1
+  # Host address for Redis
   host: redis-std-svc.redis-standalone.svc.cluster.local
+  # Protocol for connecting to Redis
   schema: "redis://"
+  # Enable or disable authentication for Redis
   authenticate: false
+  # Port number for Redis service
   port: 6379
+  # Redis database number to use
   db: "0"
 
 pulsar:
+  # Identifier for Pulsar service instance
   name: ps1
+  # Host address for Pulsar
   host: pulsar-std-svc.pulsar-standalone.svc.cluster.local
+  # Pulsar API endpoint
   api: "http://pulsar-std-svc.pulsar-standalone.svc.cluster.local:8080"
+  # Protocol for connecting to Pulsar
   schema: "pulsar://"
+  # Enable or disable authentication for Pulsar
   authenticate: false
+  # Port number for Pulsar service
   port: 6650
   cluster_name: pulsar
   enabled: true
 
 mysql:
+  # Identifier for MySQL service instance
   name: ms1
+  # Host address for MySQL
   host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  # Protocol for connecting to MySQL
   schema: "mysql+aiomysql://"
+  # Database name for MySQL
   database: "tracardi"
+  # Port number for MySQL service
   port: 3306
   pool:
+    # Number of connections in the connection pool
     size: 5
+    # Number of additional connections beyond the pool size
     maxOverflow: 2
+    # Timeout for acquiring a connection from the pool
     timeout: 3
+    # Time after which a connection in the pool is recycled
     recycle: 1800
 
 # Not used
