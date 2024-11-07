@@ -122,8 +122,6 @@ config:
   primaryId: "emm-"
   # Enable or disable demo mode
   demo: "no"
-  # Enable or disable system events logging
-  systemEvents: "yes"
   apm:
     identificationEventProperty: ""
     tipType: ""
@@ -144,14 +142,20 @@ config:
     enableDataCompliance: "yes"
     enableEventSourceCheck: "yes"
     enableIdentificationPoints: "yes"
+  systemEvents:
+    # Enable or disable system events
+    enabled: "yes"
+    # Set what profile properties should be monitored for change
+    monitorPropertyChange: null
+    # Enable visit-ended event handling
+    collectVisitEnded: "no"
   # Cache expiration settings in seconds
   cache:
     # Time in seconds to keep profile data in cache
     keepProfileInCacheFor: 3600
     # Time in seconds to keep session data in cache
     keepSessionInCacheFor: 1800
-  # Enable visit-ended event handling
-  enableVisitEnded: "no"
+
   visit:
     # Time in seconds after inactivity to close a visit
     close: 1200

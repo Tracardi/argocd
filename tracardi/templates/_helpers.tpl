@@ -303,9 +303,9 @@ Params:
 - name: TRACK_DEBUG
   value: "yes"
 - name: SYSTEM_EVENTS
-  value: {{ .ctx.Values.config.systemEvents | quote }}
+  value: {{ .ctx.Values.config.systemEvents.enabled | quote }}
 - name: ENABLE_VISIT_ENDED
-  value: {{ .ctx.Values.config.enableVisitEnded | quote }}
+  value: {{ .ctx.Values.config.systemEvents.collectVisitEnded | quote }}
 {{ if .ctx.Values.secrets.installation.token }}
 - name: INSTALLATION_TOKEN
   value: {{ .ctx.Values.secrets.installation.token | quote }}
@@ -453,6 +453,13 @@ Params:
 - name: KEEP_SESSION_IN_CACHE_FOR
   value: "{{ .ctx.Values.config.cache.keepSessionInCacheFor }}"
 {{- end -}}
+
+
+{{ if .ctx.Values.config.monitorPropertyChange }}
+- name: SYSTEM_EVENTS_FOR_PROPERTY_CHANGE
+  value: "{{ .ctx.Values.config.monitorPropertyChange }}"
+{{- end -}}
+
 
 
 {{- if .ctx.Values.starrocks }}

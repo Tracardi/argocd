@@ -339,22 +339,23 @@ config:
       size: 1Gi  # Size of the failover storage
   primaryId: "emm-" 
   demo: "no"  # Whether demo mode is enabled. Disable on production
-  systemEvents: "no"  # Whether system events are enabled.
-  enableVisitEnded: "no"  # Whether to enable visit ended events. Will the system register when the visit ends.
+  systemEvents: 
+    enabled: "no"  # Whether system events are enabled.
+    collectVisitEnded: "no"  # Whether to enable visit ended events. Will the system register when the visit ends.
   visit:
     close: 1200  # Time in seconds to close a visit after inactivity
 ```
 
 ### Explanation of Fields
 
-| Field                   | Description                                                                                                                                                                                                                                                                                        |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **multiTenant.multi**   | Indicates whether multi-tenancy is enabled.                                                                                                                                                                                                                                                        |
-| **primaryId**           | Primary ID prefix for the system, set only once during installation. Emm prefix means use email.main to compute the primary key and use it as a merging key during automatic profile merging. This means tracardi will automatically merge profiles when there are 2 profiles with the same email. |
-| **demo**                | Indicates whether demo mode is enabled.                                                                                                                                                                                                                                                            |
-| **systemEvents**        | Indicates whether system events are enabled.                                                                                                                                                                                                                                                       |
-| **enableVisitEnded**    | Indicates whether visit ended events are enabled.                                                                                                                                                                                                                                                  |
-| **visit.close**         | The time in seconds to close a visit after inactivity.                                                                                                                                                                                                                                             |
+| Field                    | Description                                                                                                                                                                                                                                                                                        |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **multiTenant.multi**    | Indicates whether multi-tenancy is enabled.                                                                                                                                                                                                                                                        |
+| **primaryId**            | Primary ID prefix for the system, set only once during installation. Emm prefix means use email.main to compute the primary key and use it as a merging key during automatic profile merging. This means tracardi will automatically merge profiles when there are 2 profiles with the same email. |
+| **demo**                 | Indicates whether demo mode is enabled.                                                                                                                                                                                                                                                            |
+| **systemEvents.enabled** | Indicates whether system events are enabled.                                                                                                                                                                                                                                                       |
+| **systemEvents.collectVisitEnded**     | Indicates whether visit ended events are enabled.                                                                                                                                                                                                                                                  |
+| **visit.close**          | The time in seconds to close a visit after inactivity.                                                                                                                                                                                                                                             |
 
 ### Example
 
@@ -365,8 +366,9 @@ config:
   multiTenant:
     multi: "yes"  # Enable multi-tenancy
   primaryId: "emm-"  # Set the primary ID prefix
-  systemEvents: "no"  # Enable system events
-  enableVisitEnded: "no"  # Enable visit ended events
+  systemEvents: 
+    enabled: "no"  # Enable system events
+    collectVisitEnded: "no"  # Enable visit ended events
   visit:
     close: 1800  # Set visit close time to 1800 seconds (30 minutes)
 ```
