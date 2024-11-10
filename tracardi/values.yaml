@@ -85,8 +85,8 @@ mysql:
 
 # Tenant Management Service (TMS) API configuration
 tmsApi:
-  # Host address for TMS API service
-  host: be-tms-svc.tracardi-com-090.svc.cluster.local
+  # Host address for TMS API service, It is server by pod be-fa-tms
+  host: be-tms-svc
   # Database name for TMS API
   database: "tms"
 
