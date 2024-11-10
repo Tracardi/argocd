@@ -278,7 +278,7 @@ api:
       path: /
     resources:
       limits:
-        memory: 250Mi
+        memory: 1000Mi  # Private need more memory because it can run workflows
         cpu: 500m
       requests:
         memory: 100Mi
