@@ -650,6 +650,25 @@ worker:
       config:
         loggingLevel: "INFO"
 
+# Example of nodeAffinity
+#    nodeAffinity:
+#      required:
+#        - key: node-type
+#          operator: In
+#          values:
+#            - compute
+#      preferred:
+#        - weight: 100
+#          key: zone
+#          operator: In
+#          values:
+#            - us-east-1a
+#        - weight: 50
+#          key: instance-type
+#          operator: In
+#          values:
+#            - c5.xlarge
+
   upgrade:
     image:
       repository: tracardi/update-worker
