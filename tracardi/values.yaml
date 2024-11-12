@@ -316,7 +316,7 @@ api:
                 app.kubernetes.io/component: be-fa-public
     replicas: 1
     config:
-      saveLogs: "no"
+      saveLogs: "yes"
       loggingLevel: "INFO"
       apiDocs: "no"
       eventPartitioning: "month"
