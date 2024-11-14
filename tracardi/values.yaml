@@ -111,13 +111,6 @@ config:
   # Enable or disable multi-tenancy
   multiTenant:
     multi: "no"
-  # Failover storage settings
-  storage:
-    failOver:
-      # Enable or disable failover storage
-      enabled: false
-      # Size of the failover storage
-      size: 1Gi
   # Primary ID prefix; should be set only once and never changed
   primaryId: "emm-"
   # Enable or disable demo mode
@@ -264,11 +257,6 @@ api:
       eventPartitioning: "month"
       profilePartitioning: "quarter"
       sessionPartitioning: "quarter"
-
-    storage:
-      failOver:
-        enabled: false
-        size: 1Gi
     service:
       port: 8686
       loadBalancer: false
