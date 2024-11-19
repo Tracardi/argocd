@@ -50,6 +50,30 @@ pulsar:
   # Enable pulsar service
   enabled: true
 
+kafka:
+  # Identifier for Kafka service instance
+  name: kf1
+  # Host address for Kafka
+  host: kafka-std-svc.kafka.svc.cluster.local
+  # Port number for Kafka service
+  port: 9092
+  # Enable or disable authentication for Pulsar
+  authenticate: false
+  security_protocol: "PLAINTEXT"
+  sasl_mechanism: "PLAIN"
+  sasl_plain_username: null
+  sasl_plain_password: null
+  metadata_max_age_ms: 300000
+  request_timeout_ms: 40000
+  max_batch_size: 16384
+  max_request_size: 1048576
+  ca_cert: null
+  certfile: null
+  key_file: null
+
+  # Enable kafka service
+  enabled: true
+
 mysql:
   # Identifier for MySQL service instance
   name: ms1
@@ -108,6 +132,8 @@ tmsApi:
 
 # Cluster-wide Configuration: General settings for Tracardi system
 config:
+  queue:
+    adapter: "pulsar"
   # Enable or disable multi-tenancy
   multiTenant:
     multi: "no"

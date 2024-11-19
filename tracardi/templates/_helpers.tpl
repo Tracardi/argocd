@@ -460,6 +460,69 @@ Params:
   value: "{{ .ctx.Values.config.monitorPropertyChange }}"
 {{- end -}}
 
+{{- with .ctx.Values.kafka }}
+# Kafka environment variables
+{{- if .name }}
+- name: KAFKA_NAME
+  value: "{{ .name }}"
+{{- end }}
+{{- if .host }}
+- name: KAFKA_HOST
+  value: "{{ .host }}"
+{{- end }}
+{{- if .port }}
+- name: KAFKA_PORT
+  value: "{{ .port }}"
+{{- end }}
+{{- if .authenticate }}
+- name: KAFKA_AUTHENTICATE
+  value: "{{ .authenticate }}"
+{{- end }}
+{{- if .security_protocol }}
+- name: KAFKA_SECURITY_PROTOCOL
+  value: "{{ .security_protocol }}"
+{{- end }}
+{{- if .sasl_mechanism }}
+- name: KAFKA_SASL_MECHANISM
+  value: "{{ .sasl_mechanism }}"
+{{- end }}
+{{- if .sasl_plain_username }}
+- name: KAFKA_SASL_USERNAME
+  value: "{{ .sasl_plain_username }}"
+{{- end }}
+{{- if .sasl_plain_password }}
+- name: KAFKA_SASL_PASSWORD
+  value: "{{ .sasl_plain_password }}"
+{{- end }}
+{{- if .metadata_max_age_ms }}
+- name: KAFKA_METADATA_MAX_AGE_MS
+  value: "{{ .metadata_max_age_ms }}"
+{{- end }}
+{{- if .request_timeout_ms }}
+- name: KAFKA_REQUEST_TIMEOUT_MS
+  value: "{{ .request_timeout_ms }}"
+{{- end }}
+{{- if .max_batch_size }}
+- name: KAFKA_MAX_BATCH_SIZE
+  value: "{{ .max_batch_size }}"
+{{- end }}
+{{- if .max_request_size }}
+- name: KAFKA_MAX_REQUEST_SIZE
+  value: "{{ .max_request_size }}"
+{{- end }}
+{{- if .ca_cert }}
+- name: KAFKA_CA_CERT
+  value: "{{ .ca_cert }}"
+{{- end }}
+{{- if .certfile }}
+- name: KAFKA_CERTFILE
+  value: "{{ .certfile }}"
+{{- end }}
+{{- if .key_file }}
+- name: KAFKA_KEY_FILE
+  value: "{{ .key_file }}"
+{{- end }}
+{{- end }}
 
 
 {{- if .ctx.Values.starrocks }}
