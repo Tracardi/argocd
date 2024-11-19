@@ -41,14 +41,7 @@ spec:
           ports:
             - name: private-port
               containerPort: 80
-{{ if not .Values.config.multiTenant }}
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 80
-            initialDelaySeconds: 30
-            periodSeconds: 60
-{{ end }}
+          {{- include "tracardi.livenessProbe" . | nindent 10 }}
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: DEMO
@@ -65,46 +58,10 @@ spec:
               value: {{ .Values.api.private.config.saveLogs | quote }}
 
           volumeMounts:
-            - name: pre-resources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
-              subPath: "resources.json"
-              readOnly: true
-            - name: pre-destinations-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
-              subPath: "destinations.json"
-              readOnly: true
-            - name: pre-event-sources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
-              subPath: "event-sources.json"
-              readOnly: true
-            - name: tenant-aliases-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
-              subPath: "tenant-aliases.json"
-              readOnly: true
-            - name: kafka-certificates
-              mountPath: "/etc/kafka/certs"
-              readOnly: true
+            {{- include "tracardi.volumeMounts" (dict "ctx" .) | nindent 12 }}
 
       volumes:
-        - name: pre-resources-vol
-          configMap:
-            name: pre-resources-cm
-
-        - name: pre-destinations-vol
-          configMap:
-            name: pre-destinations-cm
-
-        - name: pre-event-sources-vol
-          configMap:
-            name: pre-event-sources-cm
-
-        - name: tenant-aliases-vol
-          configMap:
-            name: tenant-aliases-cm
-
-        - name: kafka-certificates
-          secret:
-            secretName: kafka-secrets
+        {{- include "tracardi.volumes" (dict "ctx" .) | nindent 8 }}
 
 {{ end }}
 

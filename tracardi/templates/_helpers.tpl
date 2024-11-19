@@ -175,6 +175,8 @@ Params:
 {{ end }}
 - name: ELASTIC_QUERY_TIMEOUT
   value: "120"
+
+{{ if .ctx.Values.redis.enabled }}
 - name: REDIS_HOST
   value: {{ .ctx.Values.redis.schema }}{{ .ctx.Values.redis.host }}
 - name: REDIS_PORT
@@ -192,6 +194,8 @@ Params:
       name: {{ .ctx.Values.secrets.redis.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.redis.valueFrom.password.key | quote }}
 {{ end }}
+{{ end }}
+
 {{ if .ctx.Values.mysql.schema }}
 - name: MYSQL_SCHEMA
   value: {{ .ctx.Values.mysql.schema }}
@@ -241,6 +245,8 @@ Params:
 
 - name: PRIMARY_ID
   value: {{ .ctx.Values.config.primaryId }}
+
+{{ if and .ctx.Values.pulsar.enabled }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
 - name: PULSAR_API
@@ -260,10 +266,13 @@ Params:
       name: {{ .ctx.Values.secrets.pulsar.valueFrom.token.name | quote }}
       key: {{ .ctx.Values.secrets.pulsar.valueFrom.token.key | quote }}
 {{ end }}
+{{ end }}
+
 {{ if not .ctx.Values.pulsar.enabled }}
 - name: PULSAR_DISABLED
   value: "yes"
 {{ end }}
+
 {{ if and .ctx.Values.secrets.tms.apiKey .ctx.Values.secrets.tms.secretKey }}
 - name: MULTI_TENANT
   value: {{ .ctx.Values.config.multiTenant.multi | quote }}
@@ -460,8 +469,10 @@ Params:
   value: "{{ .ctx.Values.config.monitorPropertyChange }}"
 {{- end -}}
 
-{{- with .ctx.Values.kafka }}
 
+{{- if and .ctx.Values.kafka.enabled .ctx.Values.kafka.authenticate }}
+
+{{- with .ctx.Values.kafka }}
 # Kafka environment variables
 {{- if .name }}
 - name: KAFKA_NAME
@@ -494,8 +505,6 @@ Params:
 {{- end }}
 {{- end }}
 
-
-{{- if .ctx.Values.kafka.authenticate }}
 {{- with .ctx.Values.secrets.kafka }}
 # Kafka auth environment variables
 {{- if .security_protocol }}
@@ -528,6 +537,7 @@ Params:
   value: "/etc/kafka/certs/keyfile.key"
 {{- end }}
 {{- end }}
+
 {{- end }}
 
 {{- if .ctx.Values.starrocks }}
@@ -576,8 +586,6 @@ Params:
 
 {{- end -}}
 
-# templates/_helpers.tpl
-
 {{/*
 Node affinity helper with nested path support and error checking
 Usage: include "chart.nodeAffinity" (dict "context" . "path" "api.private")
@@ -620,5 +628,71 @@ affinity:
       {{- end }}
     {{- end }}
   {{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Common volume mounts
+Params:
+  ctx = . context
+*/}}
+{{- define "tracardi.volumeMounts" -}}
+- name: pre-resources-vol
+  mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+  subPath: "resources.json"
+  readOnly: true
+- name: pre-destinations-vol
+  mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+  subPath: "destinations.json"
+  readOnly: true
+- name: pre-event-sources-vol
+  mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+  subPath: "event-sources.json"
+  readOnly: true
+- name: tenant-aliases-vol
+  mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+  subPath: "tenant-aliases.json"
+  readOnly: true
+{{- if and .ctx.Values.kafka.enabled .ctx.Values.kafka.authenticate }}
+- name: kafka-certificates
+  mountPath: "/etc/kafka/certs"
+  readOnly: true
+{{- end }}
+{{- end }}
+
+{{/*
+Common volumes
+Params:
+  ctx = . context
+*/}}
+{{- define "tracardi.volumes" -}}
+- name: pre-resources-vol
+  configMap:
+    name: pre-resources-cm
+- name: pre-destinations-vol
+  configMap:
+    name: pre-destinations-cm
+- name: pre-event-sources-vol
+  configMap:
+    name: pre-event-sources-cm
+- name: tenant-aliases-vol
+  configMap:
+    name: tenant-aliases-cm
+{{- if and .ctx.Values.kafka.enabled .ctx.Values.kafka.authenticate }}
+- name: kafka-certificates
+  secret:
+    secretName: kafka-secrets
+{{- end }}
+{{- end }}
+
+
+{{- define "tracardi.livenessProbe" -}}
+{{- if not .Values.config.multiTenant }}
+livenessProbe:
+  httpGet:
+    path: /healthcheck
+    port: 80
+  initialDelaySeconds: 60
+  periodSeconds: 60
 {{- end }}
 {{- end }}

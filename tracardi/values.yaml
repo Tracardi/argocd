@@ -32,6 +32,8 @@ redis:
   port: 6379
   # Redis database number to use
   db: "0"
+  # Enable redis service
+  enabled: true
 
 pulsar:
   # Identifier for Pulsar service instance

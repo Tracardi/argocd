@@ -53,33 +53,9 @@ spec:
             - name: CONSUMER_TYPE
               value: "system.function"
           volumeMounts:
-            - name: pre-resources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
-              subPath: "resources.json"
-            - name: pre-destinations-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
-              subPath: "destinations.json"
-            - name: pre-event-sources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
-              subPath: "event-sources.json"
-            - name: tenant-aliases-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
-              subPath: "tenant-aliases.json"
+            {{- include "tracardi.volumeMounts" (dict "ctx" .) | nindent 12 }}
 
       volumes:
-        - name: pre-resources-vol
-          configMap:
-            name: pre-resources-cm
+        {{- include "tracardi.volumes" (dict "ctx" .) | nindent 8 }}
 
-        - name: pre-destinations-vol
-          configMap:
-            name: pre-destinations-cm
-
-        - name: pre-event-sources-vol
-          configMap:
-            name: pre-event-sources-cm
-
-        - name: tenant-aliases-vol
-          configMap:
-            name: tenant-aliases-cm
 {{ end }}
