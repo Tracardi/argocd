@@ -57,20 +57,12 @@ kafka:
   host: kafka-std-svc.kafka.svc.cluster.local
   # Port number for Kafka service
   port: 9092
-  # Enable or disable authentication for Pulsar
-  authenticate: false
-  security_protocol: "PLAINTEXT"
-  sasl_mechanism: "PLAIN"
-  sasl_plain_username: null
-  sasl_plain_password: null
   metadata_max_age_ms: 300000
   request_timeout_ms: 40000
   max_batch_size: 16384
   max_request_size: 1048576
-  ca_cert: null
-  certfile: null
-  key_file: null
-
+  # Enable or disable authentication for Pulsar
+  authenticate: true
   # Enable kafka service
   enabled: true
 
@@ -239,6 +231,33 @@ secrets:
       token:
         name: ""
         key: ""
+
+  kafka:
+    security_protocol: "PLAINTEXT"
+    sasl:
+      mechanism: "PLAIN"
+      username: null
+      password: null
+      valueFrom:
+        username:
+          name: ""
+          key: ""
+        password:
+          name: ""
+          key: ""
+    # Kafka certificates
+    cafile: |
+      -----BEGIN CERTIFICATE-----
+      YOUR_CA_CERTIFICATE_CONTENT
+      -----END CERTIFICATE-----
+    certfile: |
+      -----BEGIN CERTIFICATE-----
+      YOUR_CERTIFICATE_CONTENT
+      -----END CERTIFICATE-----
+    key_file: |
+      -----BEGIN PRIVATE KEY-----
+      YOUR_KEY_CONTENT
+      -----END PRIVATE KEY-----
 
   mysql:
     username: ""

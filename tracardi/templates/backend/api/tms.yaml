@@ -28,7 +28,7 @@ spec:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: {{ .Values.tms.docker.config.loggingLevel | quote }}
-            - name: MYSQL_DATABASE
+            - name: MYSQL_DATABASE   # this overrides MYSQL_DATABASE in helper
               value: {{ .Values.tmsApi.database }}
 {{ if and .Values.secrets.tms.apiKey }}
             - name: API_KEY

@@ -68,15 +68,22 @@ spec:
             - name: pre-resources-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
               subPath: "resources.json"
+              readOnly: true
             - name: pre-destinations-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
               subPath: "destinations.json"
+              readOnly: true
             - name: pre-event-sources-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
               subPath: "event-sources.json"
+              readOnly: true
             - name: tenant-aliases-vol
               mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
               subPath: "tenant-aliases.json"
+              readOnly: true
+            - name: kafka-certificates
+              mountPath: "/etc/kafka/certs"
+              readOnly: true
 
       volumes:
         - name: pre-resources-vol
@@ -94,6 +101,10 @@ spec:
         - name: tenant-aliases-vol
           configMap:
             name: tenant-aliases-cm
+
+        - name: kafka-certificates
+          secret:
+            secretName: kafka-secrets
 
 {{ end }}
 

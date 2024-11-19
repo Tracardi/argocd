@@ -461,6 +461,7 @@ Params:
 {{- end -}}
 
 {{- with .ctx.Values.kafka }}
+
 # Kafka environment variables
 {{- if .name }}
 - name: KAFKA_NAME
@@ -472,58 +473,62 @@ Params:
 {{- end }}
 {{- if .port }}
 - name: KAFKA_PORT
-  value: "{{ .port }}"
+  value: {{ .port | quote }}
 {{- end }}
-{{- if .authenticate }}
-- name: KAFKA_AUTHENTICATE
-  value: "{{ .authenticate }}"
+
+{{- if .metadata_max_age_ms }}
+- name: KAFKA_METADATA_MAX_AGE_MS
+  value: {{ .metadata_max_age_ms | quote }}
 {{- end }}
+{{- if .request_timeout_ms }}
+- name: KAFKA_REQUEST_TIMEOUT_MS
+  value: {{ .request_timeout_ms | quote }}
+{{- end }}
+{{- if .max_batch_size }}
+- name: KAFKA_MAX_BATCH_SIZE
+  value: {{ .max_batch_size | quote }}
+{{- end }}
+{{- if .max_request_size }}
+- name: KAFKA_MAX_REQUEST_SIZE
+  value: {{ .max_request_size | quote }}
+{{- end }}
+{{- end }}
+
+
+{{- if .ctx.Values.kafka.authenticate }}
+{{- with .ctx.Values.secrets.kafka }}
+# Kafka auth environment variables
 {{- if .security_protocol }}
 - name: KAFKA_SECURITY_PROTOCOL
   value: "{{ .security_protocol }}"
 {{- end }}
-{{- if .sasl_mechanism }}
+{{- if .sasl.mechanism }}
 - name: KAFKA_SASL_MECHANISM
-  value: "{{ .sasl_mechanism }}"
+  value: "{{ .sasl.mechanism }}"
 {{- end }}
-{{- if .sasl_plain_username }}
+{{- if .sasl.username }}
 - name: KAFKA_SASL_USERNAME
-  value: "{{ .sasl_plain_username }}"
+  value: "{{ .sasl.username }}"
 {{- end }}
-{{- if .sasl_plain_password }}
+{{- if .sasl.password }}
 - name: KAFKA_SASL_PASSWORD
-  value: "{{ .sasl_plain_password }}"
+  value: "{{ .sasl.password }}"
 {{- end }}
-{{- if .metadata_max_age_ms }}
-- name: KAFKA_METADATA_MAX_AGE_MS
-  value: "{{ .metadata_max_age_ms }}"
-{{- end }}
-{{- if .request_timeout_ms }}
-- name: KAFKA_REQUEST_TIMEOUT_MS
-  value: "{{ .request_timeout_ms }}"
-{{- end }}
-{{- if .max_batch_size }}
-- name: KAFKA_MAX_BATCH_SIZE
-  value: "{{ .max_batch_size }}"
-{{- end }}
-{{- if .max_request_size }}
-- name: KAFKA_MAX_REQUEST_SIZE
-  value: "{{ .max_request_size }}"
-{{- end }}
+# Kafka certs
 {{- if .ca_cert }}
 - name: KAFKA_CA_CERT
-  value: "{{ .ca_cert }}"
+  value: "/etc/kafka/certs/ca.pem"
 {{- end }}
 {{- if .certfile }}
 - name: KAFKA_CERTFILE
-  value: "{{ .certfile }}"
+  value: "/etc/kafka/certs/certfile.crt"
 {{- end }}
 {{- if .key_file }}
 - name: KAFKA_KEY_FILE
-  value: "{{ .key_file }}"
+  value: "/etc/kafka/certs/keyfile.key"
 {{- end }}
 {{- end }}
-
+{{- end }}
 
 {{- if .ctx.Values.starrocks }}
 {{- if .ctx.Values.starrocks.host }}
