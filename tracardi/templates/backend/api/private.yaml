@@ -12,16 +12,6 @@ spec:
   selector:
     matchLabels:
       {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
-{{ if .Values.config.storage.failOver.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: fail-over-storage
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: {{ .Values.config.storage.failOver.size }}
-{{end}}
   template:
     metadata:
       labels:
