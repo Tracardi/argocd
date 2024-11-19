@@ -74,7 +74,7 @@ api:
 
   image:
     pullPolicy: Always
-    tag: 1.1.x
+    tag: 1.2.x
 
   test:
     replicas: 1
@@ -89,7 +89,7 @@ api:
 gui:
   image:
     pullPolicy: Always
-    tag: 1.1.x
+    tag: 1.2.x
   console:
     service:
       port: 8787
@@ -99,18 +99,18 @@ worker:
   background:
     image:
       pullPolicy: Always
-      tag: 1.1.x
+      tag: 1.2.x
 
   apm:
     image:
       pullPolicy: Always
-      tag: 1.1.x
+      tag: 1.2.x
     profile:
       replicas: 1
 
   upgrade:
     image:
-      tag: 1.1.x
+      tag: 1.2.x
       pullPolicy: Always
     docker:
       replicas: 1
