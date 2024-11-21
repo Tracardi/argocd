@@ -391,7 +391,7 @@ tms:
   image:
     repository: tracardi/tms
     pullPolicy: IfNotPresent
-    tag: 1.1.x  # Tag should be the same for gui and backend
+    tag: 1.1.0  # Tag should be the same for gui and backend
   docker:
     enabled: true
     replicas: 1
@@ -424,7 +424,7 @@ tmsGui:
   image:
     repository: tracardi/tms-gui
     pullPolicy: IfNotPresent
-    tag: 1.1.x  # Tag should be the same for gui and backend
+    tag: 1.1.0  # Tag should be the same for gui and backend
   docker:
     enabled: true
     replicas: 1
@@ -461,7 +461,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -524,7 +524,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -569,7 +569,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -630,7 +630,7 @@ worker:
   apm:
     image:
       repository: tracardi/apm
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     profile:
       enabled: true
@@ -660,7 +660,7 @@ worker:
   upgrade:
     image:
       repository: tracardi/update-worker
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     docker:
       enabled: true
@@ -679,7 +679,7 @@ bridge:
   queue:
     image:
       repository: tracardi/com-bridge-queue
-      tag: 1.1.x
+      tag: 1.1.0
       pullPolicy: IfNotPresent
     docker:
       enabled: false
