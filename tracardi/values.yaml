@@ -399,7 +399,7 @@ api:
 
 gui:
   image:
-    repository: tracardi/tracardi-gui
+    repository: tracardi/tracardi-com-gui
     pullPolicy: IfNotPresent
     tag: 1.2.x  # Tag should be the same for gui and backend
   console:
