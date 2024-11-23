@@ -5,6 +5,12 @@ metadata:
   name: be-api-public-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- if .Values.api.public.ingress.limit.enabled }}
+    nginx.ingress.kubernetes.io/limit-connections: {{ .Values.api.public.ingress.limit.connections | quote }}
+    nginx.ingress.kubernetes.io/limit-rps: {{ .Values.api.public.ingress.limit.rps | quote }}
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: {{ .Values.api.public.ingress.limit.burstMultiplier | quote }}
+    nginx.ingress.kubernetes.io/limit-zone: {{ .Values.api.public.ingress.limit.zone | quote }}
+    {{- end }}
 spec:
   rules:
     - host: {{ .Values.api.public.ingress.host | quote  }}

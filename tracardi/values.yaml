@@ -311,6 +311,12 @@ api:
       enabled: false
       host: "*.private.your-domain.com"
       path: /
+      limit:
+        enabled: false
+        connections: "20" # Max concurrent connections
+        rps: "10"         # Max requests per second
+        burstMultiplier: "2" # Burst requests allowed
+        zone: "private-api"
     resources:
       limits:
         memory: 1000Mi  # Private need more memory because it can run workflows
@@ -370,6 +376,12 @@ api:
       enabled: false
       host: "*.public.your-domain.com"
       path: /
+      limit:
+        enabled: false
+        connections: "20" # Max concurrent connections
+        rps: "10"         # Max requests per second
+        burstMultiplier: "2" # Burst requests allowed
+        zone: "public-api"
     resources:
       limits:
         memory: 300Mi
