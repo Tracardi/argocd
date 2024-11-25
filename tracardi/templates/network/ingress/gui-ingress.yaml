@@ -14,7 +14,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: fe-rj-gui-svc
+                name: fe-gui-svc
                 port:
                   number: {{ .Values.gui.console.service.port }}
   {{ end }}
