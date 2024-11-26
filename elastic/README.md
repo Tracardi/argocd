@@ -1,1 +1,1 @@
-helm install elastic elastic --values elastic/local-values.yaml -n elastic
+helm upgrade --install elastic elastic --values elastic/local-values.yaml -n elastic
