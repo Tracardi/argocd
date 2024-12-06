@@ -204,29 +204,29 @@ Params:
 - name: MYSQL_HOST
   value: {{ .ctx.Values.mysql.host }}
 {{ end }}
-{{ if and .ctx.Values.secrets.mysql.password .ctx.Values.secrets.mysql.username }}
+
+{{ if .ctx.Values.secrets.mysql.username }}
 - name: MYSQL_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: "mysql-secret"
-      key: "mysql-username"
-- name: MYSQL_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: "mysql-secret"
-      key: "mysql-password"
-{{ else if and .ctx.Values.secrets.mysql.valueFrom.password.name .ctx.Values.secrets.mysql.valueFrom.password.key .ctx.Values.secrets.mysql.valueFrom.username.name .ctx.Values.secrets.mysql.valueFrom.username.key }}
+  value: {{ .ctx.Values.secrets.mysql.username | quote }}
+{{ else if and .ctx.Values.secrets.mysql.valueFrom.username.name .ctx.Values.secrets.mysql.valueFrom.username.key }}
 - name: MYSQL_USERNAME
   valueFrom:
     secretKeyRef:
       name: {{ .ctx.Values.secrets.mysql.valueFrom.username.name | quote }}
       key: {{ .ctx.Values.secrets.mysql.valueFrom.username.key | quote }}
+{{ end }}
+
+{{ if .ctx.Values.secrets.mysql.password }}
+- name: MYSQL_PASSWORD
+  value: {{ .ctx.Values.secrets.mysql.password | quote }}
+{{ else if and .ctx.Values.secrets.mysql.valueFrom.password.name .ctx.Values.secrets.mysql.valueFrom.password.key  }}
 - name: MYSQL_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .ctx.Values.secrets.mysql.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.mysql.valueFrom.password.key | quote }}
 {{ end }}
+
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
 - name: MYSQL_DATABASE
