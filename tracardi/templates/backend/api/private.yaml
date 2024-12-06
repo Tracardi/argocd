@@ -54,7 +54,7 @@ spec:
             - name: DEMO
               value: {{ .Values.config.demo | quote }}
             - name: EXPOSE_GUI_API
-              value: "yes"
+              value: {{ .Values.api.private.config.enableGuiApi | quote }}
             - name: PRODUCTION
               value: "no"
             - name: LOGGING_LEVEL

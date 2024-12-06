@@ -55,7 +55,7 @@ spec:
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: EXPOSE_GUI_API
-              value: "no"
+              value: {{ .Values.api.public.config.enableGuiApi | quote }}
             - name: PRODUCTION
               value: "yes"
             - name: LOGGING_LEVEL
