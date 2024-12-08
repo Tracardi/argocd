@@ -25,6 +25,8 @@ spec:
         {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 8 }}
     spec:
       {{- include "chart.nodeAffinity" (dict "context" . "path" "gui") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
       containers:
         - name: fe-rj-gui
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.gui.image.repository "tag" .Values.gui.image.tag "policy" .Values.gui.image.pullPolicy) | nindent 10 }}
