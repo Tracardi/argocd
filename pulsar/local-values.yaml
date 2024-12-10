@@ -19,7 +19,7 @@ auth:
 
 # Make sure each component is on different node, set to TRUE
 affinity:
-  anti_affinity: false
+  anti_affinity: true
 
 initialize: true
 
@@ -96,7 +96,7 @@ bookkeeper:
       size: 5Gi
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
-      ##
+      ## MAKE SURE THAT USED storageClassName is local. We had issues installing it using longhorn
 #      storageClassName: gp2
 
 broker:

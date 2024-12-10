@@ -11,4 +11,4 @@ cd pulsar-helm-chart
 
 cd $CURRENT_DIRECTORY
 
-helm upgrade --install pulsar apache/pulsar  -n pulsar
+helm upgrade --install pulsar apache/pulsar --values pulsar/local-values.yaml -n pulsar
