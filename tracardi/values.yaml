@@ -588,7 +588,7 @@ worker:
       tag: 1.2.x
       pullPolicy: IfNotPresent
 
-    replicas: 1
+    replicas: 5
 
     spread:
       rules:
@@ -602,7 +602,7 @@ worker:
 
     resources:
       limits:
-        memory: 500Mi # 400Mi max for worker that saves data only, not collector
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
         cpu: 1000m  # 700m max for worker that saves data only, not collector
       requests:
         memory: 300Mi
