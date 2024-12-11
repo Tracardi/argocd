@@ -554,7 +554,7 @@ worker:
 
     resources:
       limits:
-        memory: 500Mi # 400Mi max for worker that saves data only, not collector
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
         cpu: 1000m  # 700m max for worker that saves data only, not collector
       requests:
         memory: 300Mi
@@ -598,7 +598,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-background
+                app.kubernetes.io/component: wk-pl-collector
 
     resources:
       limits:
