@@ -554,7 +554,7 @@ worker:
 
     resources:
       limits:
-        memory: 1200Mi # 400Mi max for worker that saves data only, not collector
+        memory: 2500Mi # 400Mi max for worker that saves data only, not collector
         cpu: 1000m  # 700m max for worker that saves data only, not collector
       requests:
         memory: 300Mi
@@ -602,7 +602,7 @@ worker:
 
     resources:
       limits:
-        memory: 1200Mi # 400Mi max for worker that saves data only, not collector
+        memory: 2500Mi # 400Mi max for worker that saves data only, not collector
         cpu: 1000m  # 700m max for worker that saves data only, not collector
       requests:
         memory: 300Mi
