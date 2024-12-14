@@ -1,0 +1,1 @@
+helm install valkey oci://registry-1.docker.io/bitnamicharts/valkey -n valkey
