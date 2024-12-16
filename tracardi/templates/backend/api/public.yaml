@@ -63,7 +63,9 @@ spec:
             - name: SAVE_LOGS
               value: {{ .Values.api.public.config.saveLogs | quote }}
             - name: SERVER_LOGGING_LEVEL
-              value: {{ .Values.api.private.config.serverLoggingLevel | quote }}
+              value: {{ .Values.api.public.config.serverLoggingLevel | quote }}
+            - name: ELASTIC_LOGGING_LEVEL
+              value: {{ .Values.api.public.config.elasticloggingLevel | quote }}
 
           volumeMounts:
             - name: pre-resources-vol
