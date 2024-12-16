@@ -249,6 +249,7 @@ api:
     config:
       saveLogs: "yes"
       loggingLevel: "INFO"
+      serverLoggingLevel: "warning"
       apiDocs: "yes"
       enableGuiApi: "yes"
       enableWorkflow: "yes"
@@ -307,6 +308,7 @@ api:
     config:
       saveLogs: "yes"
       loggingLevel: "INFO"
+      serverLoggingLevel: "warning"
       apiDocs: "no"
       enableGuiApi: "no"
       eventPartitioning: "month"
