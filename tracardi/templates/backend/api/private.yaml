@@ -56,6 +56,10 @@ spec:
               value: {{ .Values.api.private.config.apiDocs | quote}}
             - name: SAVE_LOGS
               value: {{ .Values.api.private.config.saveLogs | quote }}
+            - name: SERVER_LOGGING_LEVEL
+              value: {{ .Values.api.private.config.serverLoggingLevel | quote }}
+            - name: ELASTIC_LOGGING_LEVEL
+              value: {{ .Values.api.private.config.elasticloggingLevel | quote }}
 
           volumeMounts:
             {{- include "tracardi.volumeMounts" (dict "ctx" .) | nindent 12 }}
