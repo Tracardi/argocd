@@ -27,7 +27,7 @@ spec:
         - name: MODE
           value: "worker"
         - name: PAUSE
-          value: "60"
+          value: "900"
         - name: LOGGING_LEVEL
           value: {{ .Values.worker.apm.profile.config.loggingLevel | quote }}
         resources:
