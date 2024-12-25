@@ -590,7 +590,7 @@ worker:
       tag: 1.2.x
       pullPolicy: IfNotPresent
 
-    replicas: 5
+    replicas: 1
 
     spread:
       rules:
