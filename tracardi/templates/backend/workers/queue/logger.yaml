@@ -1,0 +1,63 @@
+{{ if and .Values.secrets.dockerHub .Values.worker.logger.enabled .Values.pulsar.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk-pl-logger
+  labels:
+    app: wk-pl-logger
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-logger") | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.logger.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-pl-logger") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-logger") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.logger") | nindent 6 }}
+
+      {{ if .Values.worker.logger.spread }}
+        {{range .Values.worker.logger.spread }}
+          {{ toYaml . | nindent 6 }}
+        {{ end }}
+      {{ end }}
+
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      initContainers:
+        - name: tracardi-init
+          image: tracardi/init:{{ .Values.api.image.tag }}
+          imagePullPolicy: Always
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: wk-pl-logger
+          image: "{{ .Values.worker.logger.image.repository }}:{{ .Values.worker.logger.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.logger.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.worker.logger.resources.limits.memory }}
+              cpu: {{ .Values.worker.logger.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.worker.logger.resources.requests.memory }}
+              cpu: {{ .Values.worker.logger.resources.requests.cpu }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.worker.logger.config.loggingLevel | quote }}
+            - name: INACTIVITY_TIME_OUT
+              value: {{ .Values.worker.logger.config.bulker.bufferInactivityTimeOut | quote }}
+            - name: CONSUMER_TYPE
+              value: "system.logger"
+
+          volumeMounts:
+            {{- include "tracardi.volumeMounts" (dict "ctx" .) | nindent 12 }}
+
+      volumes:
+        {{- include "tracardi.volumes" (dict "ctx" .) | nindent 8 }}
+{{ end }}
