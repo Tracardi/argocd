@@ -1,0 +1,26 @@
+# MySQL Cluster with 2 data nodes, 2 MySQL Servers and Replica 2.
+# The NDB Operator will also start 2 Management Nodes as the Replica is 2.
+apiVersion: mysql.oracle.com/v1
+kind: NdbCluster
+metadata:
+  name: mysql-ndb
+spec:
+  redundancyLevel: 2   # MySQL Cluster Replica
+  managementNode:
+    enableLoadBalancer: false
+  dataNode:
+    nodeCount: 2       # Number of Data Nodes
+    pvcSpec:
+#      storageClassName: manual
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+  mysqlNode:
+    nodeCount: 2       # Number of MySQL Servers
+    enableLoadBalancer: true
+    myCnf: |
+      [mysqld]
+      default_storage_engine=NDBCLUSTER
+

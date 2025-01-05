@@ -1,0 +1,15 @@
+# Create a PV for the mysqld node
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ndb-pv3
+  labels:
+    type: local
+spec:
+#  storageClassName: manual
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mysql-node-1"
