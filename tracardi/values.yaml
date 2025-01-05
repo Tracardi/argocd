@@ -673,7 +673,7 @@ worker:
 
   logger:
 
-    enabled: True
+    enabled: false
 
     image:
       repository: tracardi/background-worker
@@ -718,7 +718,7 @@ worker:
 
   destination:
 
-    enabled: True
+    enabled: false
 
     image:
       repository: tracardi/background-worker
