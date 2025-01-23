@@ -14,19 +14,27 @@ spec:
       labels:
         app: tracardi-ck
     spec:
+      imagePullSecrets:
+        - name: tracardi-dockerhub
       containers:
         - name: tracardi-ck
           image: tracardi/ck:1.3.x
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
+            - name: SERVER_LOGGING_LEVEL
+              value: info
             - name: PULSAR_HOST
-              value: "pulsar://192.168.1.110:6650"
+              value: "pulsar://pulsar-proxy.pulsar.svc.cluster.local:6650"
+            - name: PULSAR_AUTH_TOKEN
+              value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.lkLZkhoRTS7S11iehntprBA13PjcdDCihanssiSaS0rAHZeJOsCcCKa1XIPZZHbv0SmYwmv4YTIKf7NMSzuI-J0iO9br5caJh_1L3LhUTlsbaWybh7sQPF2rFyEFXa68ojTccjXOk8lWVUg0p3An9q_MMb4jDYND3K89CxRQpwhCPWmF_9Cw4cZJM252NYtSMsVyCkRZsCgu1Zco9GePPlMBrE9MtYpTaIRUuD4MQrunjC9kjWIVgxCEM3wf7B-A8bU_0dDuD5g2WWCsJ_Z-_9T2ucQqglcatrGnsOC0zCmSzmbGDe4372eGo6aak-4kbL3CZ0QnS36Tuji8T1ucHw
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tracardi-ck-service
+  name: tracardi-ck-lb
 spec:
   type: LoadBalancer
   selector:

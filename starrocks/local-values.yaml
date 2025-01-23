@@ -3,7 +3,7 @@ starrocks:
     enabled: true
     password: "3BoZGE68bC2D"
   starrocksBeSpec:
-    replicas: 1
+    replicas: 3
     repository: starrocks/fe-ubuntu
     tag: 3.3-latest
     storageSpec:
