@@ -1,6 +1,7 @@
 master:
   persistence:
     size: 2Gi
+    storageClass: "local-path"
   resources:
     limits:
       memory: 2Gi
@@ -9,6 +10,7 @@ master:
 replica:
   persistence:
     size: 5Gi
+    storageClass: "local-path"
   replicaCount: 1
   resources:
     limits:
