@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: metabase-lb
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http-web
+    protocol: TCP
+    port: 3080
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/name: metabase
+    app.kubernetes.io/instance: metabase-sample
