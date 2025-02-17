@@ -46,6 +46,8 @@ spec:
               value: {{ .Values.config.multiTenant.multi | quote }}
             - name: ALLOW_UPDATES_ON_PRODUCTION
               value: {{ .Values.gui.console.config.allowUpdatesOnProduction | quote }}
+            - name: WHITE_LABEL
+              value: {{ .Values.gui.console.config.whiteLabel | quote }}
           ports:
             - containerPort: 80
               name: gui-port

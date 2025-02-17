@@ -431,6 +431,7 @@ gui:
     config:
       mode: "with-deployment"
       allowUpdatesOnProduction: "no"
+      whiteLabel: "no"
 # Example of nodeAffinity
 #  nodeAffinity:
 #    required:

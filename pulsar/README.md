@@ -40,3 +40,21 @@ The prepare_helm_release creates the following resources:
 ```
 helm upgrade --install pulsar apache/pulsar --values local-values.yaml -n pulsar
 ```
+
+
+# Trouble shooting
+
+If you face:
+
+```
+Release "pulsar" does not exist. Installing it now.
+Error: unable to build kubernetes objects from release manifest: [resource mapping not found for name: "pulsar-recovery" namespace: "" from "": no matches for kind "PodMonitor" in version "monitoring.coreos.com/v1"
+ensure CRDs are installed first, resource mapping not found for name: "pulsar-broker" namespace: "" from "": no matches for kind "PodMonitor" in version "monitoring.coreos.com/v1"
+ensure CRDs are installed first, resource mapping not found for name: "pulsar-proxy" namespace: "" from "": no matches for kind "PodMonitor" in version "monitoring.coreos.com/v1"
+ensure CRDs are installed first]
+```
+
+Enable monitoring
+
+kube-prometheus-stack:
+  enabled: true  <- set to true
