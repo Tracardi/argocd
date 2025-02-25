@@ -43,7 +43,7 @@ components:
 
 ## disable monitoring stack
 kube-prometheus-stack:
-  enabled: false
+  enabled: true
   prometheusOperator:
     enabled: false
   grafana:
