@@ -4,8 +4,9 @@ starrocks:
     password: "3BoZGE68bC2D"
   starrocksBeSpec:
     replicas: 3
-    repository: starrocks/be-ubuntu
-    tag: 3.4-latest
+    image:
+      repository: starrocks/be-ubuntu
+      tag: 3.3-latest
     storageSpec:
       name: starrocks-be-storage
       # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
@@ -19,10 +20,10 @@ starrocks:
         cpu: 1
         memory: 1Gi
   starrocksFESpec:
-    replicas: 1
+    replicas: 3
     image:
       repository: starrocks/fe-ubuntu
-      tag: 3.4-latest
+      tag: 3.3-latest
     storageSpec:
       name: starrocks-fe-storage
       # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
@@ -38,9 +39,10 @@ starrocks:
     service:
       type: LoadBalancer  # Comment out to disable
   starrocksCnSpec:
-    replicas: 1
-    repository: starrocks/cn-ubuntu
-    tag: 3.4-latest
+    replicas: 0
+    image:
+      repository: starrocks/cn-ubuntu
+      tag: 3.3-latest
     resources:
       requests:
         memory: 1Gi
