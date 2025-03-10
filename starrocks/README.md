@@ -1,3 +1,7 @@
+# Make sure that the default storage class is not longhorn
+ We had issues installing Starrocks on longhorn
+
+
 # Install with operator
 https://github.com/StarRocks/starrocks-kubernetes-operator/blob/main/doc/deploy_starrocks_with_operator_howto.md
 https://github.com/StarRocks/starrocks-kubernetes-operator/tree/main/examples/starrocks
