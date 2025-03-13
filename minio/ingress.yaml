@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: minio
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"  # Allow large file uploads
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx  # Use your Ingress controller (default is nginx)
+  rules:
+  - host: s3.sophie-rc.com  # Change to your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-console  # Change to the MinIO service name
+            port:
+              number: 9443  # MinIO default API port
+      - path: /console
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-hl  # MinIO Console Service
+            port:
+              number: 9000  # MinIO Console UI port
