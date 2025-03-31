@@ -16,5 +16,5 @@ spec:
       targetPort: 9000
     - name: console
       protocol: TCP
-      port: 9090
-      targetPort: 9090
+      port: 9443
+      targetPort: 9443

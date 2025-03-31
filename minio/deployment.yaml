@@ -1,20 +1,3 @@
-Create an article how to isntall MInio on K8s
-
-It is based on
-https://min.io/docs/minio/kubernetes/upstream/operations/install-deploy-manage/deploy-minio-tenant.html#deploy-minio-distributed
-
-# Install operator
-
-describe what operator does
-kubectl kustomize github.com/minio/operator\?ref=v7.0.1 | kubectl apply -f -
-
-
-# RUN
-kubectl create ns minio
-
-
-Descrieb what has yaml and list in table what shoudl be changed
-``` deployment.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -57,7 +40,7 @@ metadata:
   namespace: minio
 spec:
 
-  requestAutoCert: true  # Disable automatic cert generation
+  requestAutoCert: false  # Disable automatic cert generation
 
   certConfig: {}
   configuration:
@@ -114,7 +97,7 @@ spec:
       status: {}
     volumesPerServer: 3
   priorityClassName: ""
-  requestAutoCert: true
+  requestAutoCert: false
   serviceAccountName: ""
   serviceMetadata:
     consoleServiceAnnotations: {}
@@ -124,44 +107,3 @@ spec:
   subPath: ""
   users:
   - name: storage-user
-```
-
-then run
-kubectl apply -f deployment.yaml
-
-it will install minio tenannt in minio namespace
-
-I you woudl like to expose the installation. set up loadbalancer
-
-``` loadbalancer.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: minio-loadbalancer
-  namespace: minio
-  labels:
-    app: minio
-spec:
-  type: LoadBalancer
-  selector:
-    v1.min.io/tenant: minio
-  ports:
-    - name: api
-      protocol: TCP
-      port: 9000
-      targetPort: 9000
-    - name: console
-      protocol: TCP
-      port: 9443
-      targetPort: 9443
-```
-
-# Load balancer
-
-descrieb what it does an how to apply it.
-
-kubectl apply -f loadbalancer.yaml
-
-to access list user-storage creds - write how to list it (command line)
-
-and then access https://ip:9000
