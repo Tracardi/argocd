@@ -10,21 +10,11 @@ metadata:
   namespace: minio
 stringData:
   config.env: |-
-    export MINIO_ROOT_USER="minio"
-    export MINIO_ROOT_PASSWORD="some-password"
+    export MINIO_ROOT_USER="admin"
+    export MINIO_ROOT_PASSWORD="6cd5b56f-66b7-41b6-9647-a36f73d78e31"
     export MINIO_STORAGE_CLASS_STANDARD="EC:2"
     export MINIO_BROWSER="on"
     export CONSOLE_TLS_ENABLE="on"
-type: Opaque
----
-apiVersion: v1
-data:
-  CONSOLE_ACCESS_KEY: Y29uc29sZQ==           # base64 user
-  CONSOLE_SECRET_KEY: c2Ftb2UtcGFzc3dvcmQ=   # base64 password
-kind: Secret
-metadata:
-  name: storage-user
-  namespace: minio
 type: Opaque
 ---
 apiVersion: minio.min.io/v2
@@ -105,5 +95,3 @@ spec:
     minioServiceAnnotations: {}
     minioServiceLabels: {}
   subPath: ""
-  users:
-  - name: storage-user
