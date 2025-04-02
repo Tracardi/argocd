@@ -5,8 +5,6 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls.certresolver: default
-    # traefik.ingress.kubernetes.io/service.server.scheme: "https"
-    # traefik.ingress.kubernetes.io/service.server.tls.insecureSkipVerify: "true"
 spec:
   ingressClassName: traefik
   rules:
