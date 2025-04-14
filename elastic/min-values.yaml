@@ -1,0 +1,16 @@
+version: 8.11.3
+
+service:
+  type: LoadBalancer  # LoadBalancer
+  port: 9200
+
+master:
+  replicas: 1
+  storage:
+    size: 5Gi
+
+data:
+  replicas: 1
+  storage:
+    size: 10Gi
+

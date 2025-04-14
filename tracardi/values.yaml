@@ -840,3 +840,5 @@ bridge:
       config:
         loggingLevel: "INFO"
 
+provider:
+    hetzner: false

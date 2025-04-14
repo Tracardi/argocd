@@ -1,5 +1,5 @@
 ---
-hetzner_token: "xzqEPXzTxEndGVezXZoelYKrLnzyXaVcjOvyUO9XrBBYPFJQVjbfPajt3QewFpv4"
+hetzner_token: "---"
 cluster_name: test
 kubeconfig_path: "./kubeconfig"
 k3s_version: v1.32.3+k3s1
@@ -82,7 +82,8 @@ embedded_registry_mirror:
   enabled: true # Enables fast p2p distribution of container images between nodes for faster pod startup. Check if your k3s version is compatible before enabling this option. You can find more information at https://docs.k3s.io/installation/registry-mirror
 
 protect_against_deletion: false
-
+local_path_storage_class:
+    enabled: true
 create_load_balancer_for_the_kubernetes_api: true # Just a heads up: right now, we can’t limit access to the load balancer by IP through the firewall. This feature hasn’t been added by Hetzner yet.
 
 # additional_packages:
