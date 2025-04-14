@@ -17,6 +17,8 @@ pxc:
       resources:
         requests:
           storage: 2Gi
+  persistentVolumeClaim:
+    storageClassName: local-path
 
 haproxy:
   enabled: true
@@ -27,4 +29,6 @@ haproxy:
 
 proxysql:
   size: 1
+  persistentVolumeClaim:
+    storageClassName: local-path
 

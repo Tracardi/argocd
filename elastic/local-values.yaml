@@ -8,9 +8,11 @@ master:
   replicas: 3
   storage:
     size: 5Gi
+    storageClassName: local-path
 
 data:
   replicas: 3
   storage:
     size: 10Gi
+    storageClassName: local-path
 
