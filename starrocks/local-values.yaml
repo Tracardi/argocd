@@ -7,25 +7,9 @@ starrocks:
     image:
       repository: starrocks/be-ubuntu
       tag: 3.3-latest
-    storageSpec:
+    storageVolumes:
       name: starrocks-be-storage
-      # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
-      logStorageSize: 10Gi
-      storageSize: 10Gi
-    resources:
-      limits:
-        cpu: 2
-        memory: 4Gi
-      requests:
-        cpu: 1
-        memory: 1Gi
-  starrocksFESpec:
-    replicas: 3
-    image:
-      repository: starrocks/fe-ubuntu
-      tag: 3.3-latest
-    storageSpec:
-      name: starrocks-fe-storage
+      # storageVolumes: "local-path"
       # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
       logStorageSize: 10Gi
       storageSize: 10Gi
@@ -38,6 +22,30 @@ starrocks:
         memory: 1Gi
     service:
       type: LoadBalancer  # Comment out to disable
+      # the loadBalancerIP for static ip config when the type=LoadBalancer
+      loadBalancerIP: 188.245.176.133
+  starrocksFESpec:
+    replicas: 3
+    image:
+      repository: starrocks/fe-ubuntu
+      tag: 3.3-latest
+    storageVolumes:
+      name: starrocks-fe-storage
+      # storageVolumes: "local-path"
+      # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
+      logStorageSize: 10Gi
+      storageSize: 10Gi
+    resources:
+      limits:
+        cpu: 2
+        memory: 4Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    service:
+      type: LoadBalancer  # Comment out to disable
+      # the loadBalancerIP for static ip config when the type=LoadBalancer
+      loadBalancerIP: 188.245.176.133
   starrocksCnSpec:
     replicas: 0
     image:
