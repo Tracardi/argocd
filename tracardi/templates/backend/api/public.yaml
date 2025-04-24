@@ -25,7 +25,7 @@ spec:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
         - name: tracardi-init
-          image: tracardi/init:{{ .Values.api.image.tag }}
+          image: tracardi/init:{{ .Values.api.public.image.tag }}
           imagePullPolicy: Always
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
@@ -33,7 +33,7 @@ spec:
               value: debug
       containers:
         - name: be-fa-public
-          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.image.repository "tag" .Values.api.image.tag "policy" .Values.api.image.pullPolicy) | nindent 10 }}
+          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.public.image.repository "tag" .Values.api.public.image.tag "policy" .Values.api.public.image.pullPolicy) | nindent 10 }}
           resources:
             limits:
               memory: {{ .Values.api.public.resources.limits.memory }}

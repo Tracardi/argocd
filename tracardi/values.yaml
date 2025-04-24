@@ -89,16 +89,16 @@ mysql:
     # Time after which a connection in the pool is recycled
     recycle: 1800
 
-# Not used
-#starrocks:
-#  host: "localhost"
-#  username: "root"
-#  password: "root"
-#  schema: "mysql+aiomysql://"
-#  schemaSync: "mysql+pymysql://"
-#  port: 9030
-#  database: "tracardi"
-#  echo: "no"
+# Starrocks
+starrocks:
+ host: "localhost"
+ username: "root"
+ password: "root"
+ schema: "mysql+aiomysql://"
+ schemaSync: "mysql+pymysql://"
+ port: 9030
+ database: "tracardi"
+ echo: "no"
 
 
 # Tenant Management Service (TMS) API configuration
@@ -107,21 +107,6 @@ tmsApi:
   host: be-tms-svc
   # Database name for TMS API
   database: "tms"
-
-# Not used. Experimental
-#telemetry:
-#  disabled: true
-#  name: "tracardi"
-#  log_level: "info"
-#  export:
-#    endpoint: "" # e.g.http://localhost:4317  # OTEL_EXPORTER_OTLP_ENDPOINT
-#    headers: ""  # Use when needed
-#    metrics: "" # Use when needed
-#    logs: "" # Use when needed
-#    attributes: "" # Use when needed
-#    time_out: 30000
-#    delay: 5000
-#    batch_size: 512
 
 
 # Cluster-wide Configuration: General settings for Tracardi system
@@ -286,13 +271,13 @@ secrets:
   mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"  # Random value
 
 api:
-  image:
-    repository: tracardi/com-tracardi-api
-    pullPolicy: IfNotPresent
-    tag: 2.0.y  # Tag should be the same for gui and backend
   private:
     enabled: true
     replicas: 1
+    image:
+      repository: tracardi/api-collector
+      pullPolicy: IfNotPresent
+      tag: 2.0.y-alpha  # Tag should be the same for gui and backend
     config:
       saveLogs: "yes"
       loggingLevel: "INFO"
@@ -358,6 +343,10 @@ api:
               matchLabels:
                 app.kubernetes.io/component: be-fa-public
     replicas: 1
+    image:
+      repository: tracardi/api-gui
+      pullPolicy: IfNotPresent
+      tag: 2.0.y-alpha  # Tag should be the same for gui and backend
     config:
       saveLogs: "yes"
       loggingLevel: "INFO"
@@ -417,7 +406,7 @@ gui:
   image:
     repository: tracardi/tracardi-com-gui
     pullPolicy: IfNotPresent
-    tag: 2.0.y  # Tag should be the same for gui and backend
+    tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   console:
     enabled: true
     replicas: 1
@@ -455,7 +444,7 @@ tms:
   image:
     repository: tracardi/tms
     pullPolicy: IfNotPresent
-    tag: 2.0.y  # Tag should be the same for gui and backend
+    tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   docker:
     enabled: true
     replicas: 1
@@ -488,7 +477,7 @@ tmsGui:
   image:
     repository: tracardi/tms-gui
     pullPolicy: IfNotPresent
-    tag: 2.0.y  # Tag should be the same for gui and backend
+    tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   docker:
     enabled: true
     replicas: 1
@@ -525,7 +514,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 2.0.y
+      tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -588,7 +577,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 2.0.y
+      tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -633,7 +622,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 2.0.y
+      tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -678,7 +667,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 2.0.y
+      tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -723,7 +712,7 @@ worker:
 
     image:
       repository: tracardi/background-worker
-      tag: 2.0.y
+      tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -780,65 +769,7 @@ worker:
 #          values:
 #            - c5.xlarge
 
-  apm:
-    image:
-      repository: tracardi/apm
-      tag: 2.0.y
-      pullPolicy: IfNotPresent
-    profile:
-      enabled: true
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
 
-# Example of nodeAffinity
-#    nodeAffinity:
-#      required:
-#        - key: node-type
-#          operator: In
-#          values:
-#            - compute
-#      preferred:
-#        - weight: 100
-#          key: zone
-#          operator: In
-#          values:
-#            - us-east-1a
-#        - weight: 50
-#          key: instance-type
-#          operator: In
-#          values:
-#            - c5.xlarge
-
-  upgrade:
-    image:
-      repository: tracardi/update-worker
-      tag: 2.0.y
-      pullPolicy: IfNotPresent
-    docker:
-      enabled: true
-      replicas: 1
-      config:
-        saveLogs: "no"
-        loggingLevel: "INFO"
-      resources:
-        limits:
-          memory: 500Mi
-          cpu: 500m
-
-# Bridges. Services responsible for collection data from different channels. They bridge the defined transportation protocol to tracardi event source.
-
-bridge:
-  queue:
-    image:
-      repository: tracardi/com-bridge-queue
-      tag: 2.0.y
-      pullPolicy: IfNotPresent
-    docker:
-      enabled: false
-      replicas: 1
-      config:
-        loggingLevel: "INFO"
 
 provider:
     hetzner: false
