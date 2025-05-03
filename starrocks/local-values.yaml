@@ -22,8 +22,6 @@ starrocks:
         memory: 1Gi
     service:
       type: LoadBalancer  # Comment out to disable
-      # the loadBalancerIP for static ip config when the type=LoadBalancer
-      loadBalancerIP: 188.245.176.133
   starrocksFESpec:
     replicas: 3
     image:
@@ -44,8 +42,6 @@ starrocks:
         memory: 1Gi
     service:
       type: LoadBalancer  # Comment out to disable
-      # the loadBalancerIP for static ip config when the type=LoadBalancer
-      loadBalancerIP: 188.245.176.133
   starrocksCnSpec:
     replicas: 0
     image:
@@ -55,3 +51,6 @@ starrocks:
       requests:
         memory: 1Gi
         cpu: 1
+  starrocksFeProxySpec:
+    # specify the fe proxy deploy or not.
+    enabled: true
