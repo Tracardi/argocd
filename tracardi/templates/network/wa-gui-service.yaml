@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fe-gui-svc
+  name: wa-gui-svc
 spec:
   type: ClusterIP
   selector:
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fe-gui-lb
+  name: wa-gui-lb
   {{ if and .Values.provider.hetzner }}
   annotations:
     load-balancer.hetzner.cloud/location: nbg1

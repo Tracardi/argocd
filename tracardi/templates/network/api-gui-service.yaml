@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: be-private-svc
+  name: api-gui-svc
 spec:
   type: ClusterIP
   selector:
@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: be-private-lb
+  name: api-gui-lb
   {{ if and .Values.provider.hetzner }}
   annotations:
     load-balancer.hetzner.cloud/location: nbg1

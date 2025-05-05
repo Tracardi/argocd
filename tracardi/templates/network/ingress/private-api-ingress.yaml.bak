@@ -20,7 +20,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: be-private-svc
+                name: api-gui-svc
                 port:
                   number: {{ .Values.api.private.service.port }}
   {{ end }}
