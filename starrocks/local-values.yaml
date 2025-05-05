@@ -23,7 +23,7 @@ starrocks:
     service:
       type: LoadBalancer  # Comment out to disable
   starrocksFESpec:
-    replicas: 3
+    replicas: 1
     image:
       repository: starrocks/fe-ubuntu
       tag: 3.3-latest
@@ -53,4 +53,10 @@ starrocks:
         cpu: 1
   starrocksFeProxySpec:
     # specify the fe proxy deploy or not.
-    enabled: true
+    enabled: false
+    service:
+      # the fe proxy service type, only supported ClusterIP, NodePort, LoadBalancer
+      # default ClusterIP
+      type: LoadBalancer
+      # the loadBalancerIP for static ip config when the type=LoadBalancer and loadbalancerIp is not empty.
+#       loadbalancerIP: "188.245.176.133"

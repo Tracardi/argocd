@@ -10,7 +10,7 @@ spec:
     # the image for starrocks FE.
     image: starrocks/fe-ubuntu:latest
     # number of replicas for starrocks FE.
-    replicas: 3
+    replicas: 1
     # define resources requests and limits for FE pods.
     limits:
       cpu: 8
@@ -258,7 +258,7 @@ spec:
     image: starrocks/cn-ubuntu:latest
     # number of replicas to deploy for a CN statefulset.
     # comment out this line if autoScalingPolicy is enabled.
-    # replicas: 1
+    replicas: 0
     # define resources requests and limits for CN pods.
     limits:
       cpu: 4
@@ -418,7 +418,7 @@ spec:
 
   # the spec for starrocks FE proxy.
   starRocksFeProxySpec:
-    replicas: 1
+    replicas: 0
     # define resources requests and limits for FE proxy pods.
     limits:
       cpu: 1
