@@ -103,8 +103,8 @@ starrocks:
 
 # Tenant Management Service (TMS) API configuration
 tmsApi:
-  # Host address for TMS API service, It is server by pod be-fa-tms
-  host: be-tms-svc
+  # Host address for TMS API service, It is server by pod api-tms
+  host: api-tms-svc
   # Database name for TMS API
   database: "tms"
 
@@ -442,7 +442,7 @@ gui:
 
 tms:
   image:
-    repository: tracardi/tms
+    repository: tracardi/api-tms
     pullPolicy: IfNotPresent
     tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   docker:
@@ -452,7 +452,7 @@ tms:
       loggingLevel: "INFO"
     service:
       port: 8383
-      name: be-tms-svc  # The name of tms service
+      name: api-tms-svc  # The name of tms service
       loadBalancer: false
 
 # Example of nodeAffinity
@@ -475,7 +475,7 @@ tms:
 #            - c5.xlarge
 tmsGui:
   image:
-    repository: tracardi/tms-gui
+    repository: tracardi/wa-tms
     pullPolicy: IfNotPresent
     tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   docker:

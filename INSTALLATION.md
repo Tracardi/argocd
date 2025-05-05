@@ -200,7 +200,7 @@ managing tenants in a multi-tenant environment.
 
 ```yaml
 tmsApi:
-  host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local  # The hostname for the TMS API service
+  host: api-tms-svc.tracardi-com-090.svc.cluster.local  # The hostname for the TMS API service
   database: "tms"  # The database name to use in TMS API
 ```
 
@@ -236,7 +236,7 @@ mysql:
 
 # TMS API configuration. Change tmsApi.host
 tmsApi:
-  host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local 
+  host: api-tms-svc.tracardi-com-090.svc.cluster.local 
 ```
 
 ## Telemetry Configuration
@@ -647,7 +647,7 @@ tms:
       loggingLevel: "INFO"  # Logging level for TMS
     service:
       port: 8383  # Port for the TMS service
-      name: be-fa-tms-svc  # The name of the TMS service
+      name: api-tms-svc  # The name of the TMS service
 ```
 
 ### Explanation of Fields
@@ -829,7 +829,7 @@ mysql:
   database: "tracardi"
 
 tmsApi:
-  host: be-fa-tms-svc.tracardi-com-090.svc.cluster.local
+  host: api-tms-svc.tracardi-com-090.svc.cluster.local
 
 # Secrets
 
