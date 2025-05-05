@@ -136,46 +136,6 @@ Params:
       key: {{ .ctx.Values.secrets.license.valueFrom.licenseKey.key }}
 {{- end }}
 
-- name: ELASTIC_SCHEME
-  value: {{ .ctx.Values.elastic.schema | quote }}
-- name: ELASTIC_HOST
-  value: {{ .ctx.Values.elastic.host }}
-{{ if and .ctx.Values.secrets.elastic.password .ctx.Values.secrets.elastic.username }}
-- name: ELASTIC_HTTP_AUTH_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: "elastic-secret"
-      key: "elastic-username"
-- name: ELASTIC_HTTP_AUTH_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: "elastic-secret"
-      key: "elastic-password"
-{{ else if and .ctx.Values.secrets.elastic.valueFrom.password.name .ctx.Values.secrets.elastic.valueFrom.password.key .ctx.Values.secrets.elastic.valueFrom.username.name .ctx.Values.secrets.elastic.valueFrom.username.key }}
-- name: ELASTIC_HTTP_AUTH_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: {{ .ctx.Values.secrets.elastic.valueFrom.username.name | quote  }}
-      key: {{ .ctx.Values.secrets.elastic.valueFrom.username.key | quote  }}
-- name: ELASTIC_HTTP_AUTH_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .ctx.Values.secrets.elastic.valueFrom.password.name | quote }}
-      key: {{ .ctx.Values.secrets.elastic.valueFrom.password.key | quote }}
-{{ end }}
-- name: ELASTIC_PORT
-  value: {{ .ctx.Values.elastic.port | quote }}
-- name: ELASTIC_VERIFY_CERTS
-  value: {{ .ctx.Values.elastic.verifyCerts | quote }}
-{{ if .ctx.Values.elastic.index }}
-- name: ELASTIC_INDEX_SHARDS
-  value: {{ .ctx.Values.elastic.index.shards | quote }}
-- name: ELASTIC_INDEX_REPLICAS
-  value: {{ .ctx.Values.elastic.index.replicas | quote }}
-{{ end }}
-- name: ELASTIC_QUERY_TIMEOUT
-  value: "120"
-
 {{ if .ctx.Values.redis.enabled }}
 - name: REDIS_HOST
   value: {{ .ctx.Values.redis.schema }}{{ .ctx.Values.redis.host }}
@@ -329,13 +289,13 @@ Params:
   value: {{ .ctx.Values.secrets.mergingToken | quote }}
 
 - name: EVENT_PARTITIONING
-  value: {{ .ctx.Values.api.public.config.eventPartitioning | quote }}
+  value: {{ .ctx.Values.api.collector.config.eventPartitioning | quote }}
 - name: PROFILE_PARTITIONING
-  value: {{ .ctx.Values.api.public.config.profilePartitioning | quote }}
+  value: {{ .ctx.Values.api.collector.config.profilePartitioning | quote }}
 - name: SESSION_PARTITIONING
-  value: {{ .ctx.Values.api.public.config.sessionPartitioning | quote }}
+  value: {{ .ctx.Values.api.collector.config.sessionPartitioning | quote }}
 - name: ENTITY_PARTITIONING
-  value: {{ .ctx.Values.api.public.config.entityPartitioning | quote }}
+  value: {{ .ctx.Values.api.collector.config.entityPartitioning | quote }}
 - name: CLOSE_VISIT_AFTER
   value: {{ .ctx.Values.config.visit.close | quote }}
 
