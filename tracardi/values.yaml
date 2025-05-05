@@ -404,7 +404,7 @@ api:
 
 gui:
   image:
-    repository: tracardi/tracardi-com-gui
+    repository: tracardi/wa-gui
     pullPolicy: IfNotPresent
     tag: 2.0.y-alpha  # Tag should be the same for gui and backend
   console:

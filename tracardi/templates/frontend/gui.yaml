@@ -11,18 +11,18 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fe-rj-gui
+  name: wa-gui
   labels:
-    {{- include "tracardi.labels" (dict "ctx" . "component" "fe-rj-gui") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wa-gui") | nindent 4 }}
 spec:
   replicas: {{ .Values.gui.console.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wa-gui") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 8 }}
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wa-gui") | nindent 8 }}
     spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub  | quote }}
@@ -30,7 +30,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       containers:
-        - name: fe-rj-gui
+        - name: wa-gui
           {{- include "tracardi.image" (dict "ctx" . "repo" .Values.gui.image.repository "tag" .Values.gui.image.tag "policy" .Values.gui.image.pullPolicy) | nindent 10 }}
           resources:
             limits:

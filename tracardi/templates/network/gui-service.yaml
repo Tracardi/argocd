@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wa-gui") | nindent 6 }}
   ports:
     - protocol: TCP
       port: {{ .Values.gui.console.service.port }}
@@ -26,7 +26,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "fe-rj-gui") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wa-gui") | nindent 6 }}
   ports:
     - name: http-{{ .Values.gui.console.service.port }}
       protocol: TCP
