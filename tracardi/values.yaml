@@ -271,7 +271,7 @@ secrets:
   mergingToken: "1180015e-38d0-4eb7-8017-40e6a7937659"  # Random value
 
 api:
-  private:
+  gui:
     enabled: true
     replicas: 1
     image:
@@ -527,7 +527,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-background
+                app.kubernetes.io/component: wk-background
     config:
       loggingLevel: "INFO"
       bulker:

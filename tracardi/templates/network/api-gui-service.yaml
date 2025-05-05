@@ -1,4 +1,4 @@
-{{ if .Values.api.private.enabled }}
+{{ if .Values.api.gui.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,13 +6,13 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "api-gui") | nindent 6 }}
   ports:
     - protocol: TCP
-      port: {{ .Values.api.private.service.port }}
+      port: {{ .Values.api.gui.service.port }}
       targetPort: private-port
 
-{{ if .Values.api.private.service.loadBalancer }}
+{{ if .Values.api.gui.service.loadBalancer }}
 ---
 apiVersion: v1
 kind: Service
@@ -25,11 +25,11 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-fa-private") | nindent 6 }}
+    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "api-gui") | nindent 6 }}
   ports:
-    - name: http-{{ .Values.api.private.service.port }}
+    - name: http-{{ .Values.api.gui.service.port }}
       protocol: TCP
-      port: {{ .Values.api.private.service.port }}
+      port: {{ .Values.api.gui.service.port }}
       targetPort: private-port
 {{ end }}
 {{ end }}

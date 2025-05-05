@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wk-pl-background
+  name: wk-background
   labels:
-    app: wk-pl-background
+    app: wk-background
     version: {{ .Chart.AppVersion | quote }}
-    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-pl-background") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-background") | nindent 4 }}
 spec:
   replicas: {{ .Values.worker.background.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-background") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-pl-background") | nindent 8 }}
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-background") | nindent 8 }}
     spec:
       {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.background") | nindent 6 }}
       {{ if .Values.worker.background.spread }}
@@ -27,14 +27,14 @@ spec:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
         - name: tracardi-init
-          image: tracardi/init:{{ .Values.api.image.tag }}
+          image: tracardi/init:{{ .Values.api.collector.image.tag }}
           imagePullPolicy: Always
           env:
             {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: wk-pl-background
+        - name: wk-background
           image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
           imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
           resources:

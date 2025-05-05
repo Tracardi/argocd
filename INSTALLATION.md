@@ -689,7 +689,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway  # Action to take when constraints are unsatisfiable
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-background  # Label selector for spread constraints
+                app.kubernetes.io/component: wk-background  # Label selector for spread constraints
     config:
       loggingLevel: "INFO"  # Logging level for the background worker
       bulker:
