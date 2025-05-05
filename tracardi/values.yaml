@@ -513,7 +513,7 @@ worker:
     enabled: true
 
     image:
-      repository: tracardi/background-worker
+      repository: tracardi/wk-background
       tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
@@ -576,7 +576,7 @@ worker:
     enabled: True
 
     image:
-      repository: tracardi/background-worker
+      repository: tracardi/wk-background
       tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
@@ -621,7 +621,7 @@ worker:
     enabled: False
 
     image:
-      repository: tracardi/background-worker
+      repository: tracardi/wk-background
       tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
@@ -666,7 +666,7 @@ worker:
     enabled: false
 
     image:
-      repository: tracardi/background-worker
+      repository: tracardi/wk-background
       tag: 2.0.y-alpha
       pullPolicy: IfNotPresent
 
