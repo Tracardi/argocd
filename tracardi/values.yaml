@@ -527,7 +527,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-background
+                app.kubernetes.io/component: wk-bg-function
     config:
       loggingLevel: "INFO"
       bulker:
@@ -590,7 +590,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-collector
+                app.kubernetes.io/component: wk-bg-collector
 
     resources:
       limits:
@@ -680,7 +680,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-logger
+                app.kubernetes.io/component: wk-bg-logger
 
     resources:
       limits:

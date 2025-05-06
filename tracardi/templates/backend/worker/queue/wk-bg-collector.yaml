@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wk-collector
+  name: wk-bg-collector
   labels:
-    app: wk-collector
+    app: wk-bg-collector
     version: {{ .Chart.AppVersion | quote }}
-    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-collector") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-bg-collector") | nindent 4 }}
 spec:
   replicas: {{ .Values.worker.collector.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-collector") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-bg-collector") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-collector") | nindent 8 }}
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-bg-collector") | nindent 8 }}
     spec:
       {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.collector") | nindent 6 }}
 
@@ -36,7 +36,7 @@ spec:
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: wk-collector
+        - name: wk-bg-collector
           image: "{{ .Values.worker.collector.image.repository }}:{{ .Values.worker.collector.image.tag }}"
           imagePullPolicy: {{ .Values.worker.collector.image.pullPolicy }}
           resources:

@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wk-background
+  name: wk-bg-function
   labels:
-    app: wk-background
+    app: wk-bg-function
     version: {{ .Chart.AppVersion | quote }}
-    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-background") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-bg-function") | nindent 4 }}
 spec:
   replicas: {{ .Values.worker.background.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-background") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-bg-function") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-background") | nindent 8 }}
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-bg-function") | nindent 8 }}
     spec:
       {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.background") | nindent 6 }}
       {{ if .Values.worker.background.spread }}
@@ -34,7 +34,7 @@ spec:
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: wk-background
+        - name: wk-bg-function
           image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
           imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
           resources:
