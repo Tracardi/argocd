@@ -17,9 +17,9 @@ spec:
             - name: job-timer
               image: {{ .Values.job.timer.image.repository }}:{{ .Values.job.timer.image.tag }}
               imagePullPolicy: {{ .Values.job.timer.image.pullPolicy }}
+              env:
+              {{- include "tracardi.env" (dict "ctx" .) | nindent 14 }}
+              - name: LOGGING_LEVEL
+                value: {{ .Values.job.timer.config.loggingLevel | quote }}
           restartPolicy: Never
-          env:
-            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
-            - name: LOGGING_LEVEL
-              value: {{ .Values.job.timer.config.loggingLevel | quote }}
 {{ end }}

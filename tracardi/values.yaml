@@ -780,7 +780,7 @@ job:
       pullPolicy: IfNotPresent
 
     config:
-      cron: "*/1 * * * *"
+      cron: "*/30 * * * *"
       loggingLevel: INFO
 
 provider:
