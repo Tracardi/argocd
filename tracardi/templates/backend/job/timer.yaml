@@ -1,0 +1,20 @@
+{{ if and .Values.secrets.dockerHub .Values.job.timer.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-timer
+spec:
+  schedule: {{ .Values.job.timer.config.cron | quote }}
+  concurrencyPolicy: Forbid  # Prevent overlapping jobs
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          imagePullSecrets:
+            - name: {{ .Values.secrets.dockerHub | quote }}
+          containers:
+            - name: job-timer
+              image: {{ .Values.job.timer.image.repository }}:{{ .Values.job.timer.image.tag }}
+              imagePullPolicy: {{ .Values.job.timer.image.pullPolicy }}
+          restartPolicy: Never
+{{ end }}

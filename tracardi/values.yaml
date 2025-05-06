@@ -769,7 +769,18 @@ worker:
 #          values:
 #            - c5.xlarge
 
+job:
+  timer:
 
+    enabled: true
+
+    image:
+      repository: tracardi/job-timer
+      tag: 2.0.y-alpha
+      pullPolicy: IfNotPresent
+
+    config:
+      cron: "*/1 * * * *"
 
 provider:
     hetzner: false
