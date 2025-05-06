@@ -1,0 +1,25 @@
+{{ if and .Values.secrets.dockerHub .Values.job.snapshot.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-snapshot
+spec:
+  schedule: {{ .Values.job.snapshot.config.cron | quote }}
+  concurrencyPolicy: Forbid  # Prevent overlapping jobs
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 3600
+      template:
+        spec:
+          imagePullSecrets:
+            - name: {{ .Values.secrets.dockerHub | quote }}
+          containers:
+            - name: job-snapshot
+              image: {{ .Values.job.snapshot.image.repository }}:{{ .Values.job.snapshot.image.tag }}
+              imagePullPolicy: {{ .Values.job.snapshot.image.pullPolicy }}
+              env:
+              {{- include "tracardi.env" (dict "ctx" .) | nindent 14 }}
+              - name: LOGGING_LEVEL
+                value: {{ .Values.job.snapshot.config.loggingLevel | quote }}
+          restartPolicy: Never
+{{ end }}
