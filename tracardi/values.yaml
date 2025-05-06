@@ -781,6 +781,7 @@ job:
 
     config:
       cron: "*/1 * * * *"
+      loggingLevel: INFO
 
 provider:
     hetzner: false

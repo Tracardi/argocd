@@ -8,6 +8,7 @@ spec:
   concurrencyPolicy: Forbid  # Prevent overlapping jobs
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 300
       template:
         spec:
           imagePullSecrets:
@@ -17,4 +18,8 @@ spec:
               image: {{ .Values.job.timer.image.repository }}:{{ .Values.job.timer.image.tag }}
               imagePullPolicy: {{ .Values.job.timer.image.pullPolicy }}
           restartPolicy: Never
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.job.timer.config.loggingLevel | quote }}
 {{ end }}
