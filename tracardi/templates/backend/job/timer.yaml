@@ -8,7 +8,7 @@ spec:
   concurrencyPolicy: Forbid  # Prevent overlapping jobs
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 300
+      ttlSecondsAfterFinished: 3600
       template:
         spec:
           imagePullSecrets:

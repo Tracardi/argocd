@@ -590,7 +590,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-collector
+                app.kubernetes.io/component: wk-collector
 
     resources:
       limits:
@@ -635,7 +635,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-workflow
+                app.kubernetes.io/component: wk-workflow
 
     resources:
       limits:
@@ -663,7 +663,7 @@ worker:
 
   logger:
 
-    enabled: false
+    enabled: true
 
     image:
       repository: tracardi/wk-background
@@ -680,7 +680,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-workflow
+                app.kubernetes.io/component: wk-logger
 
     resources:
       limits:
