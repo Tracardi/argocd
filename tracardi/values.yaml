@@ -402,46 +402,7 @@ api:
 #          values:
 #            - c5.xlarge
 
-gui:
-  image:
-    repository: tracardi/wa-gui
-    pullPolicy: IfNotPresent
-    tag: 2.0.y-alpha  # Tag should be the same for gui and backend
-  console:
-    enabled: true
-    replicas: 1
-    service:
-        port: 8787
-        loadBalancer: false
-    ingress:
-      enabled: false
-      host: gui.your-domain.com
-      path: /
-    config:
-      mode: "with-deployment"
-      allowUpdatesOnProduction: "no"
-      whiteLabel: "no"
-# Example of nodeAffinity
-#  nodeAffinity:
-#    required:
-#      - key: node-type
-#        operator: In
-#        values:
-#          - compute
-#    preferred:
-#      - weight: 100
-#        key: zone
-#        operator: In
-#        values:
-#          - us-east-1a
-#      - weight: 50
-#        key: instance-type
-#        operator: In
-#        values:
-#          - c5.xlarge
-
-
-semantic:
+  semantic:
     enabled: true
     replicas: 1
     image:
@@ -492,6 +453,43 @@ semantic:
 #          values:
 #            - c5.xlarge
 
+gui:
+  image:
+    repository: tracardi/wa-gui
+    pullPolicy: IfNotPresent
+    tag: 2.0.y-alpha  # Tag should be the same for gui and backend
+  console:
+    enabled: true
+    replicas: 1
+    service:
+        port: 8787
+        loadBalancer: false
+    ingress:
+      enabled: false
+      host: gui.your-domain.com
+      path: /
+    config:
+      mode: "with-deployment"
+      allowUpdatesOnProduction: "no"
+      whiteLabel: "no"
+# Example of nodeAffinity
+#  nodeAffinity:
+#    required:
+#      - key: node-type
+#        operator: In
+#        values:
+#          - compute
+#    preferred:
+#      - weight: 100
+#        key: zone
+#        operator: In
+#        values:
+#          - us-east-1a
+#      - weight: 50
+#        key: instance-type
+#        operator: In
+#        values:
+#          - c5.xlarge
 
 tms:
   image:
