@@ -440,6 +440,59 @@ gui:
 #        values:
 #          - c5.xlarge
 
+
+semantic:
+    enabled: true
+    replicas: 1
+    image:
+      repository: tracardi/api-semantic
+      pullPolicy: IfNotPresent
+      tag: 2.0.y-alpha  # Tag should be the same for gui and backend
+    config:
+      saveLogs: "yes"
+      loggingLevel: "INFO"
+      serverLoggingLevel: "warning"
+    service:
+      port: 8989
+      loadBalancer: false
+    ingress:
+      enabled: false
+      host: "*.private.your-domain.com"
+      path: /
+      limit:
+        enabled: false
+        connections: "20" # Max concurrent connections
+        rps: "10"         # Max requests per second
+        burstMultiplier: "2" # Burst requests allowed
+        zone: "private-api"
+    resources:
+      limits:
+        memory: 200Mi
+        cpu: 500m
+      requests:
+        memory: 100Mi
+        cpu: 100m
+
+# Example of nodeAffinity
+#    nodeAffinity:
+#      required:
+#        - key: node-type
+#          operator: In
+#          values:
+#            - compute
+#      preferred:
+#        - weight: 100
+#          key: zone
+#          operator: In
+#          values:
+#            - us-east-1a
+#        - weight: 50
+#          key: instance-type
+#          operator: In
+#          values:
+#            - c5.xlarge
+
+
 tms:
   image:
     repository: tracardi/api-tms

@@ -1,0 +1,57 @@
+{{ if and .Values.secrets.dockerHub .Values.api.semantic.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-semantic
+  labels:
+    {{- include "tracardi.labels" (dict "ctx" . "component" "api-semantic") | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.semantic.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "api-semantic") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "api-semantic") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "api.public") | nindent 6 }}
+      {{ if .Values.api.semantic.spread }}
+        {{range .Values.api.semantic.spread }}
+          {{ toYaml . | nindent 6 }}
+        {{ end }}
+      {{ end }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      initContainers:
+        - name: tracardi-init
+          image: tracardi/init:{{ .Values.api.semantic.image.tag }}
+          imagePullPolicy: Always
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: api-semantic
+          {{- include "tracardi.image" (dict "ctx" . "repo" .Values.api.semantic.image.repository "tag" .Values.api.semantic.image.tag "policy" .Values.api.semantic.image.pullPolicy) | nindent 10 }}
+          resources:
+            limits:
+              memory: {{ .Values.api.semantic.resources.limits.memory }}
+              cpu: {{ .Values.api.semantic.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.api.semantic.resources.requests.memory }}
+              cpu: {{ .Values.api.semantic.resources.requests.cpu }}
+          ports:
+            - name: api-sem-port
+              containerPort: 80
+          {{- include "tracardi.livenessProbe" . | nindent 10 }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.api.semantic.config.loggingLevel | quote }}
+            - name: SAVE_LOGS
+              value: {{ .Values.api.semantic.config.saveLogs | quote }}
+            - name: SERVER_LOGGING_LEVEL
+              value: {{ .Values.api.semantic.config.serverLoggingLevel | quote }}
+
+{{ end }}
