@@ -1,0 +1,25 @@
+allowUnsafeConfigurations: true
+
+sharding:
+  enabled: false
+
+backup:
+  enabled: true
+
+pxc:
+  size: 3
+  volumeSpec:
+    pvc:
+      resources:
+        requests:
+          storage: 2Gi
+
+haproxy:
+  enabled: true
+  size: 2
+  resources:
+    requests:
+      memory: 100Mi
+
+proxysql:
+  size: 1

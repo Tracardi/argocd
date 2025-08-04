@@ -86,24 +86,24 @@ bookkeeper:
     persistence: true
     journal:
       name: journal
-      size: 1Gi
+      size: 5Gi
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
       # storageClassName: gp2
     ledgers:
       name: ledgers
-      size: 1Gi
+      size: 5Gi
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ## MAKE SURE THAT USED storageClassName is local. We had issues installing it using longhorn
 #      storageClassName: gp2
 
 broker:
-  replicaCount: 1
+  replicaCount: 3
 
 proxy:
-  replicaCount: 1
+  replicaCount: 3
   ports:
     http: 8080
 
