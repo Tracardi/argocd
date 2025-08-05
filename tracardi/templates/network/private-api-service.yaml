@@ -18,6 +18,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: be-private-lb
+{{ if .Values.cloudProvider.hetzner.enabled }}
+  annotations:
+    load-balancer.hetzner.cloud/location: {{ .Values.cloudProvider.hetzner.loadBalancer.location }}
+    load-balancer.hetzner.cloud/use-private-ip: {{ .Values.cloudProvider.hetzner.loadBalancer.privateIp }}
+{{ end }}
 spec:
   type: LoadBalancer
   selector:
