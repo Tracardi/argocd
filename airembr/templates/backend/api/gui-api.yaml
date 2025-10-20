@@ -1,0 +1,87 @@
+{{ if and .Values.secrets.dockerHub .Values.api.gui.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-gui-api
+  labels:
+    app: be-gui-api
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "be-gui-api") | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.gui.replicas }}
+  selector:
+    matchLabels:
+      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-gui-api") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "airembr.podLabels" (dict "ctx" . "component" "be-gui-api") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "api.gui") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub  | quote }}
+      initContainers:
+        - name: pulsar-init
+          image: {{ .Values.api.gui.image.init }}:{{ .Values.api.gui.image.tag }}
+          imagePullPolicy: {{ .Values.api.gui.image.pullPolicy }}
+          env:
+            {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: be-gui-api
+          image: {{ .Values.api.gui.image.repository }}:{{ .Values.api.gui.image.tag }}
+          imagePullPolicy: {{ .Values.api.gui.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.api.gui.resources.limits.memory }}
+              cpu: {{ .Values.api.gui.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.api.gui.resources.requests.memory }}
+              cpu: {{ .Values.api.gui.resources.requests.cpu }}
+          ports:
+            - name: gui-api-port
+              containerPort: 80
+          env:
+            {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.api.gui.config.loggingLevel | quote }}
+            - name: API_DOCS
+              value: {{ .Values.api.gui.config.apiDocs | quote}}
+            - name: SERVER_LOGGING_LEVEL
+              value: {{ .Values.api.gui.config.serverLoggingLevel | quote }}
+
+          volumeMounts:
+            - name: pre-resources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+              subPath: "resources.json"
+            - name: pre-destinations-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+              subPath: "destinations.json"
+            - name: pre-event-sources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+              subPath: "event-sources.json"
+            - name: tenant-aliases-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+              subPath: "tenant-aliases.json"
+
+      volumes:
+        - name: pre-resources-vol
+          configMap:
+            name: pre-resources-cm
+
+        - name: pre-destinations-vol
+          configMap:
+            name: pre-destinations-cm
+
+        - name: pre-event-sources-vol
+          configMap:
+            name: pre-event-sources-cm
+
+        - name: tenant-aliases-vol
+          configMap:
+            name: tenant-aliases-cm
+
+{{ end }}
+
+

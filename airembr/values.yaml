@@ -1,0 +1,436 @@
+# Infrastructure
+
+redis:
+  # Identifier for Redis service instance
+  name: rd1
+  # Host address for Redis
+  host: redis-std-svc.redis-standalone.svc.cluster.local
+  # Protocol for connecting to Redis
+  schema: "redis://"
+  # Enable or disable authentication for Redis
+  authenticate: false
+  # Port number for Redis service
+  port: 6379
+  # Redis database number to use
+  db: "0"
+
+pulsar:
+  # Identifier for Pulsar service instance
+  name: ps1
+  # Host address for Pulsar
+  host: pulsar-proxy.pulsar.svc.cluster.local
+  # Pulsar API endpoint
+  api: "http://pulsar-broker.pulsar.svc.cluster.local:8080"
+  # Protocol for connecting to Pulsar
+  schema: "pulsar://"
+  # Enable or disable authentication for Pulsar
+  authenticate: false
+  # Port number for Pulsar service
+  port: 6650
+  cluster_name: pulsar
+  # Enable pulsar service
+  enabled: true
+
+mysql:
+  # Identifier for MySQL service instance
+  name: ms1
+  # Host address for MySQL
+  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  # Protocol for connecting to MySQL
+  schema: "mysql+aiomysql://"
+  # Database name for MySQL
+  database: "tracardi"
+  # Port number for MySQL service
+  port: 3306
+  pool:
+    # Number of connections in the connection pool
+    size: 5
+    # Number of additional connections beyond the pool size
+    maxOverflow: 2
+    # Timeout for acquiring a connection from the pool
+    timeout: 3
+    # Time after which a connection in the pool is recycled
+    recycle: 1800
+
+# Not used
+starrocks:
+  host: kube-starrocks-fe-search.starrocks.svc.cluster.local
+  schema: "mysql+aiomysql://"
+  schemaSync: "mysql+pymysql://"
+  port: 9030
+  database: "airembr"
+  echo: "no"
+
+# Cluster-wide Configuration: General settings for Tracardi system
+config:
+  # Enable or disable multi-tenancy
+  tenant:
+    multi: "no"
+
+  preConfiguration:
+    resources: "{}"
+    eventSources: "{}"
+    destinations: "{}"
+    tenantAliases: "{}"
+
+# Definition of defined secrets.
+
+secrets:
+  dockerHub: "airembr-dockerhub"
+
+  installation:
+    token: "airembr"  # Random value
+    valueFrom:
+      token:
+        name: ""
+        key: ""
+
+  license:
+    licenseKey: ""
+    valueFrom:
+      licenseKey:
+        name: ""
+        key: ""
+
+  tms:
+    secretKey: ""  # Random value
+    apiKey: ""    # Random value
+    valueFrom:
+      secretKey:
+        name: ""
+        key: ""
+      apiKey:
+        name: ""
+        key: ""
+
+  redis:
+    password: ""
+    valueFrom:
+      password:
+        name: ""
+        key: ""
+
+  starrocks:
+    username: "root"
+    password: ""
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
+
+  pulsar:
+    token: ""
+    valueFrom:
+      token:
+        name: ""
+        key: ""
+
+  mysql:
+    username: ""
+    password: ""
+    valueFrom:
+      username:
+        name: ""
+        key: ""
+      password:
+        name: ""
+        key: ""
+
+  maxmind:
+    licenseKey: ""
+    accountId: ""
+    valueFrom:
+      licenseKey:
+        name: ""
+        key: ""
+      accountId:
+        name: ""
+        key: ""
+
+  mergingToken: "40e6a7937659-1180015e-38d0-4eb7-8017"  # Random value
+
+api:
+
+  collector:
+    image:
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-collector-api
+      pullPolicy: IfNotPresent
+      tag: 0.0.1  # Tag should be the same for gui and backend
+    enabled: true
+    replicas: 1
+    config:
+      saveLogs: "yes"
+      loggingLevel: "INFO"
+      serverLoggingLevel: "warning"
+      apiDocs: "yes"
+      enableGuiApi: "yes"
+    service:
+      port: 4002
+      loadBalancer: false
+    ingress:
+      enabled: false
+      host: "*.private.your-domain.com"
+      path: /
+    resources:
+      limits:
+        memory: 1000Mi  # Private need more memory because it can run workflows
+        cpu: 500m
+      requests:
+        memory: 100Mi
+        cpu: 100m
+
+# Example of nodeAffinity
+#    nodeAffinity:
+#      required:
+#        - key: node-type
+#          operator: In
+#          values:
+#            - compute
+#      preferred:
+#        - weight: 100
+#          key: zone
+#          operator: In
+#          values:
+#            - us-east-1a
+#        - weight: 50
+#          key: instance-type
+#          operator: In
+#          values:
+#            - c5.xlarge
+
+  gui:
+    image:
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-api-gui
+      pullPolicy: IfNotPresent
+      tag: 0.0.1  # Tag should be the same for gui and backend
+    enabled: true
+    spread:
+      rules:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: be-fa-public
+    replicas: 1
+    config:
+      saveLogs: "yes"
+      loggingLevel: "INFO"
+      serverLoggingLevel: "warning"
+      apiDocs: "no"
+      enableGuiApi: "no"
+
+    storage:
+      failOver:
+        enabled: false
+        size: 1Gi
+    service:
+      port: 4001
+      loadBalancer: false
+    ingress:
+      enabled: false
+      host: "*.public.your-domain.com"
+      path: /
+    resources:
+      limits:
+        memory: 300Mi
+        cpu: 500m
+      requests:
+        memory: 100Mi
+        cpu: 100m
+
+# Example of nodeAffinity
+#    nodeAffinity:
+#      required:
+#        - key: node-type
+#          operator: In
+#          values:
+#            - compute
+#      preferred:
+#        - weight: 100
+#          key: zone
+#          operator: In
+#          values:
+#            - us-east-1a
+#        - weight: 50
+#          key: instance-type
+#          operator: In
+#          values:
+#            - c5.xlarge
+
+gui:
+  image:
+    repository: tracardi/airembr-gui
+    pullPolicy: IfNotPresent
+    tag: 0.0.1  # Tag should be the same for gui and backend
+  console:
+    enabled: true
+    replicas: 1
+    service:
+        port: 4000
+        loadBalancer: false
+    ingress:
+      enabled: false
+      host: gui.your-domain.com
+      path: /
+    config:
+      mode: "with-deployment"
+      allowUpdatesOnProduction: "no"
+# Example of nodeAffinity
+#  nodeAffinity:
+#    required:
+#      - key: node-type
+#        operator: In
+#        values:
+#          - compute
+#    preferred:
+#      - weight: 100
+#        key: zone
+#        operator: In
+#        values:
+#          - us-east-1a
+#      - weight: 50
+#        key: instance-type
+#        operator: In
+#        values:
+#          - c5.xlarge
+
+
+# Example of nodeAffinity
+#  nodeAffinity:
+#    required:
+#      - key: node-type
+#        operator: In
+#        values:
+#          - compute
+#    preferred:
+#      - weight: 100
+#        key: zone
+#        operator: In
+#        values:
+#          - us-east-1a
+#      - weight: 50
+#        key: instance-type
+#        operator: In
+#        values:
+#          - c5.xlarge
+
+worker:
+  background:
+
+    enabled: true
+
+    image:
+      repository: tracardi/background-worker
+      tag: 1.1.0
+      pullPolicy: IfNotPresent
+
+    replicas: 1
+
+    spread:
+      rules:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: wk-pl-background
+    config:
+      loggingLevel: "INFO"
+      bulker:
+        # Data Bulker
+        #
+        # The Data Bulker Configuration are setting for message bulker that is responsible for collecting messages and
+        # managing them for background storage operations.
+        #
+        # It operates by enforcing two main constraints: a size limit, which is the maximum number of messages the queue can
+        # hold, and a time limit, which dictates how long messages can remain in the queue. If either of these limits is
+        # exceeded, the queued data is flushed to storage.
+        #
+        # Additionally, if no new data arrives within a specified period of inactivity, a timeout is triggered that
+        # automatically flushes any remaining data in the queue that has not yet been processed.
+        bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
+
+    resources:
+      limits:
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
+        cpu: 1000m  # 700m max for worker that saves data only, not collector
+      requests:
+        memory: 300Mi
+        cpu: 300m
+
+# Example of nodeAffinity
+#    nodeAffinity:
+#      required:
+#        - key: node-type
+#          operator: In
+#          values:
+#            - compute
+#      preferred:
+#        - weight: 100
+#          key: zone
+#          operator: In
+#          values:
+#            - us-east-1a
+#        - weight: 50
+#          key: instance-type
+#          operator: In
+#          values:
+#            - c5.xlarge
+
+  collector:
+
+    enabled: False
+
+    image:
+      repository: tracardi/background-worker
+      tag: 1.1.0
+      pullPolicy: IfNotPresent
+
+    replicas: 1
+
+    spread:
+      rules:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: wk-pl-collector
+
+    resources:
+      limits:
+        memory: 500Mi # 400Mi max for worker that saves data only, not collector
+        cpu: 1000m  # 700m max for worker that saves data only, not collector
+      requests:
+        memory: 300Mi
+        cpu: 300m
+
+    config:
+      loggingLevel: "INFO"
+      bulker:
+        # Data Bulker
+        #
+        # The Data Bulker Configuration are setting for message bulker that is responsible for collecting messages and
+        # managing them for background storage operations.
+        #
+        # It operates by enforcing two main constraints: a size limit, which is the maximum number of messages the queue can
+        # hold, and a time limit, which dictates how long messages can remain in the queue. If either of these limits is
+        # exceeded, the queued data is flushed to storage.
+        #
+        # Additionally, if no new data arrives within a specified period of inactivity, a timeout is triggered that
+        # automatically flushes any remaining data in the queue that has not yet been processed.
+        bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
+
+
+
+
+

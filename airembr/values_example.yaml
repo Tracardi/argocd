@@ -1,0 +1,49 @@
+# Infrastructure
+
+redis:
+  host: redis-master.redis.svc.cluster.local
+  db: "1"
+
+pulsar:
+  host: pulsar-proxy.pulsar.svc.cluster.local:6650
+  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
+
+mysql:
+  host: mysql-tracardi-110-haproxy.everest
+
+
+secrets:
+  dockerHub: "airembr-dockerhub"
+
+  pulsar:
+    token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.lkLZkhoRTS7S11iehntprBA13PjcdDCihanssiSaS0rAHZeJOsCcCKa1XIPZZHbv0SmYwmv4YTIKf7NMSzuI-J0iO9br5caJh_1L3LhUTlsbaWybh7sQPF2rFyEFXa68ojTccjXOk8lWVUg0p3An9q_MMb4jDYND3K89CxRQpwhCPWmF_9Cw4cZJM252NYtSMsVyCkRZsCgu1Zco9GePPlMBrE9MtYpTaIRUuD4MQrunjC9kjWIVgxCEM3wf7B-A8bU_0dDuD5g2WWCsJ_Z-_9T2ucQqglcatrGnsOC0zCmSzmbGDe4372eGo6aak-4kbL3CZ0QnS36Tuji8T1ucHw"
+
+  redis:
+    password: "D7RhiWgZvD"
+
+  mysql:
+    username: "root"
+    password: "D<0n[[N?u+M8iw2D"
+
+  starrocks:
+    username: "root"
+    password: "3BoZGE68bC2D"
+
+api:
+  collector:
+    image:
+      pullPolicy: Always
+  gui:
+    image:
+      pullPolicy: Always
+
+gui:
+  image:
+    pullPolicy: Always
+
+worker:
+
+  background:
+    image:
+      pullPolicy: Always
+

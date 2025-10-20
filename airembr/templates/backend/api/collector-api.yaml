@@ -1,0 +1,87 @@
+{{ if and .Values.secrets.dockerHub .Values.api.collector.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-collector-api
+  labels:
+    app: be-collector-api
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "be-collector-api") | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.collector.replicas }}
+  selector:
+    matchLabels:
+      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-collector-api") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "airembr.podLabels" (dict "ctx" . "component" "be-collector-api") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "api.collector") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub  | quote }}
+      initContainers:
+        - name: pulsar-init
+          image: {{ .Values.api.collector.image.init }}:{{ .Values.api.collector.image.tag }}
+          imagePullPolicy: {{ .Values.api.collector.image.pullPolicy }}
+          env:
+            {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: be-collector-api
+          image: {{ .Values.api.collector.image.repository }}:{{ .Values.api.collector.image.tag }}
+          imagePullPolicy: {{ .Values.api.collector.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.api.collector.resources.limits.memory }}
+              cpu: {{ .Values.api.collector.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.api.collector.resources.requests.memory }}
+              cpu: {{ .Values.api.collector.resources.requests.cpu }}
+          ports:
+            - name: collector-port
+              containerPort: 80
+          env:
+            {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.api.collector.config.loggingLevel | quote }}
+            - name: API_DOCS
+              value: {{ .Values.api.collector.config.apiDocs | quote}}
+            - name: SERVER_LOGGING_LEVEL
+              value: {{ .Values.api.collector.config.serverLoggingLevel | quote }}
+
+          volumeMounts:
+            - name: pre-resources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+              subPath: "resources.json"
+            - name: pre-destinations-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+              subPath: "destinations.json"
+            - name: pre-event-sources-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+              subPath: "event-sources.json"
+            - name: tenant-aliases-vol
+              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+              subPath: "tenant-aliases.json"
+
+      volumes:
+        - name: pre-resources-vol
+          configMap:
+            name: pre-resources-cm
+
+        - name: pre-destinations-vol
+          configMap:
+            name: pre-destinations-cm
+
+        - name: pre-event-sources-vol
+          configMap:
+            name: pre-event-sources-cm
+
+        - name: tenant-aliases-vol
+          configMap:
+            name: tenant-aliases-cm
+
+{{ end }}
+
+

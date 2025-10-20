@@ -1,0 +1,31 @@
+{{ if .Values.api.gui.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-gui-api-svc
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-gui-api") | nindent 6 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.api.gui.service.port }}
+      targetPort: gui-api-port
+
+{{ if .Values.api.gui.service.loadBalancer }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-gui-api-lb
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-gui-api") | nindent 6 }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.api.gui.service.port }}
+      targetPort: gui-api-port
+{{ end }}
+{{ end }}

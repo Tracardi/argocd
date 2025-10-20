@@ -1,0 +1,77 @@
+# Namespace will be "dgraph"
+zero:
+  replicaCount: 3
+#  resources:
+#    requests:
+#      cpu: "500m"
+#      memory: "100Mi" # 2Gi
+#    limits:
+#      cpu: "2"
+#      memory: "1Gi" # 4Gi
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "local-path"
+
+alpha:
+  # Enable ACLs (authentication/authorization)
+  acl:
+    enabled: true
+    file:
+      ## printf '123' | base64
+      hmac_secret_file: MTIzMTIz
+    configFile:
+      config.yaml: |
+        acl:
+          secret_file: /dgraph/acl/hmac_secret_file
+        security:
+          whitelist: 10.0.0.0/8,172.0.0.0/8,192.168.0.0/16
+
+  replicaCount: 3
+#  resources:
+#    requests:
+#      cpu: "500m"  # 2
+#      memory: "200Mi"  # 8Gi
+#    limits:
+#      cpu: "1"  # 4
+#      memory: "2Gi" # 16Gi
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: "local-path"
+
+ratel:
+  enabled: true
+
+config:
+
+  # Enable TLS between nodes (requires certs in a secret)
+  tls:
+    enabled: false
+    serverSecretName: dgraph-tls-secret
+    clientSecretName: dgraph-tls-secret
+
+#backups:
+#  volume:
+#    claim: "dgraph-backup"
+#    enabled: false
+#  full:
+#    enabled: false
+#    debug: false
+#  incremental:
+#    enabled: false
+#    debug: false
+#
+#  minioSecure: false
+#  ## specify access keys required by MinIO or S3
+#  keys:
+#    minio:
+#      ## MINIO_ACCESS_KEY env var
+#      access: ""
+#      ## MINIO_SECRET_KEY env var
+#      secret: ""
+#    s3:
+#      ## AWS_ACCESS_KEY_ID env var
+#      access: ""
+#      ## AWS_SECRET_ACCESS_KEY env var
+#      secret: ""

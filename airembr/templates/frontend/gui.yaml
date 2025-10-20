@@ -1,0 +1,59 @@
+{{ if and .Values.gui.console.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gui-config
+data:
+  custom.js: |
+    export const custom = {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-gui
+  labels:
+    {{- include "airembr.labels" (dict "ctx" . "component" "fe-gui") | nindent 4 }}
+spec:
+  replicas: {{ .Values.gui.console.replicas }}
+  selector:
+    matchLabels:
+      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "fe-gui") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "airembr.podLabels" (dict "ctx" . "component" "fe-gui") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "gui") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      containers:
+        - name: fe-gui
+          image: {{ .Values.gui.image.repository }}:{{ .Values.gui.image.tag }}
+          imagePullPolicy: {{ .Values.gui.image.pullPolicy }}
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: 500m
+            requests:
+              memory: 20Mi
+              cpu: 300m
+          env:
+            - name: MODE
+              value: {{ .Values.gui.console.config.mode | quote }}
+            - name: MULTI_TENANT
+              value: {{ .Values.config.tenant.multi | quote }}
+            - name: ALLOW_UPDATES_ON_PRODUCTION
+              value: {{ .Values.gui.console.config.allowUpdatesOnProduction | quote }}
+          ports:
+            - containerPort: 80
+              name: gui-port
+          volumeMounts:
+            - name: gui-config-volume
+              mountPath: /usr/share/nginx/html/config
+      volumes:
+        - name: gui-config-volume
+          configMap:
+            name: gui-config
+
+{{ end }}
