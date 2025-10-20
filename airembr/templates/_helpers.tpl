@@ -197,8 +197,6 @@ Params:
   value: {{ .ctx.Values.mysql.pool.recycle | quote }}
 {{- end }}
 
-- name: PRIMARY_ID
-  value: {{ .ctx.Values.config.primaryId }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
 - name: PULSAR_API
@@ -258,8 +256,6 @@ Params:
       name: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.name | quote }}
       key: {{ .ctx.Values.secrets.maxmind.valueFrom.accountId.key | quote }}
 {{end}}
-- name: TRACK_DEBUG
-  value: "yes"
 
 {{ if .ctx.Values.secrets.installation.token }}
 - name: INSTALLATION_TOKEN
@@ -314,8 +310,6 @@ Params:
   value: {{ .ctx.Values.starrocks.echo | quote }}
 {{- end -}}
 {{- end -}}
-
-
 
 {{- end -}}
 
