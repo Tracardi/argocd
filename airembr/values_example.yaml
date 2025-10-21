@@ -47,3 +47,21 @@ worker:
     image:
       pullPolicy: Always
 
+
+
+job:
+
+  imap:
+    enabled: true
+    image:
+      pullPolicy: Always
+
+  ical:
+    enabled: true
+    image:
+      pullPolicy: Always
+
+  timer:
+    enabled: true
+    image:
+      pullPolicy: Always

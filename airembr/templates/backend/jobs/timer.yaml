@@ -1,0 +1,46 @@
+{{ if and .Values.secrets.dockerHub .Values.job.timer.enabled .Values.pulsar.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-timer
+  labels:
+    app: job-timer
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "job-timer") | nindent 4 }}
+spec:
+  schedule: "*/20 * * * *" # every 20 minutes
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            {{- include "airembr.podLabels" (dict "ctx" . "component" "job-timer") | nindent 12 }}
+        spec:
+          {{- include "chart.nodeAffinity" (dict "context" . "path" "job.timer") | nindent 10 }}
+          {{ if .Values.job.timer.spread }}
+            {{range .Values.job.timer.spread }}
+              {{ toYaml . | nindent 10 }}
+            {{ end }}
+          {{ end }}
+          imagePullSecrets:
+            - name: {{ .Values.secrets.dockerHub | quote }}
+          restartPolicy: OnFailure
+          containers:
+            - name: job-timer
+              image: "{{ .Values.job.timer.image.repository }}:{{ .Values.job.timer.image.tag }}"
+              imagePullPolicy: {{ .Values.job.timer.image.pullPolicy }}
+              resources:
+                limits:
+                  memory: {{ .Values.job.timer.resources.limits.memory }}
+                  cpu: {{ .Values.job.timer.resources.limits.cpu }}
+                requests:
+                  memory: {{ .Values.job.timer.resources.requests.memory }}
+                  cpu: {{ .Values.job.timer.resources.requests.cpu }}
+              env:
+                {{- include "airembr.env" (dict "ctx" .) | nindent 16 }}
+                - name: LOGGING_LEVEL
+                  value: {{ .Values.job.timer.config.loggingLevel | quote }}
+{{ end }}
