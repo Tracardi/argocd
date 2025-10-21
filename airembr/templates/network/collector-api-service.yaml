@@ -21,7 +21,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "be-collector-api") | nindent 6 }}
+    {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-collector-api") | nindent 6 }}
   ports:
     - name: http-{{ .Values.api.collector.service.port }}
       protocol: TCP

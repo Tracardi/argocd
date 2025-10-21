@@ -170,7 +170,7 @@ api:
       enableGuiApi: "yes"
     service:
       port: 4002
-      loadBalancer: false
+      loadBalancer: true
     ingress:
       enabled: false
       host: "*.private.your-domain.com"
@@ -232,7 +232,7 @@ api:
         size: 1Gi
     service:
       port: 4001
-      loadBalancer: false
+      loadBalancer: true
     ingress:
       enabled: false
       host: "*.public.your-domain.com"
@@ -274,7 +274,7 @@ gui:
     replicas: 1
     service:
         port: 4000
-        loadBalancer: false
+        loadBalancer: true
     ingress:
       enabled: false
       host: gui.your-domain.com
@@ -327,8 +327,9 @@ worker:
     enabled: true
 
     image:
-      repository: tracardi/background-worker
-      tag: 1.1.0
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-wk-background
+      tag: 0.0.1
       pullPolicy: IfNotPresent
 
     replicas: 1
@@ -341,7 +342,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-background
+                app.kubernetes.io/component: wk-system-background
     config:
       loggingLevel: "INFO"
       bulker:
@@ -387,11 +388,12 @@ worker:
 
   collector:
 
-    enabled: False
+    enabled: True
 
     image:
-      repository: tracardi/background-worker
-      tag: 1.1.0
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-wk-background
+      tag: 0.0.1
       pullPolicy: IfNotPresent
 
     replicas: 1
