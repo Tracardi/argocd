@@ -37,7 +37,9 @@ mysql:
   # Host address for MySQL
   host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
   # Protocol for connecting to MySQL
-  schema: "mysql+aiomysql://"
+  schema:
+    async: "mysql+aiomysql://"
+    sync: "mysql+pymysql://"
   # Database name for MySQL
   database: "tracardi"
   # Port number for MySQL service

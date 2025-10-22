@@ -150,9 +150,13 @@ Params:
       name: {{ .ctx.Values.secrets.redis.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.redis.valueFrom.password.key | quote }}
 {{ end }}
-{{ if .ctx.Values.mysql.schema }}
-- name: MYSQL_SCHEMA
-  value: {{ .ctx.Values.mysql.schema }}
+{{ if .ctx.Values.mysql.schema.async }}
+- name: MYSQL_SCHEMA_ASYNC
+  value: {{ .ctx.Values.mysql.schema.async }}
+{{ end }}
+{{ if .ctx.Values.mysql.schema.sync }}
+- name: MYSQL_SCHEMA_SYNC
+  value: {{ .ctx.Values.mysql.schema.sync }}
 {{ end }}
 {{ if .ctx.Values.mysql.host }}
 - name: MYSQL_HOST
