@@ -43,4 +43,6 @@ spec:
                 {{- include "airembr.env" (dict "ctx" .) | nindent 16 }}
                 - name: LOGGING_LEVEL
                   value: {{ .Values.job.imap.config.loggingLevel | quote }}
+                - name: STATE_STORE
+                  value: "mysql"
 {{ end }}
