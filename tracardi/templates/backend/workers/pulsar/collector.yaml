@@ -57,16 +57,16 @@ spec:
 
           volumeMounts:
             - name: pre-resources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/resources.json"
+              mountPath: "/system/system/db/preconfig/data/resources.json"
               subPath: "resources.json"
             - name: pre-destinations-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/destinations.json"
+              mountPath: "/system/system/db/preconfig/data/destinations.json"
               subPath: "destinations.json"
             - name: pre-event-sources-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/event-sources.json"
+              mountPath: "/system/system/db/preconfig/data/event-sources.json"
               subPath: "event-sources.json"
             - name: tenant-aliases-vol
-              mountPath: "/system/com_tracardi/storage/preconfig/data/tenant-aliases.json"
+              mountPath: "/system/system/db/preconfig/data/tenant-aliases.json"
               subPath: "tenant-aliases.json"
 
       volumes:
