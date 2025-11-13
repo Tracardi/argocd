@@ -1,57 +1,60 @@
-{{ if and .Values.secrets.dockerHub .Values.worker.background.enabled .Values.pulsar.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.worker.trigger.enabled .Values.pulsar.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wk-system
+  name: wk-trigger
   labels:
-    app: wk-system
+    app: wk-trigger
     version: {{ .Chart.AppVersion | quote }}
-    {{- include "airembr.labels" (dict "ctx" . "component" "wk-system") | nindent 4 }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "wk-trigger") | nindent 4 }}
 spec:
-  replicas: {{ .Values.worker.background.replicas }}
+  replicas: {{ .Values.worker.trigger.replicas }}
   selector:
     matchLabels:
-      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "wk-system") | nindent 6 }}
+      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "wk-trigger") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "airembr.podLabels" (dict "ctx" . "component" "wk-system") | nindent 8 }}
+        {{- include "airembr.podLabels" (dict "ctx" . "component" "wk-trigger") | nindent 8 }}
     spec:
-      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.background") | nindent 6 }}
-      {{ if .Values.worker.background.spread }}
-        {{range .Values.worker.background.spread }}
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.trigger") | nindent 6 }}
+
+      {{ if .Values.worker.trigger.spread }}
+        {{range .Values.worker.trigger.spread }}
           {{ toYaml . | nindent 6 }}
         {{ end }}
       {{ end }}
+
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
-        - name: tracardi-init
-          image: {{ .Values.worker.background.image.init }}:{{ .Values.worker.background.image.tag }}
+        - name: pulsar-init
+          image: {{ .Values.worker.trigger.image.init }}:{{ .Values.worker.trigger.image.tag }}
           imagePullPolicy: IfNotPresent
           env:
             {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: wk-system
-          image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
-          imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
+        - name: wk-trigger
+          image: "{{ .Values.worker.trigger.image.repository }}:{{ .Values.worker.trigger.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.trigger.image.pullPolicy }}
           resources:
             limits:
-              memory: {{ .Values.worker.background.resources.limits.memory }}
-              cpu: {{ .Values.worker.background.resources.limits.cpu }}
+              memory: {{ .Values.worker.trigger.resources.limits.memory }}
+              cpu: {{ .Values.worker.trigger.resources.limits.cpu }}
             requests:
-              memory: {{ .Values.worker.background.resources.requests.memory }}
-              cpu: {{ .Values.worker.background.resources.requests.cpu }}
+              memory: {{ .Values.worker.trigger.resources.requests.memory }}
+              cpu: {{ .Values.worker.trigger.resources.requests.cpu }}
           env:
             {{- include "airembr.env" (dict "ctx" .) | nindent 12 }}
             - name: LOGGING_LEVEL
-              value: {{ .Values.worker.background.config.loggingLevel | quote }}
+              value: {{ .Values.worker.trigger.config.loggingLevel | quote }}
             - name: INACTIVITY_TIME_OUT
-              value: {{ .Values.worker.background.config.bulker.bufferInactivityTimeOut | quote }}
+              value: {{ .Values.worker.trigger.config.bulker.bufferInactivityTimeOut | quote }}
             - name: CONSUMER_TYPE
-              value: "system.function"
+              value: "system.destination"
+
           volumeMounts:
             - name: pre-resources-vol
               mountPath: "/system/system/db/preconfig/data/resources.json"

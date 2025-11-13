@@ -324,6 +324,9 @@ gui:
 #          - c5.xlarge
 
 worker:
+
+
+
   background:
 
     enabled: true
@@ -344,7 +347,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-system-background
+                app.kubernetes.io/component: wk-system
     config:
       loggingLevel: "INFO"
       bulker:
@@ -408,7 +411,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-pl-collector
+                app.kubernetes.io/component: wk-collector
 
     resources:
       limits:
@@ -434,6 +437,95 @@ worker:
         # automatically flushes any remaining data in the queue that has not yet been processed.
         bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
 
+  attachment:
+
+    enabled: true
+
+    image:
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-wk-background
+      tag: 0.0.1
+      pullPolicy: IfNotPresent
+
+    replicas: 1
+
+    spread:
+      rules:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: wk-attachment
+    config:
+      loggingLevel: "INFO"
+      bulker:
+        # Data Bulker
+        #
+        # The Data Bulker Configuration are setting for message bulker that is responsible for collecting messages and
+        # managing them for background storage operations.
+        #
+        # It operates by enforcing two main constraints: a size limit, which is the maximum number of messages the queue can
+        # hold, and a time limit, which dictates how long messages can remain in the queue. If either of these limits is
+        # exceeded, the queued data is flushed to storage.
+        #
+        # Additionally, if no new data arrives within a specified period of inactivity, a timeout is triggered that
+        # automatically flushes any remaining data in the queue that has not yet been processed.
+        bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
+
+    resources:
+      limits:
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
+        cpu: 1000m  # 700m max for worker that saves data only, not collector
+      requests:
+        memory: 300Mi
+        cpu: 300m
+
+  trigger:
+
+    enabled: true
+
+    image:
+      init: tracardi/airembr-init
+      repository: tracardi/airembr-wk-background
+      tag: 0.0.1
+      pullPolicy: IfNotPresent
+
+    replicas: 1
+
+    spread:
+      rules:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: wk-trigger
+    config:
+      loggingLevel: "INFO"
+      bulker:
+        # Data Bulker
+        #
+        # The Data Bulker Configuration are setting for message bulker that is responsible for collecting messages and
+        # managing them for background storage operations.
+        #
+        # It operates by enforcing two main constraints: a size limit, which is the maximum number of messages the queue can
+        # hold, and a time limit, which dictates how long messages can remain in the queue. If either of these limits is
+        # exceeded, the queued data is flushed to storage.
+        #
+        # Additionally, if no new data arrives within a specified period of inactivity, a timeout is triggered that
+        # automatically flushes any remaining data in the queue that has not yet been processed.
+        bufferInactivityTimeOut: 10000 # If there is no data in then flash remaining buffer to storage in X milliseconds
+
+    resources:
+      limits:
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
+        cpu: 1000m  # 700m max for worker that saves data only, not collector
+      requests:
+        memory: 300Mi
+        cpu: 300m
 
 job:
 
@@ -486,6 +578,24 @@ job:
     resources:
       limits:
         memory: 500Mi
+        cpu: 1000m
+      requests:
+        memory: 300Mi
+        cpu: 300m
+
+  obs_end:
+    enabled: true
+    image:
+      repository: tracardi/airembr-job-obs-end
+      tag: 0.0.1
+      pullPolicy: IfNotPresent
+
+    config:
+      loggingLevel: "INFO"
+
+    resources:
+      limits:
+        memory: 1000Mi
         cpu: 1000m
       requests:
         memory: 300Mi
