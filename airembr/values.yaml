@@ -599,6 +599,25 @@ job:
         memory: 300Mi
         cpu: 300m
 
+
+  event_attach:
+    enabled: true
+    image:
+      repository: tracardi/airembr-job-event-attach
+      tag: 0.0.1
+      pullPolicy: IfNotPresent
+
+    config:
+      loggingLevel: "INFO"
+
+    resources:
+      limits:
+        memory: 1000Mi
+        cpu: 1000m
+      requests:
+        memory: 300Mi
+        cpu: 300m
+
 ext:
   embedding:
     hf384:

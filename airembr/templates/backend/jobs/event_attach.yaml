@@ -19,7 +19,7 @@ spec:
           labels:
             {{- include "airembr.podLabels" (dict "ctx" . "component" "job-event-attach") | nindent 12 }}
         spec:
-          {{- include "chart.nodeAffinity" (dict "context" . "path" "job.obs_end") | nindent 10 }}
+          {{- include "chart.nodeAffinity" (dict "context" . "path" "job.even_attach") | nindent 10 }}
           {{ if .Values.job.event_attachspread }}
             {{range .Values.job.event_attachspread }}
               {{ toYaml . | nindent 10 }}
