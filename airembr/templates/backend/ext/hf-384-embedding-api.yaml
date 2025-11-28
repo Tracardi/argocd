@@ -1,0 +1,74 @@
+{{ if and .Values.secrets.dockerHub .Values.ext.embedding.hf384.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-embedding-api
+  labels:
+    app: be-embedding-api
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "be-embedding-api") | nindent 4 }}
+spec:
+  replicas: {{ .Values.ext.embedding.hf384.replicas }}
+  selector:
+    matchLabels:
+      {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-embedding-api") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "airembr.podLabels" (dict "ctx" . "component" "be-embedding-api") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "ext.embedding.hf384") | nindent 6 }}
+      containers:
+        - name: be-embedding-api
+          image: {{ .Values.ext.embedding.hf384.image.repository }}:{{ .Values.ext.embedding.hf384.image.tag }}
+          imagePullPolicy: {{ .Values.ext.embedding.hf384.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.ext.embedding.hf384.resources.limits.memory }}
+              cpu: {{ .Values.ext.embedding.hf384.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.ext.embedding.hf384.resources.requests.memory }}
+              cpu: {{ .Values.ext.embedding.hf384.resources.requests.cpu }}
+          ports:
+            - name: embedding-port
+              containerPort: 80  # Port inside the container
+          env:
+            - name: API_TOKEN
+              value: {{ .Values.ext.embedding.hf384.config.apiKey | quote }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.ext.embedding.hf384.config.loggingLevel | quote }}
+            - name: SERVER_LOGGING_LEVEL
+              value: {{ .Values.ext.embedding.hf384.config.serverLoggingLevel | quote }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-ext-embedding-api-svc
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-embedding-api") | nindent 6 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.ext.embedding.hf384.service.port }}  # Outside port
+      targetPort: embedding-port
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-ext-embedding-api-lb
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "airembr.selectorLabels" (dict "ctx" . "component" "be-embedding-api") | nindent 6 }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.ext.embedding.hf384.service.port }} # Outside port
+      targetPort: embedding-port
+
+{{ end }}
+
+

@@ -50,7 +50,6 @@ worker:
 
 
 job:
-
   imap:
     enabled: true
     image:
@@ -65,3 +64,15 @@ job:
     enabled: true
     image:
       pullPolicy: Always
+
+
+ext:
+  embedding:
+    hf384:
+      enabled: true
+      image:
+        pullPolicy: Always
+      config:
+        loggingLevel: "info"
+        serverLoggingLevel: "info"
+        apiKey: "some-random-value"

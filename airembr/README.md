@@ -8,3 +8,10 @@ kubectl create secret docker-registry airembr-dockerhub \
     --docker-password=$DOCKERHUB \
     -n airembr
 
+# Install with helm
+
+helm upgrade --wait --timeout=1200s \
+--install airembr airembr \
+--values airembr/values_example.yaml \
+--namespace airembr  --create-namespace
+
