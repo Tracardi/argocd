@@ -1,4 +1,4 @@
-{{ if and .Values.secrets.dockerHub .Values.job.event_attachenabled .Values.pulsar.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.job.event_attach.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -20,8 +20,8 @@ spec:
             {{- include "airembr.podLabels" (dict "ctx" . "component" "job-event-attach") | nindent 12 }}
         spec:
           {{- include "chart.nodeAffinity" (dict "context" . "path" "job.even_attach") | nindent 10 }}
-          {{ if .Values.job.event_attachspread }}
-            {{range .Values.job.event_attachspread }}
+          {{ if .Values.job.event_attach.spread }}
+            {{range .Values.job.event_attach.spread }}
               {{ toYaml . | nindent 10 }}
             {{ end }}
           {{ end }}
@@ -30,19 +30,19 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: job-event-attach
-              image: "{{ .Values.job.event_attachimage.repository }}:{{ .Values.job.event_attachimage.tag }}"
-              imagePullPolicy: {{ .Values.job.event_attachimage.pullPolicy }}
+              image: "{{ .Values.job.event_attach.image.repository }}:{{ .Values.job.event_attach.image.tag }}"
+              imagePullPolicy: {{ .Values.job.event_attach.image.pullPolicy }}
               resources:
                 limits:
-                  memory: {{ .Values.job.event_attachresources.limits.memory }}
-                  cpu: {{ .Values.job.event_attachresources.limits.cpu }}
+                  memory: {{ .Values.job.event_attach.resources.limits.memory }}
+                  cpu: {{ .Values.job.event_attach.resources.limits.cpu }}
                 requests:
-                  memory: {{ .Values.job.event_attachresources.requests.memory }}
-                  cpu: {{ .Values.job.event_attachresources.requests.cpu }}
+                  memory: {{ .Values.job.event_attach.resources.requests.memory }}
+                  cpu: {{ .Values.job.event_attach.resources.requests.cpu }}
               env:
                 {{- include "airembr.env" (dict "ctx" .) | nindent 16 }}
                 - name: LOGGING_LEVEL
-                  value: {{ .Values.job.event_attachconfig.loggingLevel | quote }}
+                  value: {{ .Values.job.event_attach.config.loggingLevel | quote }}
                 - name: STATE_STORE
                   value: "mysql"
 {{ end }}
