@@ -1,0 +1,48 @@
+{{ if and .Values.secrets.dockerHub .Values.job.event_attachenabled .Values.pulsar.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-event-attach
+  labels:
+    app: job-event-attach
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "airembr.labels" (dict "ctx" . "component" "job-event-attach") | nindent 4 }}
+spec:
+  schedule: "*/23 * * * *" # every 23 minutes
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            {{- include "airembr.podLabels" (dict "ctx" . "component" "job-event-attach") | nindent 12 }}
+        spec:
+          {{- include "chart.nodeAffinity" (dict "context" . "path" "job.obs_end") | nindent 10 }}
+          {{ if .Values.job.event_attachspread }}
+            {{range .Values.job.event_attachspread }}
+              {{ toYaml . | nindent 10 }}
+            {{ end }}
+          {{ end }}
+          imagePullSecrets:
+            - name: {{ .Values.secrets.dockerHub | quote }}
+          restartPolicy: OnFailure
+          containers:
+            - name: job-event-attach
+              image: "{{ .Values.job.event_attachimage.repository }}:{{ .Values.job.event_attachimage.tag }}"
+              imagePullPolicy: {{ .Values.job.event_attachimage.pullPolicy }}
+              resources:
+                limits:
+                  memory: {{ .Values.job.event_attachresources.limits.memory }}
+                  cpu: {{ .Values.job.event_attachresources.limits.cpu }}
+                requests:
+                  memory: {{ .Values.job.event_attachresources.requests.memory }}
+                  cpu: {{ .Values.job.event_attachresources.requests.cpu }}
+              env:
+                {{- include "airembr.env" (dict "ctx" .) | nindent 16 }}
+                - name: LOGGING_LEVEL
+                  value: {{ .Values.job.event_attachconfig.loggingLevel | quote }}
+                - name: STATE_STORE
+                  value: "mysql"
+{{ end }}
