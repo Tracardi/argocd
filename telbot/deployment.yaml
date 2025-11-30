@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airembr-telbot
+  labels:
+    app: airembr-telbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airembr-telbot
+  template:
+    metadata:
+      labels:
+        app: airembr-telbot
+    spec:
+      imagePullSecrets:
+        - name: 'dockerhub'
+      containers:
+        - name: airembr-telbot
+          image: tracardi/airembr-telbot:0.0.1
+          imagePullPolicy: Always
