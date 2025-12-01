@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airembr-recall
+  labels:
+    app: airembr-recall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airembr-recall
+  template:
+    metadata:
+      labels:
+        app: airembr-recall
+    spec:
+      imagePullSecrets:
+        - name: 'dockerhub'
+      containers:
+        - name: airembr-recall
+          image: tracardi/airembr-os-vs-recall-api:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: LOGGING_LEVEL
+              value: "info"
+            - name: SERVER_LOGGING_LEVEL
+              value: "info"
+            - name: QDRANT_HOST
+              value: "qdrant-headless.qdrant.svc.cluster.local"
+            - name: EMBEDDING_API_HOST
+              value: "http://192.168.1.123:5000"
+            - name: EMBEDDING_API_KEY
+              value: "some-random-value"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airembr-recall-svc
+spec:
+  selector:
+    app: airembr-recall
+  ports:
+    - name: http
+      port: 8001        # service port
+      targetPort: 80    # container port
+      protocol: TCP
+  type: ClusterIP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airembr-recall-lb
+spec:
+  selector:
+    app: airembr-recall
+  ports:
+    - name: http
+      port: 8001        # service port
+      targetPort: 80    # container port
+      protocol: TCP
+  type: LoadBalancer
+
+
+
