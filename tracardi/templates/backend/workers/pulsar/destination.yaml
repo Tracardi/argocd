@@ -1,28 +1,23 @@
-{{ if and .Values.secrets.dockerHub .Values.worker.background.enabled .Values.pulsar.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.worker.destination.enabled .Values.worker.background.enabled .Values.pulsar.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wk-background
+  name: wk-destination
   labels:
-    app: wk-background
+    app: wk-destination
     version: {{ .Chart.AppVersion | quote }}
-    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-background") | nindent 4 }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-destination") | nindent 4 }}
 spec:
   replicas: {{ .Values.worker.background.replicas }}
   selector:
     matchLabels:
-      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-background") | nindent 6 }}
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-destination") | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-background") | nindent 8 }}
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-destination") | nindent 8 }}
     spec:
-      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.background") | nindent 6 }}
-      {{ if .Values.worker.background.spread }}
-        {{range .Values.worker.background.spread }}
-          {{ toYaml . | nindent 6 }}
-        {{ end }}
-      {{ end }}
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.destination") | nindent 6 }}
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
@@ -34,7 +29,7 @@ spec:
             - name: LOGGING_LEVEL
               value: debug
       containers:
-        - name: wk-background
+        - name: wk-destination
           image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
           imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
           resources:
@@ -51,7 +46,7 @@ spec:
             - name: INACTIVITY_TIME_OUT
               value: {{ .Values.worker.background.config.bulker.bufferInactivityTimeOut | quote }}
             - name: CONSUMER_TYPE
-              value: "system.function"
+              value: "system.destination"
           volumeMounts:
             - name: pre-resources-vol
               mountPath: "/system/system/db/preconfig/data/resources.json"
