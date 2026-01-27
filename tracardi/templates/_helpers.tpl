@@ -239,6 +239,9 @@ Params:
   value: {{ .ctx.Values.mysql.pool.recycle | quote }}
 {{- end }}
 
+- name: DESTINATIONS_ON_SEPARATE_QUEUE
+  value: "yes"
+
 - name: PRIMARY_ID
   value: {{ .ctx.Values.config.primaryId }}
 - name: PULSAR_HOST
