@@ -1,0 +1,80 @@
+{{ if and .Values.secrets.dockerHub .Values.worker.activation.enabled .Values.worker.background.enabled .Values.pulsar.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk-activation
+  labels:
+    app: wk-activation
+    version: {{ .Chart.AppVersion | quote }}
+    {{- include "tracardi.labels" (dict "ctx" . "component" "wk-activation") | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.background.replicas }}
+  selector:
+    matchLabels:
+      {{- include "tracardi.selectorLabels" (dict "ctx" . "component" "wk-activation") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tracardi.podLabels" (dict "ctx" . "component" "wk-activation") | nindent 8 }}
+    spec:
+      {{- include "chart.nodeAffinity" (dict "context" . "path" "worker.activation") | nindent 6 }}
+      imagePullSecrets:
+        - name: {{ .Values.secrets.dockerHub | quote }}
+      initContainers:
+        - name: tracardi-init
+          image: tracardi/init:{{ .Values.api.image.tag }}
+          imagePullPolicy: Always
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: debug
+      containers:
+        - name: wk-activation
+          image: "{{ .Values.worker.background.image.repository }}:{{ .Values.worker.background.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.background.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.worker.background.resources.limits.memory }}
+              cpu: {{ .Values.worker.background.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.worker.background.resources.requests.memory }}
+              cpu: {{ .Values.worker.background.resources.requests.cpu }}
+          env:
+            {{- include "tracardi.env" (dict "ctx" .) | nindent 12 }}
+            - name: LOGGING_LEVEL
+              value: {{ .Values.worker.background.config.loggingLevel | quote }}
+            - name: INACTIVITY_TIME_OUT
+              value: {{ .Values.worker.background.config.bulker.bufferInactivityTimeOut | quote }}
+            - name: CONSUMER_TYPE
+              value: "system.activation"
+          volumeMounts:
+            - name: pre-resources-vol
+              mountPath: "/system/system/db/preconfig/data/resources.json"
+              subPath: "resources.json"
+            - name: pre-destinations-vol
+              mountPath: "/system/system/db/preconfig/data/destinations.json"
+              subPath: "destinations.json"
+            - name: pre-event-sources-vol
+              mountPath: "/system/system/db/preconfig/data/event-sources.json"
+              subPath: "event-sources.json"
+            - name: tenant-aliases-vol
+              mountPath: "/system/system/db/preconfig/data/tenant-aliases.json"
+              subPath: "tenant-aliases.json"
+
+      volumes:
+        - name: pre-resources-vol
+          configMap:
+            name: pre-resources-cm
+
+        - name: pre-destinations-vol
+          configMap:
+            name: pre-destinations-cm
+
+        - name: pre-event-sources-vol
+          configMap:
+            name: pre-event-sources-cm
+
+        - name: tenant-aliases-vol
+          configMap:
+            name: tenant-aliases-cm
+{{ end }}
