@@ -1,0 +1,7 @@
+kubectl apply -f kafka-stateful-final.yaml
+kubectl rollout status statefulset/kafka -n kafka
+
+kubectl exec -n kafka kafka-0 -- \
+  /opt/kafka/bin/kafka-metadata-quorum.sh \
+  --bootstrap-controller kafka-0.kafka-headless.kafka.svc.cluster.local:9093 \
+  describe --status
