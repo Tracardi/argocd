@@ -29,6 +29,19 @@ pulsar:
   port: 6650
   cluster_name: pulsar
   # Enable pulsar service
+  enabled: false
+
+kafka:
+  # Identifier for Kafka service instance
+  name: kafka1
+  # Host address for Kafka
+  servers: localhost:9092
+  # Enable or disable authentication for Kafka
+  security_protocol: "PLAINTEXT"
+  sasl:
+    mechanism: ""
+
+  # Enable Kafka Service
   enabled: true
 
 mysql:
@@ -120,6 +133,17 @@ secrets:
         name: ""
         key: ""
       password:
+        name: ""
+        key: ""
+
+  kafka:
+    sasl_plain_username: ""
+    sasl_plain_password: ""
+    valueFrom:
+      sasl_plain_username:
+        name: ""
+        key: ""
+      sasl_plain_password:
         name: ""
         key: ""
 

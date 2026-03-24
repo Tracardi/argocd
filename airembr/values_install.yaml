@@ -4,9 +4,18 @@ redis:
   host: redis-master.redis.svc.cluster.local
   db: "1"
 
-pulsar:
-  host: pulsar-proxy.pulsar.svc.cluster.local:6650
-  api: http://pulsar-broker.pulsar.svc.cluster.local:8080
+kafka:
+  # Identifier for Kafka service instance
+  name: kafka1
+  # Host address for Kafka
+  servers: kafka-headless.kafka.svc.cluster.local:9092,kafka-headless.kafka.svc.cluster.local:9093,kafka-headless.kafka.svc.cluster.local:9094
+  # Enable or disable authentication for Kafka
+  security_protocol: "SASL_PLAINTEXT"
+  sasl:
+    mechanism: "SCRAM-SHA-512"
+
+  # Enable kafka service
+  enabled: true
 
 mysql:
   host: mysql-tracardi-110-haproxy.everest
@@ -17,6 +26,10 @@ secrets:
 
   pulsar:
     token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.lkLZkhoRTS7S11iehntprBA13PjcdDCihanssiSaS0rAHZeJOsCcCKa1XIPZZHbv0SmYwmv4YTIKf7NMSzuI-J0iO9br5caJh_1L3LhUTlsbaWybh7sQPF2rFyEFXa68ojTccjXOk8lWVUg0p3An9q_MMb4jDYND3K89CxRQpwhCPWmF_9Cw4cZJM252NYtSMsVyCkRZsCgu1Zco9GePPlMBrE9MtYpTaIRUuD4MQrunjC9kjWIVgxCEM3wf7B-A8bU_0dDuD5g2WWCsJ_Z-_9T2ucQqglcatrGnsOC0zCmSzmbGDe4372eGo6aak-4kbL3CZ0QnS36Tuji8T1ucHw"
+
+  kafka:
+    sasl_plain_username: "admin"
+    sasl_plain_password: "supersecret"
 
   redis:
     password: "D7RhiWgZvD"

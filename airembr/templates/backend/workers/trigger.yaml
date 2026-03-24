@@ -1,4 +1,4 @@
-{{ if and .Values.secrets.dockerHub .Values.worker.trigger.enabled .Values.pulsar.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.worker.trigger.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,7 +28,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub | quote }}
       initContainers:
-        - name: pulsar-init
+        - name: init
           image: {{ .Values.worker.trigger.image.init }}:{{ .Values.worker.trigger.image.tag }}
           imagePullPolicy: IfNotPresent
           env:

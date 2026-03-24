@@ -201,6 +201,7 @@ Params:
   value: {{ .ctx.Values.mysql.pool.recycle | quote }}
 {{- end }}
 
+{{ if .ctx.Values.pulsar.enabled }}
 - name: PULSAR_HOST
   value: {{ .ctx.Values.pulsar.schema }}{{ .ctx.Values.pulsar.host }}
 - name: PULSAR_API
@@ -220,6 +221,8 @@ Params:
       name: {{ .ctx.Values.secrets.pulsar.valueFrom.token.name | quote }}
       key: {{ .ctx.Values.secrets.pulsar.valueFrom.token.key | quote }}
 {{ end }}
+{{ end }}
+
 {{ if not .ctx.Values.pulsar.enabled }}
 - name: PULSAR_DISABLED
   value: "yes"

@@ -21,7 +21,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.secrets.dockerHub  | quote }}
       initContainers:
-        - name: pulsar-init
+        - name: init
           image: {{ .Values.api.collector.image.init }}:{{ .Values.api.collector.image.tag }}
           imagePullPolicy: {{ .Values.api.collector.image.pullPolicy }}
           env:

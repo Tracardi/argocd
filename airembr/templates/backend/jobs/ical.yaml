@@ -1,4 +1,4 @@
-{{ if and .Values.secrets.dockerHub .Values.job.ical.enabled .Values.pulsar.enabled }}
+{{ if and .Values.secrets.dockerHub .Values.job.ical.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:

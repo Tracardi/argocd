@@ -1,6 +1,6 @@
 # Run
 
-kubectl create ns $NS
+kubectl create ns airembr
 
 kubectl create secret docker-registry airembr-dockerhub \
     --docker-server=index.docker.io/v1/  \
@@ -12,6 +12,6 @@ kubectl create secret docker-registry airembr-dockerhub \
 
 helm upgrade --wait --timeout=1200s \
 --install airembr airembr \
---values airembr/values_example.yaml \
+--values airembr/values_install.yaml \
 --namespace airembr  --create-namespace
 
