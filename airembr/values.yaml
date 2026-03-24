@@ -162,11 +162,11 @@ secrets:
     password: ""
     valueFrom:
       username:
-        name: ""
-        key: ""
+        name: "mysql-secret"
+        key: "mysql-username"
       password:
-        name: ""
-        key: ""
+        name: "mysql-secret"
+        key: "mysql-password"
 
   maxmind:
     licenseKey: ""

@@ -174,16 +174,16 @@ Params:
       key: {{ .ctx.Values.secrets.mysql.valueFrom.username.key | quote }}
 {{ end }}
 
-{{ if .ctx.Values.secrets.mysql.password }}
-- name: MYSQL_PASSWORD
-  value: {{ .ctx.Values.secrets.mysql.password | quote }}
-{{ else if and .ctx.Values.secrets.mysql.valueFrom.password.name .ctx.Values.secrets.mysql.valueFrom.password.key  }}
+{{- if and .ctx.Values.secrets.mysql.valueFrom.password.name .ctx.Values.secrets.mysql.valueFrom.password.key  }}
 - name: MYSQL_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .ctx.Values.secrets.mysql.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.mysql.valueFrom.password.key | quote }}
-{{ end }}
+{{- else if .ctx.Values.secrets.mysql.password }}
+- name: MYSQL_PASSWORD
+  value: {{ .ctx.Values.secrets.mysql.password | quote }}
+{{- end }}
 
 - name: MYSQL_PORT
   value: {{ .ctx.Values.mysql.port | quote }}
@@ -330,7 +330,7 @@ Params:
   value: {{ .ctx.Values.starrocks.host | quote }}
 {{- end -}}
 
-{{ if and .ctx.Values.secrets.starrocks.valueFrom.username.name .ctx.Values.secrets.starrocks.valueFrom.username.key }}
+{{- if and .ctx.Values.secrets.starrocks.valueFrom.username.name .ctx.Values.secrets.starrocks.valueFrom.username.key }}
 - name: STARROCKS_USERNAME
   valueFrom:
     secretKeyRef:
@@ -341,7 +341,7 @@ Params:
   value: {{ .ctx.Values.secrets.starrocks.username | quote }}
 {{- end -}}
 
-{{ if and .ctx.Values.secrets.starrocks.valueFrom.password.name .ctx.Values.secrets.starrocks.valueFrom.password.key }}
+{{- if and .ctx.Values.secrets.starrocks.valueFrom.password.name .ctx.Values.secrets.starrocks.valueFrom.password.key }}
 - name: STARROCKS_PASSWORD
   valueFrom:
     secretKeyRef:
