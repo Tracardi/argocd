@@ -48,13 +48,13 @@ mysql:
   # Identifier for MySQL service instance
   name: ms1
   # Host address for MySQL
-  host: percona-db-pxc-db-haproxy.percona.svc.cluster.local
+  host: ""
   # Protocol for connecting to MySQL
   schema:
     async: "mysql+aiomysql://"
     sync: "mysql+pymysql://"
   # Database name for MySQL
-  database: "tracardi"
+  database: "airembr"
   # Port number for MySQL service
   port: 3306
   pool:
