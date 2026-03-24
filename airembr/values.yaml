@@ -372,7 +372,7 @@ worker:
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchLabels:
-                app.kubernetes.io/component: wk-system
+                app.kubernetes.io/component: wk-background
     config:
       loggingLevel: "STAT"
       bulker:
