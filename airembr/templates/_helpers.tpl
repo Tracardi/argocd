@@ -137,19 +137,18 @@ Params:
   value: {{ .ctx.Values.redis.schema }}{{ .ctx.Values.redis.host }}
 - name: REDIS_PORT
   value: {{ .ctx.Values.redis.port | quote }}
-{{ if and .ctx.Values.secrets.redis.password }}
-- name: REDIS_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: "redis-secret"
-      key: "redis-password"
-{{ else if and .ctx.Values.secrets.redis.valueFrom.password.name .ctx.Values.secrets.redis.valueFrom.password.key }}
+
+{{- if and .ctx.Values.secrets.redis.valueFrom.password.name .ctx.Values.secrets.redis.valueFrom.password.key }}
 - name: REDIS_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .ctx.Values.secrets.redis.valueFrom.password.name | quote }}
       key: {{ .ctx.Values.secrets.redis.valueFrom.password.key | quote }}
-{{ end }}
+{{- else if .ctx.Values.secrets.redis.password }}
+- name: REDIS_PASSWORD
+  value: {{ .ctx.Values.secrets.redis.password }}
+{{- end }}
+
 {{ if .ctx.Values.mysql.schema.async }}
 - name: MYSQL_SCHEMA_ASYNC
   value: {{ .ctx.Values.mysql.schema.async }}
