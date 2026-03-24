@@ -8,7 +8,7 @@ kafka:
   # Identifier for Kafka service instance
   name: kafka1
   # Host address for Kafka
-  servers: kafka-headless.kafka.svc.cluster.local:9092,kafka-headless.kafka.svc.cluster.local:9093,kafka-headless.kafka.svc.cluster.local:9094
+  servers: 192.168.1.119:9092,192.168.1.119:9093,192.168.1.119:9094
   # Enable or disable authentication for Kafka
   security_protocol: "SASL_PLAINTEXT"
   sasl:
@@ -48,6 +48,8 @@ api:
   collector:
     image:
       pullPolicy: Always
+    config:
+      loggingLevel: "dev_info"
   gui:
     image:
       pullPolicy: Always
@@ -58,25 +60,54 @@ gui:
 
 worker:
 
+  collector:
+    image:
+      pullPolicy: Always
+    config:
+      loggingLevel: "dev_info"
+
   background:
     image:
       pullPolicy: Always
+    config:
+      loggingLevel: "dev_info"
+    resources:
+      limits:
+        memory: 1000Mi # 400Mi max for worker that saves data only, not collector
+        cpu: 1000m  # 700m max for worker that saves data only, not collector
+      requests:
+        memory: 300Mi
+        cpu: 300m
 
+  attachment:
+    enabled: false
 
+  trigger:
+    enabled: false
 
 job:
   imap:
-    enabled: true
+    enabled: false
     image:
       pullPolicy: Always
 
   ical:
-    enabled: true
+    enabled: false
     image:
       pullPolicy: Always
 
   timer:
-    enabled: true
+    enabled: false
+    image:
+      pullPolicy: Always
+
+  obs_end:
+    enabled: false
+    image:
+      pullPolicy: Always
+
+  event_attach:
+    enabled: false
     image:
       pullPolicy: Always
 
@@ -84,7 +115,7 @@ job:
 ext:
   embedding:
     hf384:
-      enabled: true
+      enabled: false
       image:
         pullPolicy: Always
       config:
