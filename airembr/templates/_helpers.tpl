@@ -123,7 +123,7 @@ Params:
 - name: LICENSE
   valueFrom:
     secretKeyRef:
-      name: "tracardi-license"
+      name: "license"
       key: "license-key"
 {{ else if and (not .nolicense) .ctx.Values.secrets.license.valueFrom.licenseKey.name .ctx.Values.secrets.license.valueFrom.licenseKey.key }}
 - name: LICENSE
@@ -330,12 +330,24 @@ Params:
   value: {{ .ctx.Values.starrocks.host | quote }}
 {{- end -}}
 
-{{- if .ctx.Values.secrets.starrocks.username }}
+{{ if and .ctx.Values.secrets.starrocks.valueFrom.username.name .ctx.Values.secrets.starrocks.valueFrom.username.key }}
+- name: STARROCKS_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.starrocks.valueFrom.username.name | quote }}
+      key: {{ .ctx.Values.secrets.starrocks.valueFrom.username.key | quote }}
+{{- else if .ctx.Values.secrets.starrocks.username }}
 - name: STARROCKS_USERNAME
   value: {{ .ctx.Values.secrets.starrocks.username | quote }}
 {{- end -}}
 
-{{- if .ctx.Values.secrets.starrocks.password }}
+{{ if and .ctx.Values.secrets.starrocks.valueFrom.password.name .ctx.Values.secrets.starrocks.valueFrom.password.key }}
+- name: STARROCKS_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.starrocks.valueFrom.password.name | quote }}
+      key: {{ .ctx.Values.secrets.starrocks.valueFrom.password.key | quote }}
+{{- else if .ctx.Values.secrets.starrocks.password }}
 - name: STARROCKS_PASSWORD
   value: {{ .ctx.Values.secrets.starrocks.password | quote }}
 {{- end -}}

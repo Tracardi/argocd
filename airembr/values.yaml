@@ -133,22 +133,22 @@ secrets:
     password: ""
     valueFrom:
       username:
-        name: ""
-        key: ""
+        name: "starrocks-secret"
+        key: "starrocks_username"
       password:
-        name: ""
-        key: ""
+        name: "starrocks-secret"
+        key: "starrocks_password"
 
   kafka:
     sasl_plain_username: ""
     sasl_plain_password: ""
     valueFrom:
       sasl_plain_username:
-        name: ""
-        key: ""
+        name: "kafka-secret"
+        key: "kafka_sasl_username"
       sasl_plain_password:
-        name: ""
-        key: ""
+        name: "kafka-secret"
+        key: "kafka_sasl_password"
 
   pulsar:
     token: ""

@@ -31,7 +31,6 @@ secrets:
   kafka:
     sasl_plain_username: "admin"
     sasl_plain_password: "supersecret"
-    enabled: true
 
   redis:
     password: "D7RhiWgZvD"
