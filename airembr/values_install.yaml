@@ -18,7 +18,7 @@ kafka:
   enabled: true
 
 mysql:
-  host: mysql-tracardi-110-haproxy.everest
+  host: 192.168.1.28
 
 
 secrets:
@@ -38,7 +38,7 @@ secrets:
 
   mysql:
     username: "root"
-    password: "D<0n[[N?u+M8iw2D"
+    password: "lYJ!)%So<Gn,=XC)vT9"
 
   starrocks:
     username: "root"
