@@ -223,10 +223,58 @@ Params:
 {{ end }}
 {{ end }}
 
-{{ if not .ctx.Values.pulsar.enabled }}
-- name: PULSAR_DISABLED
-  value: "yes"
+{{ if and .ctx.Values.config.adapter.queue }}
+- name: QUEUE_ADAPTER
+  value: {{ .ctx.Values.config.adapter.queue | quote }}
 {{ end }}
+
+{{/* KAFKA */}}
+{{ if .ctx.Values.kafka.enabled }}
+
+{{/* KAFKA SERVERS */}}
+{{- if .ctx.Values.kafka.servers }}
+- name: KAFKA_SERVERS
+  value: {{ .ctx.Values.kafka.servers | quote }}
+{{- end }}
+
+{{/* KAFKA PROTOCOL */}}
+{{- if .ctx.Values.kafka.security_protocol }}
+- name: KAFKA_SECURITY_PROTOCOL
+  value: {{ .ctx.Values.kafka.security_protocol | quote }}
+{{- end }}
+
+{{/* KAFKA SASL MECHANISM */}}
+{{- if .ctx.Values.kafka.sasl.mechanism }}
+- name: KAFKA_SASL_MECHANISM
+  value: {{ .ctx.Values.kafka.sasl.mechanism | quote }}
+{{- end }}
+
+{{/* KAFKA USERNAME */}}
+{{ if and .ctx.Values.secrets.kafka.valueFrom.sasl_plain_username.name .ctx.Values.secrets.kafka.valueFrom.sasl_plain_username.key }}
+- name: KAFKA_SASL_PLAIN_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.kafka.valueFrom.sasl_plain_username.name | quote }}
+      key: {{ .ctx.Values.secrets.kafka.valueFrom.sasl_plain_username.key | quote }}
+{{ else if and .ctx.Values.secrets.kafka.sasl_plain_username }}
+- name: KAFKA_SASL_PLAIN_USERNAME
+  value: {{ .ctx.Values.secrets.kafka.sasl_plain_username | quote }}
+{{ end }}
+
+{{/* KAFKA PASSWORD */}}
+{{ if and .ctx.Values.secrets.kafka.valueFrom.sasl_plain_password.name .ctx.Values.secrets.kafka.valueFrom.sasl_plain_password.key }}
+- name: KAFKA_SASL_PLAIN_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .ctx.Values.secrets.kafka.valueFrom.sasl_plain_password.name | quote }}
+      key: {{ .ctx.Values.secrets.kafka.valueFrom.sasl_plain_password.key | quote }}
+{{ else if and .ctx.Values.secrets.kafka.sasl_plain_password }}
+- name: KAFKA_SASL_PLAIN_PASSWORD
+  value: {{ .ctx.Values.secrets.kafka.sasl_plain_password | quote }}
+{{ end }}
+
+{{ end }}
+
 {{ if and .ctx.Values.secrets.tms.apiKey .ctx.Values.secrets.tms.secretKey }}
 - name: MULTI_TENANT
   value: {{ .ctx.Values.config.tenant.multi | quote }}

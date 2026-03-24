@@ -82,6 +82,9 @@ config:
   tenant:
     multi: "no"
 
+  adapter:
+    queue: "kafka"
+
   preConfiguration:
     resources: "{}"
     eventSources: "{}"
@@ -190,7 +193,7 @@ api:
     replicas: 1
     config:
       saveLogs: "yes"
-      loggingLevel: "INFO"
+      loggingLevel: "STAT"
       serverLoggingLevel: "warning"
       apiDocs: "yes"
       enableGuiApi: "yes"
@@ -371,7 +374,7 @@ worker:
               matchLabels:
                 app.kubernetes.io/component: wk-system
     config:
-      loggingLevel: "INFO"
+      loggingLevel: "STAT"
       bulker:
         # Data Bulker
         #
@@ -444,7 +447,7 @@ worker:
         cpu: 300m
 
     config:
-      loggingLevel: "INFO"
+      loggingLevel: "STAT"
       bulker:
         # Data Bulker
         #
@@ -481,7 +484,7 @@ worker:
               matchLabels:
                 app.kubernetes.io/component: wk-attachment
     config:
-      loggingLevel: "INFO"
+      loggingLevel: "STAT"
       bulker:
         # Data Bulker
         #
