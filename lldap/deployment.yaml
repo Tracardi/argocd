@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lldap
+  namespace: lldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lldap
+  template:
+    metadata:
+      labels:
+        app: lldap
+    spec:
+      containers:
+        - name: lldap
+          image: lldap/lldap:latest
+          ports:
+            - containerPort: 3890
+            - containerPort: 17170
+
+          env:
+            - name: LLDAP_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secret
+                  key: jwt-secret
+
+            - name: LLDAP_LDAP_USER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secret
+                  key: admin-password
+
+            - name: LLDAP_LDAP_BASE_DN
+              value: dc=example,dc=local
+
+            - name: LLDAP_LDAP_USER_DN
+              value: admin
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: lldap-data
