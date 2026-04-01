@@ -10,7 +10,7 @@ starrocks:
       name: starrocks-be-storage
       # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
       logStorageSize: 10Gi
-      storageSize: 10Gi
+      storageSize: 100Gi
     resources:
       limits:
         cpu: 2
@@ -19,7 +19,7 @@ starrocks:
         cpu: 1
         memory: 1Gi
   starrocksFESpec:
-    replicas: 1
+    replicas: 3
     image:
       repository: starrocks/fe-ubuntu
       tag: 3.5-latest
@@ -27,7 +27,7 @@ starrocks:
       name: starrocks-fe-storage
       # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
       logStorageSize: 10Gi
-      storageSize: 10Gi
+      storageSize: 50Gi
     resources:
       limits:
         cpu: 2
