@@ -18,6 +18,13 @@ spec:
         - name: own-track-proxy
           image: tracardi/airembr-owntrack-proxy:0.0.1
           imagePullPolicy: Always
+          env:
+            - name: LOGGING_LEVEL
+              value: "debug"
+            - name: AIREMBR_SOURCE_ID
+              value: "4c09bf1a-4261-4c2e-b6dc-cc084d20b3d6"
+            - name: AIREMBR_COLLECTOR_HOST
+              value: "http://be-collector-api-svc.airembr.svc.cluster.local:4002"
           ports:
             - containerPort: 80
 
