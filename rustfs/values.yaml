@@ -1,0 +1,21 @@
+mode:
+  standalone:
+    enabled: true
+  distributed:
+    enabled: false
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: traefik   # or nginx depending on your cluster
+  hosts:
+    - host: rustfs.192.168.1.119.nip.io
+      paths:
+        - path: /
+          pathType: Prefix
+
+secret:
+  rustfs:
+    access_key: risto
+    secret_key: ri100
