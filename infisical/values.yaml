@@ -1,0 +1,29 @@
+infisical:
+  image:
+    repository: infisical/infisical
+    tag: "v0.159.27"  # Check https://hub.docker.com/r/infisical/infisical/tags for latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+
+  hostName: infisical.local
+
+  nginx:
+    enabled: false
+
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      size: 2Gi
+      storageClass: "local-path"
+
+redis:
+  enabled: true
+  master:
+    persistence:
+      size: 1Gi
+      storageClass: "local-path"
