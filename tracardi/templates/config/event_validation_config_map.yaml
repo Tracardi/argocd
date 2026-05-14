@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-event-validation-cm
+data:
+  event-validations.json: |
+    {{ .Values.config.preConfiguration.eventValidation | quote }}

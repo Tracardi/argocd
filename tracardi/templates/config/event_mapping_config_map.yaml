@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-event-mapping-cm
+data:
+  event-mappings.json: |
+    {{ .Values.config.preConfiguration.eventMapping | quote }}

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-identification-cm
+data:
+  identification-points.json: |
+    {{ .Values.config.preConfiguration.identification | quote }}

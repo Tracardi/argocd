@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-profile-mapping-cm
+data:
+  event-to-profile-mappings.json: |
+    {{ .Values.config.preConfiguration.profileMapping | quote }}
